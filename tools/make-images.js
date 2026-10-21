@@ -10,7 +10,7 @@ try { ({ chromium } = require('playwright')); } catch (e) { ({ chromium } = requ
 const ACCENT = '#2B6A62', ON_ACCENT = '#FFFFFF', PAGE = '#F3F5F2', INK = '#1B2523';
 
 // 삼엽 매듭 한 바퀴를 점으로 찍고, 교차점에서 아래로 지나는 줄을 끊어 선 조각들(path)로 돌려준다.
-// size: 매듭 가로 폭(선 중심 기준), sw: 선 굵기, clear: 위 줄과 끊긴 끝 사이의 눈에 보이는 틈
+// size: 매듭 가로 폭(선 중심 기준), sw: 선 굵기 (clear는 쓰지 않음)
 function knotPath(size, sw, clear, cx = 256, cy = 256) {
   const N = 1800, raw = [];
   for (let i = 0; i < N; i++) {
@@ -43,20 +43,17 @@ function knotPath(size, sw, clear, cx = 256, cy = 256) {
   visits.sort((a, b) => a[0] - b[0]);
   const under = visits.filter((_, n) => n % 2 === 1).map(v => v[0]);
   const over = visits.filter((_, n) => n % 2 === 0).map(v => v[0]);
-  // 아래 줄의 점 중, 위 줄 중심선과 너무 가까운 점을 지운다(선 굵기의 절반 + 둥근 끝 반지름 + 틈)
-  const R = sw + clear;
+  // 아래 줄은 교차점 앞뒤로 같은 길이만 끊는다(끊는 길이 합 = 선 굵기의 약 1.8배).
+  // 끊긴 두 끝이 위 줄 바로 옆에서 들어갔다 나오는 것처럼 보여야 "이어진 한 줄"로 읽혀요.
+  const half = sw * 0.9;
+  const cum = [0];
+  for (let i = 1; i < N; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+  const per = cum[N - 1] + Math.hypot(pts[0][0] - pts[N - 1][0], pts[0][1] - pts[N - 1][1]);
   const cut = new Array(N).fill(false);
-  const win = Math.round(N * 0.08);
-  under.forEach((u, n) => {
-    // 짝이 되는 위 줄 방문점: 같은 교차점의 다른 쪽
-    const pair = hits.find(h => h.includes(u) || Math.abs(h[0] - u) < 3 || Math.abs(h[1] - u) < 3);
-    const o = (Math.abs(pair[0] - u) < 3) ? pair[1] : pair[0];
-    for (let d = -win; d <= win; d++) {
-      const a = (u + d + N) % N;
-      for (let e = -win; e <= win; e++) {
-        const b = (o + e + N) % N;
-        if (Math.hypot(pts[a][0] - pts[b][0], pts[a][1] - pts[b][1]) < R) { cut[a] = true; break; }
-      }
+  under.forEach(u => {
+    for (let i = 0; i < N; i++) {
+      let d = Math.abs(cum[i] - cum[u]); d = Math.min(d, per - d);
+      if (d < half) cut[i] = true;
     }
   });
   const st = cut.indexOf(true);
@@ -74,9 +71,9 @@ const markSvg = (color, sw, size, clear) =>
   `<g fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"><path d="${knotPath(size, sw, clear)}"/></g>`;
 
 // 탭 아이콘: --accent 둥근 네모 위에 흰 선. 밝은 탭·어두운 탭 어디서나 보인다.
-const favicon = `<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="112" fill="${ACCENT}"/>${markSvg(ON_ACCENT, 36, 320, 10)}</svg>\n`;
+const favicon = `<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="112" fill="${ACCENT}"/>${markSvg(ON_ACCENT, 34, 300, 0)}</svg>\n`;
 // 링크 미리보기용: 배경 없이 선만
-const markOg = `<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${markSvg(ACCENT, 30, 340, 12)}</svg>`;
+const markOg = `<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${markSvg(ACCENT, 34, 330, 0)}</svg>`;
 
 const ogHtml = `<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@500&display=swap">
