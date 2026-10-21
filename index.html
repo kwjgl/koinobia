@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>코이노비아</title>
+<meta name="description" content="코이노비아 · 함께 나누는 삶. 코이데, 디다코, 프로코페로 들어가는 대문입니다.">
+<meta name="theme-color" content="#2B6A62">
+<!-- 링크 미리보기(카카오톡 등). 나중에 내 도메인을 연결하면 og:image와 og:url의 주소를 새 도메인으로 바꿔야 해요 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="코이노비아">
+<meta property="og:description" content="코이노비아 · 함께 나누는 삶. 코이데, 디다코, 프로코페로 들어가는 대문입니다.">
+<meta property="og:image" content="https://kwjgl.github.io/koinobia/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://kwjgl.github.io/koinobia/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* 색과 글꼴은 코이데(app/index.html)의 기본 스타일과 같은 값을 그대로 씁니다 */
+:root {
+  --page: #F3F5F2; --surface: #FFFFFF; --surface-2: #EEF2EF;
+  --ink: #1B2523; --ink-2: #5B6965; --line: #DDE4E0; --line-strong: #B9C4BF;
+  --accent: #2B6A62; --accent-mid: #8DBDB5; --accent-soft: #DCEBE7; --on-accent: #FFFFFF;
+  --shadow: rgba(20, 35, 32, .14);
+  --base: 16px;
+  --f-display: 'Gowun Batang', 'AppleMyungjo', 'Batang', serif;
+  --f-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --page: #141B19; --surface: #1C2522; --surface-2: #232D2A;
+  --ink: #E5ECE9; --ink-2: #9CAAA5; --line: #2D3935; --line-strong: #4A5853;
+  --accent: #7CC2B7; --accent-mid: #3F7C73; --accent-soft: #1E3934; --on-accent: #0F1A18;
+  --shadow: rgba(0, 0, 0, .5); color-scheme: dark; } }
+@media (min-width: 1000px) { :root { --base: 15px; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { background: var(--page); color: var(--ink); font-family: var(--f-body); font-size: var(--base); line-height: 1.55; -webkit-tap-highlight-color: transparent; }
+button, a { touch-action: manipulation; }
+.wrap { max-width: 560px; margin: 0 auto; padding: 32px 16px 40px; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+.hero { text-align: center; padding: 24px 0 12px; }
+h1 { font-family: var(--f-display); font-size: 2em; line-height: 1.3; margin: 0; }
+.sub { font-family: var(--f-display); font-size: 1.15em; color: var(--accent); margin: .2em 0 0; }
+.lead { color: var(--ink-2); margin: .8em auto 0; max-width: 30em; word-break: keep-all; font-size: .92em; }
+h2 { font-size: .82em; font-weight: 600; color: var(--ink-2); margin: 2em 0 .2em; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin: 12px 0; }
+.app-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.app-name { font-family: var(--f-display); font-size: 1.3em; margin: 0; line-height: 1.35; }
+.app-name small { font-family: var(--f-body); font-size: .6em; color: var(--ink-2); font-weight: 500; margin-left: .5em; }
+.greek { font-size: .8em; color: var(--ink-2); margin: .2em 0 0; word-break: keep-all; }
+.desc { margin: .5em 0 0; word-break: keep-all; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 1.1em; border-radius: 12px; border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none; flex: none; }
+.btn:hover { filter: brightness(1.05); }
+.soon { flex: none; font-size: .8em; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: .3em .9em; }
+.card.is-soon { background: var(--surface-2); }
+.seg2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px; padding: 3px; background: var(--surface-2); border-radius: 10px; border: 1px solid var(--line); margin: .8em 0; }
+.seg2 button { font-size: .88em; border: 0; border-radius: 8px; padding: .3em 1em; min-height: 36px; background: transparent; color: var(--ink-2); cursor: pointer; }
+.seg2 button.on { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px var(--shadow); }
+.steps { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: .35em; font-size: .95em; word-break: keep-all; }
+.steps svg { width: 1.1em; height: 1.1em; vertical-align: -.2em; stroke: var(--accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.note { font-size: .82em; color: var(--ink-2); margin: .8em 0 0; word-break: keep-all; }
+.pcnote { font-size: .92em; margin: 0 0 .5em; word-break: keep-all; }
+footer { margin-top: 2.2em; padding-top: 1em; border-top: 1px solid var(--line); text-align: center; font-size: .82em; color: var(--ink-2); display: flex; flex-wrap: wrap; justify-content: center; gap: .3em 1.2em; }
+footer a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <h1>코이노비아</h1>
+    <p class="sub">함께 나누는 삶</p>
+    <p class="lead">코이노비아는 초대교회에서 "함께 살고 기도하던 공동체"를 뜻하는 그리스어에서 따왔어요.<br>
+      아래 세 앱이 그런 공동체를 만들 수 있게 도와줄 거예요.</p>
+  </header>
+
+  <h2>우리 앱</h2>
+  <div id="apps"></div>
+
+  <h2>휴대폰 홈 화면에 두는 법</h2>
+  <section class="card" aria-labelledby="a2hs-t">
+    <p class="pcnote" id="a2hs-t">앱처럼 아이콘을 눌러 바로 열 수 있어요. 링크를 찾지 않아도 돼요.</p>
+    <div class="seg2" role="tablist" aria-label="휴대폰 종류" id="tabs">
+      <button role="tab" data-os="ios">아이폰</button>
+      <button role="tab" data-os="android">안드로이드</button>
+    </div>
+    <p class="pcnote" id="pc" hidden>지금은 컴퓨터로 보고 계신 것 같아요. 아래는 휴대폰에서 하는 방법이에요.</p>
+    <ol class="steps" id="steps"></ol>
+    <p class="note">앱마다 따로 두어요. 두고 싶은 앱의 [열기]를 눌러 그 앱 화면에서 위 순서를 해 주세요.</p>
+  </section>
+
+  <footer id="foot"></footer>
+</main>
+<script src="site.js"></script>
+<script>
+(function () {
+  var C = window.KOINOBIA || {};
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  // 앱 카드: 주소(url)가 있으면 [열기], 없으면 "곧 만나요"
+  document.getElementById('apps').innerHTML = (C.apps || []).map(function (a) {
+    var act = a.url ? '<a class="btn" href="' + esc(a.url) + '" aria-label="' + esc(a.name) + ' 열기">열기</a>' : '<span class="soon">곧 만나요</span>';
+    return '<article class="card' + (a.url ? '' : ' is-soon') + '"><div class="app-top"><h3 class="app-name">' + esc(a.name) + '<small>' + esc(a.tag) + '</small></h3>' + act + '</div>' +
+      '<p class="greek">' + esc(a.greek) + '</p><p class="desc">' + esc(a.desc) + '</p></article>';
+  }).join('');
+
+  // 홈 화면에 두는 법. 선이 가는 작은 그림은 코이데 안내와 같은 방식
+  var shareIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M8 7l4-4 4 4M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>';
+  var dotsIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>';
+  var HOW = {
+    ios: ['사파리에서 앱 화면을 열어요', '아래쪽 공유 버튼(네모에 위 화살표) ' + shareIcon + '을 눌러요', '"홈 화면에 추가"를 눌러요'],
+    android: ['크롬에서 앱 화면을 열어요', '오른쪽 위 점 세 개 ' + dotsIcon + '를 눌러요', '"홈 화면에 추가" 또는 "앱 설치"를 눌러요']
+  };
+  var ua = navigator.userAgent, isMobile = /iPhone|iPad|iPod|Android/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var os = /android/i.test(ua) ? 'android' : 'ios';
+  function show(k) {
+    os = k;
+    document.getElementById('steps').innerHTML = HOW[k].map(function (x) { return '<li>' + x + '</li>'; }).join('');
+    [].forEach.call(document.querySelectorAll('#tabs button'), function (b) {
+      var on = b.getAttribute('data-os') === k; b.className = on ? 'on' : ''; b.setAttribute('aria-selected', on);
+    });
+  }
+  [].forEach.call(document.querySelectorAll('#tabs button'), function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-os')); }); });
+  document.getElementById('pc').hidden = isMobile;
+  show(os);
+
+  // 아래쪽 안내: 채워진 것만 보인다
+  var f = [];
+  f.push(C.privacyUrl ? '<a href="' + esc(C.privacyUrl) + '">개인정보 처리방침</a>' : '<span>개인정보 처리방침 · 준비 중</span>');
+  if (C.contactEmail) f.push('<a href="mailto:' + esc(C.contactEmail) + '">문의</a>');
+  if (C.donateUrl) f.push('<a href="' + esc(C.donateUrl) + '">후원하기</a>');
+  document.getElementById('foot').innerHTML = f.join('');
+})();
+</script>
+</body>
+</html>
