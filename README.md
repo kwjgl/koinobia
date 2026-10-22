@@ -8,6 +8,8 @@
 - `donateUrl`: 주소를 적으면 "후원하기"가 나타나요.
 - `privacyUrl`: 주소를 적으면 "준비 중"이 "개인정보 처리방침" 링크로 바뀌어요.
 - `apps`의 `url`: 디다코·프로코페 주소를 적으면 "곧 만나요"가 [열기] 버튼으로 바뀌어요.
+- `apps`의 `understand`: "기도와 말씀" 구역에 나오는 카드예요. 제목(`title`)과 [작은 제목, 풀이] 세 쌍(`items`)을 고치면 돼요. 이 칸이 있는 앱만 카드가 생겨요.
+- `understandNote`: "기도와 말씀" 구역 아래의 작은 글이에요. 비우면 숨겨져요.
 
 ## GitHub Pages 켜기
 저장소 Settings → Pages → Deploy from a branch → `main` / `(root)` 로 저장하세요. 잠시 뒤 https://koinobia.com/ 에서 보여요(www도 같은 곳으로 와요). 예전 https://kwjgl.github.io/koinobia/ 주소는 GitHub이 새 주소로 넘겨 줘요.
