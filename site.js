@@ -11,7 +11,7 @@ window.KOINOBIA = {
   apps: [
     { id: 'koide', name: '코이데', tag: '기도', greek: '코이노니아(교제) + 데에시스(간구)',
       desc: '사랑방 기도제목과 나의 기도 노트를 담는 곳이에요.',
-      url: 'https://kwjgl.github.io/koide/app/' },
+      url: 'https://koide.koinobia.com/app/' },
     { id: 'didako', name: '디다코', tag: '배움', greek: '디다스코(가르치다)',
       desc: 'GBS 공과와 나눔을 함께 담을 곳이에요.',
       url: '' },
