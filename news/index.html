@@ -95,7 +95,7 @@
     return '<div class="note-shots" aria-label="앱 화면 사진">' + images.map(function (pair) {
       if (!Array.isArray(pair) || pair.length < 2) return '';
       var path = String(pair[0] || ''), caption = String(pair[1] || '');
-      if (!/^\\/screens\\/[a-z0-9/-]+\\.jpg$/.test(path)) return '';
+      if (!path.startsWith('/screens/') || !path.endsWith('.jpg') || path.includes('..')) return '';
       return '<figure><button type="button" class="shot-open" data-src="' + esc(path) +
         '" data-caption="' + esc(caption) + '" aria-label="' + esc(caption) + ' 크게 보기">' +
         '<img src="' + esc(path) + '" alt="' + esc(caption) + '" loading="lazy" decoding="async"></button>' +
