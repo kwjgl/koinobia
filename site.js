@@ -40,7 +40,7 @@ window.KOINOBIA = {
                 ['screens/didako/phone-3.jpg', '나눔하기'],
                 ['screens/didako/phone-4.jpg', '내 기록']],
         pc: [['screens/didako/pc-1.jpg', '컴퓨터에서 본 이번 주 화면']] } },
-    { id: 'prokope', name: '프로코페', tag: '자람', greek: '프로코페(나아감, 자람)',
+    { id: 'telio', name: '텔리오', tag: '자람', greek: '텔레이오오(온전하게 하다, 이루다)',
       desc: '할 일과 분기·연간 계획을 차근차근 돌볼 수 있어요.',
       url: '' }
   ]
