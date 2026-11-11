@@ -32,6 +32,8 @@
   --c0: #2B6A62; --c0-mid: #8DBDB5; --c0-soft: #DCEBE7;
   --c1: #6B4A2E; --c1-mid: #C4A27F; --c1-soft: #EADFCD;
   --c2: #A8435C; --c2-mid: #DDA2B1; --c2-soft: #F5DFE5;
+  /* 로고 색(먹 세 톤): 세 고리 = 성부·성자·성령, 세 앱. tools/make-images.js의 TONES와 같은 값 */
+  --logo-1: #1F1F1D; --logo-2: #4A4945; --logo-3: #77756E;
   --base: 16px;
   --f-display: 'Gowun Batang', 'AppleMyungjo', 'Batang', serif;
   --f-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
@@ -43,6 +45,7 @@
   --c0: #7CC2B7; --c0-mid: #3F7C73; --c0-soft: #1E3934;
   --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
   --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
+  --logo-1: #F2F2EE; --logo-2: #C9C8C2; --logo-3: #A09E97;
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; } }
 :root[data-theme="dark"] {
   --page: #141414; --surface: #1D1D1C; --surface-2: #252524;
@@ -51,6 +54,7 @@
   --c0: #7CC2B7; --c0-mid: #3F7C73; --c0-soft: #1E3934;
   --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
   --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
+  --logo-1: #F2F2EE; --logo-2: #C9C8C2; --logo-3: #A09E97;
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; }
 @media (min-width: 1000px) { :root { --base: 17px; } }
 
@@ -368,7 +372,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 </footer>
 
 <script src="site.js?v=20261111"></script>
-<script src="tabs.js?v=20261111"></script>
+<script src="tabs.js?v=20261111-2"></script>
 <script>
 (function () {
   var C = window.KOINOBIA || {}, APPS = C.apps || [];
@@ -467,11 +471,8 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
     return { build: build, tips: tips };
   })();
 
-  // 작은 로고(머리글·아래쪽): 선 하나, 색은 --accent
-  function logoSvg() {
-    var k = Knot.build(78, 9, 50, 50);
-    return '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="' + k.d() + '" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  }
+  // 작은 로고(머리글·아래쪽): 먹 세 톤 매듭. 네 페이지가 같은 로고를 쓰도록 tabs.js의 것을 가져와요
+  function logoSvg() { return window.KOINOBIA_LOGO || ''; }
   // 카드 모서리의 작은 매듭: 고른 고리만 진하게
   function miniKnotSvg() {
     var k = Knot.build(78, 9, 50, 50);
