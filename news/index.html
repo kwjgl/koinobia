@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/page.css?v=20261111-4">
+<link rel="stylesheet" href="/page.css?v=20261111-5">
 <link rel="stylesheet" href="/tabs.css?v=20261111">
 </head>
 <body data-tab="news">
@@ -52,6 +52,13 @@
   </div>
   </div>
 </main>
+<dialog class="shot-dialog" id="shotDialog" aria-label="앱 화면 사진 확대">
+  <div class="shot-dialog-in">
+    <button type="button" id="shotClose" class="shot-close" aria-label="사진 닫기">닫기 ×</button>
+    <img id="shotLarge" alt="">
+    <p id="shotCaption"></p>
+  </div>
+</dialog>
 
 <footer class="foot gut">
   <div class="foot-in box">
@@ -60,7 +67,7 @@
   </div>
 </footer>
 <script src="/site.js?v=20261111"></script>
-<script src="/news.js?v=20261111-5"></script>
+<script src="/news.js?v=20261111-6"></script>
 <script src="/tabs.js?v=20261111-2"></script>
 <script>
 (function () {
@@ -81,6 +88,19 @@
       if (lines.every(function (l) { return /^>/.test(l); })) return out + '<blockquote>' + lines.map(function (l) { return inline(l.replace(/^>\s?/, '')); }).join('<br>') + '</blockquote>';
       return out + '<p>' + lines.map(inline).join('<br>') + '</p>';
     }).join('');
+  }
+  // 글마다 선택한 실제 화면만 보입니다. img 경로는 news.js에서 관리합니다.
+  function shots(images) {
+    if (!Array.isArray(images) || !images.length) return '';
+    return '<div class="note-shots" aria-label="앱 화면 사진">' + images.map(function (pair) {
+      if (!Array.isArray(pair) || pair.length < 2) return '';
+      var path = String(pair[0] || ''), caption = String(pair[1] || '');
+      if (!/^\\/screens\\/[a-z0-9/-]+\\.jpg$/.test(path)) return '';
+      return '<figure><button type="button" class="shot-open" data-src="' + esc(path) +
+        '" data-caption="' + esc(caption) + '" aria-label="' + esc(caption) + ' 크게 보기">' +
+        '<img src="' + esc(path) + '" alt="' + esc(caption) + '" loading="lazy" decoding="async"></button>' +
+        '<figcaption>' + esc(caption) + ' · 눌러서 크게 보기</figcaption></figure>';
+    }).join('') + '</div>';
   }
   function day(d) { var m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(d || ''); return m ? m[1] + '년 ' + (+m[2]) + '월 ' + (+m[3]) + '일' : esc(d || ''); }
   function isNote(n) { return n.type === 'note'; }
@@ -106,7 +126,7 @@
       return '<details class="card prose news-item note"' + (n.id ? ' id="' + esc(n.id) + '"' : '') + ' data-type="note" data-app="' + esc(n.app || '') + '"><summary>' + top +
         '<h2 class="h2">' + esc(n.title) + '</h2>' + (n.summary ? '<p class="sum">' + inline(n.summary) + '</p>' : '') +
         '<span class="more" aria-hidden="true"></span></summary>' + body(n.body) +
-        src(n.source) + '</details>';
+        shots(n.images) + src(n.source) + '</details>';
     }
     if (n.tag) top += '<span class="pill">' + esc(n.tag) + '</span>';
     return '<article class="card prose news-item"' + (n.id ? ' id="' + esc(n.id) + '"' : '') + ' data-type="notice">' + top +
@@ -153,6 +173,22 @@
   appChips.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show('note', b.getAttribute('data-app')); });
   // 휴대폰 목록에서 하나를 고르면 목록을 접어요
   document.getElementById('tocMIn').addEventListener('click', function (e) { if (e.target.closest('a')) document.getElementById('tocM').open = false; });
+
+  // 사진 단추를 누르면 원본 비율로 확대합니다. ESC·닫기·바깥 영역 누르기로 닫힙니다.
+  var shotDialog = document.getElementById('shotDialog');
+  var shotLarge = document.getElementById('shotLarge');
+  var shotCaption = document.getElementById('shotCaption');
+  list.addEventListener('click', function (e) {
+    var b = e.target.closest('.shot-open');
+    if (!b || !shotDialog || !shotDialog.showModal) return;
+    shotLarge.src = b.getAttribute('data-src');
+    shotLarge.alt = b.getAttribute('data-caption') || '';
+    shotCaption.textContent = b.getAttribute('data-caption') || '';
+    shotDialog.showModal();
+  });
+  document.getElementById('shotClose').addEventListener('click', function () { shotDialog.close(); });
+  shotDialog.addEventListener('click', function (e) { if (e.target === shotDialog) shotDialog.close(); });
+  shotDialog.addEventListener('close', function () { shotLarge.removeAttribute('src'); });
 
   // 주소 끝의 #노트id: 그 글을 펼쳐서 보여 줘요(노트 안의 "다음 노트" 링크도 이걸로 움직여요)
   function openHash() {
