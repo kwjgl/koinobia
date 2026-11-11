@@ -16,8 +16,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/page.css">
-<link rel="stylesheet" href="/tabs.css">
+<link rel="stylesheet" href="/page.css?v=20261111">
+<link rel="stylesheet" href="/tabs.css?v=20261111">
 </head>
 <body data-tab="news">
 <header class="nav gut">
@@ -51,9 +51,9 @@
     <span class="foot-links" id="foot"></span>
   </div>
 </footer>
-<script src="/site.js"></script>
-<script src="/news.js"></script>
-<script src="/tabs.js"></script>
+<script src="/site.js?v=20261111"></script>
+<script src="/news.js?v=20261111"></script>
+<script src="/tabs.js?v=20261111"></script>
 <script>
 (function () {
   var NEWS = (window.KOINOBIA_NEWS || []).map(function (n, i) { n._i = i; return n; });
@@ -76,18 +76,27 @@
   }
   function day(d) { var m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(d || ''); return m ? m[1] + '년 ' + (+m[2]) + '월 ' + (+m[3]) + '일' : esc(d || ''); }
   function isNote(n) { return n.type === 'note'; }
-  // 최근 날짜가 위로, 같은 날짜는 news.js에 적힌 순서대로
-  NEWS.sort(function (a, b) { return String(b.date).localeCompare(String(a.date)) || a._i - b._i; });
+  // 참고 자료: 여러 줄이면 목록으로
+  function src(v) {
+    if (!v || !v.length) return '';
+    var rows = [].concat(v);
+    return '<div class="src"><b>참고 자료</b><ul>' + rows.map(function (r) { return '<li>' + inline(r) + '</li>'; }).join('') + '</ul></div>';
+  }
+  // 날짜가 있는 것(공지)은 최근 날짜가 위로, 날짜가 없는 것(노트)은 그 아래에 news.js에 적힌 순서대로
+  NEWS.sort(function (a, b) {
+    if (!a.date !== !b.date) return a.date ? -1 : 1;
+    return String(b.date || '').localeCompare(String(a.date || '')) || a._i - b._i;
+  });
 
   function item(n) {
-    var top = '<time datetime="' + esc(n.date) + '">' + day(n.date) + '</time>';
+    var top = n.date ? '<time datetime="' + esc(n.date) + '">' + day(n.date) + '</time>' : '';
     if (isNote(n)) {
-      top += '<span class="pill">개발 노트' + (n.app ? ' · ' + esc(n.app) : '') + '</span>';
+      top = '<span class="pill">' + (n.app ? esc(n.app) + ' ' : '') + '개발 노트</span>';
       // 노트: 제목과 요약만 보이고, 누르면 펼쳐져요
       return '<details class="card prose news-item note"' + (n.id ? ' id="' + esc(n.id) + '"' : '') + ' data-type="note"><summary>' + top +
         '<h2 class="h2">' + esc(n.title) + '</h2>' + (n.summary ? '<p class="sum">' + inline(n.summary) + '</p>' : '') +
         '<span class="more" aria-hidden="true"></span></summary>' + body(n.body) +
-        (n.source ? '<p class="src">이 글의 바탕: ' + inline(n.source) + '</p>' : '') + '</details>';
+        src(n.source) + '</details>';
     }
     if (n.tag) top += '<span class="pill">' + esc(n.tag) + '</span>';
     return '<article class="card prose news-item"' + (n.id ? ' id="' + esc(n.id) + '"' : '') + ' data-type="notice">' + top +

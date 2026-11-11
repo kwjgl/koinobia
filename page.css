@@ -118,6 +118,7 @@ img { max-width: 100%; display: block; }
 .news-item time { font-size: .86rem; color: var(--ink-2); font-weight: 500; }
 .news-item .h2 { margin-top: .25em; }
 .news-item .pill { margin-left: .4em; vertical-align: 2px; }
+.news-item.note .pill { margin-left: 0; }
 .empty { text-align: center; color: var(--ink-2); padding: 40px 0; }
 
 /* 아래쪽 */
@@ -131,9 +132,11 @@ img { max-width: 100%; display: block; }
 .foot a { color: var(--accent); }
 
 /* 소식: 종류 고르기 단추, 노트 펼쳐 읽기 */
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.4em; }
-.chips button { font: inherit; font-size: .9rem; font-weight: 500; min-height: 38px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
-.chips button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+/* 코이데의 고르기 단추(seg2)와 같은 모양 */
+.chips { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 3px; padding: 3px; margin-top: 1.4em; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; }
+.chips button { font: inherit; font-size: .9rem; font-weight: 500; min-height: 38px; padding: 0 18px; border: 0; border-radius: 9px; background: transparent; color: var(--ink-2); cursor: pointer; white-space: nowrap; transition: background .2s, color .2s; }
+.chips button:hover { color: var(--ink); }
+.chips button[aria-selected="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px var(--shadow); }
 .news-item.note summary { list-style: none; cursor: pointer; }
 .news-item.note summary::-webkit-details-marker { display: none; }
 .news-item .sum { margin-top: .6em; color: var(--ink-2); }
@@ -145,3 +148,6 @@ img { max-width: 100%; display: block; }
 .prose h3 + p, .prose h3 + ul { margin-top: .6em; }
 .prose blockquote { margin: 1em 0 0; padding: .9em 1.1em; border-left: 3px solid var(--accent-mid); background: var(--surface-2); border-radius: 0 12px 12px 0; font-family: var(--f-display); font-weight: 700; line-height: 1.7; }
 .news-item .src { margin-top: 1.8em; padding-top: 1em; border-top: 1px solid var(--line); font-size: .84rem; color: var(--ink-2); }
+.news-item .src b { display: block; font-weight: 600; color: var(--ink); margin-bottom: .3em; }
+.news-item .src ul { margin: 0; padding-left: 1.2em; }
+.news-item .src li + li { margin-top: .15em; }
