@@ -1,23 +1,33 @@
 /* 코이노비아 안쪽 페이지(이야기·앱·소식)가 같이 쓰는 모양이에요.
-   색과 글꼴은 대문(index.html)과 같은 값을 그대로 써요. 색을 바꾸려면 대문과 여기 두 곳을 같이 바꿔 주세요. */
+   색과 글꼴은 대문(index.html)과 같은 값을 그대로 써요(흰 바탕 + 먹색 포인트, 세 앱 색은 --c0·--c1·--c2). 색을 바꾸려면 대문과 여기 두 곳을 같이 바꿔 주세요. */
 :root {
-  --page: #F3F5F2; --surface: #FFFFFF; --surface-2: #EEF2EF;
-  --ink: #1B2523; --ink-2: #5B6965; --line: #DDE4E0; --line-strong: #B9C4BF;
-  --accent: #2B6A62; --accent-mid: #8DBDB5; --accent-soft: #DCEBE7; --on-accent: #FFFFFF;
-  --shadow: rgba(20, 35, 32, .14);
+  --page: #FFFFFF; --surface: #FFFFFF; --surface-2: #F4F4F1;
+  --ink: #1D1D1B; --ink-2: #62625E; --line: #E4E4E0; --line-strong: #C9C9C3;
+  --accent: #33332F; --accent-mid: #A3A39C; --accent-soft: #EEEEEA; --on-accent: #FFFFFF;
+  --shadow: rgba(20, 20, 18, .12);
+  /* 세 앱의 색: 0 코이데(초록), 1 디다코(브라운), 2 텔리오(장미). 매듭 고리와 앱 카드에 써요 */
+  --c0: #2B6A62; --c0-mid: #8DBDB5; --c0-soft: #DCEBE7;
+  --c1: #6B4A2E; --c1-mid: #C4A27F; --c1-soft: #EADFCD;
+  --c2: #A8435C; --c2-mid: #DDA2B1; --c2-soft: #F5DFE5;
   --base: 16px;
   --f-display: 'Gowun Batang', 'AppleMyungjo', 'Batang', serif;
   --f-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --page: #141B19; --surface: #1C2522; --surface-2: #232D2A;
-  --ink: #E5ECE9; --ink-2: #9CAAA5; --line: #2D3935; --line-strong: #4A5853;
-  --accent: #7CC2B7; --accent-mid: #3F7C73; --accent-soft: #1E3934; --on-accent: #0F1A18;
+  --page: #141414; --surface: #1D1D1C; --surface-2: #252524;
+  --ink: #ECECE8; --ink-2: #A3A39E; --line: #30302E; --line-strong: #4D4D4A;
+  --accent: #E2E2DC; --accent-mid: #6A6A65; --accent-soft: #2E2E2C; --on-accent: #141414;
+  --c0: #7CC2B7; --c0-mid: #3F7C73; --c0-soft: #1E3934;
+  --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
+  --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; } }
 :root[data-theme="dark"] {
-  --page: #141B19; --surface: #1C2522; --surface-2: #232D2A;
-  --ink: #E5ECE9; --ink-2: #9CAAA5; --line: #2D3935; --line-strong: #4A5853;
-  --accent: #7CC2B7; --accent-mid: #3F7C73; --accent-soft: #1E3934; --on-accent: #0F1A18;
+  --page: #141414; --surface: #1D1D1C; --surface-2: #252524;
+  --ink: #ECECE8; --ink-2: #A3A39E; --line: #30302E; --line-strong: #4D4D4A;
+  --accent: #E2E2DC; --accent-mid: #6A6A65; --accent-soft: #2E2E2C; --on-accent: #141414;
+  --c0: #7CC2B7; --c0-mid: #3F7C73; --c0-soft: #1E3934;
+  --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
+  --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; }
 @media (min-width: 1000px) { :root { --base: 17px; } }
 
@@ -77,7 +87,10 @@ img { max-width: 100%; display: block; }
 .und-list b { display: block; font-weight: 600; }
 .und-list p { margin-top: .2em; color: var(--ink-2); font-size: .96rem; }
 
-/* 앱 */
+/* 앱: 앱 카드마다 그 앱의 색(초록·브라운·장미)을 써요 */
+#koide { --accent: var(--c0); --accent-mid: var(--c0-mid); --accent-soft: var(--c0-soft); }
+#didako { --accent: var(--c1); --accent-mid: var(--c1-mid); --accent-soft: var(--c1-soft); }
+#telio { --accent: var(--c2); --accent-mid: var(--c2-mid); --accent-soft: var(--c2-soft); }
 .app-top { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
 .app-ic { flex: none; width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
 .app-ic svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }

@@ -7,7 +7,7 @@ const root = path.join(__dirname, '..');
 let chromium;
 try { ({ chromium } = require('playwright')); } catch (e) { ({ chromium } = require('/opt/node-tools/node_modules/playwright')); }
 
-const ACCENT = '#2B6A62', ON_ACCENT = '#FFFFFF', PAGE = '#F3F5F2', INK = '#1B2523';
+const ACCENT = '#33332F', ON_ACCENT = '#FFFFFF', PAGE = '#FFFFFF', INK = '#1D1D1B';
 
 // 삼엽 매듭 한 바퀴를 점으로 찍고, 교차점에서 아래로 지나는 줄을 끊어 선 조각들(path)로 돌려준다.
 // size: 매듭 가로 폭(선 중심 기준), sw: 선 굵기 (clear는 쓰지 않음)

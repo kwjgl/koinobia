@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>코이노비아</title>
 <meta name="description" content="공동체로 존재하는 그리스도인의 삶. 코이데, 디다코, 텔리오로 연결됩니다.">
-<meta name="theme-color" content="#2B6A62">
+<meta name="theme-color" content="#FFFFFF">
 <!-- 링크 미리보기(카카오톡 등). 도메인(koinobia.com)을 연결했으니 og:image와 og:url도 이 주소로 맞춰 두었어요. 도메인을 바꾸면 여기도 같이 바꿔 주세요 -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="코이노비아">
@@ -22,25 +22,35 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="tabs.css">
 <style>
-/* 색과 글꼴은 코이데(app/index.html)의 기본 스타일과 같은 값을 그대로 씁니다. 새 색은 없어요 */
+/* 코이노비아 색: 흰 바탕 + 먹색 포인트. 세 앱의 색(--c0 코이데·--c1 디다코·--c2 텔리오)은 매듭 고리와 앱 카드에 써요 */
 :root {
-  --page: #F3F5F2; --surface: #FFFFFF; --surface-2: #EEF2EF;
-  --ink: #1B2523; --ink-2: #5B6965; --line: #DDE4E0; --line-strong: #B9C4BF;
-  --accent: #2B6A62; --accent-mid: #8DBDB5; --accent-soft: #DCEBE7; --on-accent: #FFFFFF;
-  --shadow: rgba(20, 35, 32, .14);
+  --page: #FFFFFF; --surface: #FFFFFF; --surface-2: #F4F4F1;
+  --ink: #1D1D1B; --ink-2: #62625E; --line: #E4E4E0; --line-strong: #C9C9C3;
+  --accent: #33332F; --accent-mid: #A3A39C; --accent-soft: #EEEEEA; --on-accent: #FFFFFF;
+  --shadow: rgba(20, 20, 18, .12);
+  /* 세 앱의 색: 0 코이데(초록), 1 디다코(브라운), 2 텔리오(장미). 매듭 고리와 앱 카드에 써요 */
+  --c0: #2B6A62; --c0-mid: #8DBDB5; --c0-soft: #DCEBE7;
+  --c1: #6B4A2E; --c1-mid: #C4A27F; --c1-soft: #EADFCD;
+  --c2: #A8435C; --c2-mid: #DDA2B1; --c2-soft: #F5DFE5;
   --base: 16px;
   --f-display: 'Gowun Batang', 'AppleMyungjo', 'Batang', serif;
   --f-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --page: #141B19; --surface: #1C2522; --surface-2: #232D2A;
-  --ink: #E5ECE9; --ink-2: #9CAAA5; --line: #2D3935; --line-strong: #4A5853;
-  --accent: #7CC2B7; --accent-mid: #3F7C73; --accent-soft: #1E3934; --on-accent: #0F1A18;
+  --page: #141414; --surface: #1D1D1C; --surface-2: #252524;
+  --ink: #ECECE8; --ink-2: #A3A39E; --line: #30302E; --line-strong: #4D4D4A;
+  --accent: #E2E2DC; --accent-mid: #6A6A65; --accent-soft: #2E2E2C; --on-accent: #141414;
+  --c0: #7CC2B7; --c0-mid: #3F7C73; --c0-soft: #1E3934;
+  --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
+  --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; } }
 :root[data-theme="dark"] {
-  --page: #141B19; --surface: #1C2522; --surface-2: #232D2A;
-  --ink: #E5ECE9; --ink-2: #9CAAA5; --line: #2D3935; --line-strong: #4A5853;
-  --accent: #7CC2B7; --accent-mid: #3F7C73; --accent-soft: #1E3934; --on-accent: #0F1A18;
+  --page: #141414; --surface: #1D1D1C; --surface-2: #252524;
+  --ink: #ECECE8; --ink-2: #A3A39E; --line: #30302E; --line-strong: #4D4D4A;
+  --accent: #E2E2DC; --accent-mid: #6A6A65; --accent-soft: #2E2E2C; --on-accent: #141414;
+  --c0: #7CC2B7; --c0-mid: #3F7C73; --c0-soft: #1E3934;
+  --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
+  --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; }
 @media (min-width: 1000px) { :root { --base: 17px; } }
 
@@ -81,10 +91,10 @@ h1, h2, h3, p { margin: 0; }
 .hero { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(36px, 7vw, 96px) clamp(56px, 8vw, 110px); }
 .aurora { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
 .blob { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
-.blob.b1 { width: min(52vw, 620px); aspect-ratio: 1; left: -10%; top: -18%; background: var(--accent-soft); opacity: .55; animation: drift1 26s ease-in-out infinite alternate; }
-.blob.b2 { width: min(46vw, 520px); aspect-ratio: 1; right: -8%; top: 4%; background: var(--accent-mid); opacity: .35; animation: drift2 30s ease-in-out infinite alternate; }
+.blob.b1 { width: min(52vw, 620px); aspect-ratio: 1; left: -10%; top: -18%; background: var(--c0-soft); opacity: .7; animation: drift1 26s ease-in-out infinite alternate; }
+.blob.b2 { width: min(46vw, 520px); aspect-ratio: 1; right: -8%; top: 4%; background: var(--c1-soft); opacity: .8; animation: drift2 30s ease-in-out infinite alternate; }
 .blob.b3 { width: min(56vw, 640px); aspect-ratio: 1; left: 28%; bottom: -34%; background: var(--surface-2); opacity: .95; animation: drift3 22s ease-in-out infinite alternate; }
-.blob.b4 { width: min(34vw, 380px); aspect-ratio: 1; right: 22%; bottom: -8%; background: var(--accent-soft); opacity: .4; animation: drift2 24s ease-in-out infinite alternate-reverse; }
+.blob.b4 { width: min(34vw, 380px); aspect-ratio: 1; right: 22%; bottom: -8%; background: var(--c2-soft); opacity: .7; animation: drift2 24s ease-in-out infinite alternate-reverse; }
 @media (max-width: 899px) { .blob { filter: blur(56px); } .blob.b1, .blob.b2, .blob.b3, .blob.b4 { width: 78vw; } }
 .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 90px; z-index: -1; background: linear-gradient(to bottom, transparent, var(--page)); pointer-events: none; }
 @keyframes drift1 { to { transform: translate3d(8vw, 6vh, 0) scale(1.14); } }
@@ -106,14 +116,22 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .knot-svg path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .k-base { stroke: var(--accent-mid); stroke-width: 22; stroke-dasharray: 1; animation: kdraw 2.4s cubic-bezier(.45, .05, .25, 1) .3s backwards; }
 @keyframes kdraw { from { stroke-dashoffset: 1; opacity: 0; } 3% { opacity: 1; } }
-.kl { stroke: var(--accent); opacity: 0; transition: opacity .5s ease, filter .5s ease; }
-.kl.on { opacity: 1; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--accent) 55%, transparent)); }
+/* 매듭의 세 고리는 앱 색이에요. 평소엔 옅게, 고른 앱의 고리만 또렷하게 */
+[data-k="0"] { --app: var(--c0); } [data-k="1"] { --app: var(--c1); } [data-k="2"] { --app: var(--c2); }
+.kl { stroke: var(--app, var(--accent)); opacity: .7; transition: opacity .5s ease, filter .5s ease; }
+.knot-svg .kl { animation: klin .8s ease 2.4s backwards; }
+@keyframes klin { from { opacity: 0; } }
+.kl.on { opacity: 1; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--app, var(--accent)) 55%, transparent)); }
 .klabel { position: absolute; white-space: nowrap; transform: translate(-50%, -50%); min-height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 88%, transparent); color: var(--ink-2); font-size: .84rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px -6px var(--shadow); transition: background .3s, color .3s, border-color .3s, transform .2s; animation: pop .5s ease 2.6s backwards; }
-.klabel:hover { transform: translate(-50%, -50%) scale(1.06); border-color: var(--accent); color: var(--accent); }
-.klabel.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.klabel:hover { transform: translate(-50%, -50%) scale(1.06); border-color: var(--app); color: var(--app); }
+.klabel.on { background: var(--app); border-color: var(--app); color: var(--on-accent); }
 @keyframes pop { from { opacity: 0; scale: .8; } }
 
 /* ───── 3. 우리 앱 ───── */
+/* 고른 앱(data-kind)에 따라 탭·카드·그림이 그 앱의 색으로 바뀌어요. 기도와 말씀 카드도 같아요 */
+[data-kind="0"] { --accent: var(--c0); --accent-mid: var(--c0-mid); --accent-soft: var(--c0-soft); }
+[data-kind="1"] { --accent: var(--c1); --accent-mid: var(--c1-mid); --accent-soft: var(--c1-soft); }
+[data-kind="2"] { --accent: var(--c2); --accent-mid: var(--c2-mid); --accent-soft: var(--c2-soft); }
 .eyebrow { font-size: .82rem; font-weight: 600; color: var(--ink-2); letter-spacing: .14em; }
 .h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.2; letter-spacing: -.01em; margin-top: .3em; word-break: keep-all; }
 .sec-lead { color: var(--ink-2); margin-top: .9em; max-width: 32em; word-break: keep-all; }
@@ -142,13 +160,13 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .app-name { font-family: var(--f-display); font-weight: 700; font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 1.15; margin-top: .35em; }
 .greek { color: var(--ink-2); font-size: .88rem; margin-top: .3em; word-break: keep-all; }
 .desc { margin-top: 1em; word-break: keep-all; }
-.act { margin-top: 1.6em; display: flex; flex-wrap: wrap; gap: 10px; }
+.act { margin-top: 1.6em; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .soon { display: inline-block; font-size: .88rem; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: .4em 1.1em; }
 .mk { position: absolute; top: 14px; right: 14px; z-index: 2; width: 48px; height: 48px; padding: 2px; border-radius: 50%; background: color-mix(in srgb, var(--surface) 80%, transparent); border: 1px solid var(--line); }
 .mk svg { width: 100%; height: 100%; display: block; }
 .mk path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .mk .mb { stroke: var(--accent-mid); }
-.mk .kl { stroke: var(--accent); }
+.mk .kl { stroke: var(--app); opacity: 0; } .mk .kl.on { opacity: 1; filter: none; }
 
 .stage { position: relative; margin: 14px; min-height: 250px; border-radius: 18px; overflow: hidden; display: grid; place-items: center; background: linear-gradient(145deg, var(--accent-soft), var(--surface-2)); order: -1; isolation: isolate; }
 @media (min-width: 900px) { .stage { order: 0; min-height: 420px; } }
@@ -557,6 +575,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
     });
     $$('.dot').forEach(function (b) { b.setAttribute('aria-current', +b.getAttribute('data-i') === sel); });
     $('#card').setAttribute('aria-labelledby', 'tab' + sel);
+    $('#apps').setAttribute('data-kind', kindOf(a, sel));   // 앱 구역 전체를 고른 앱의 색으로
     var act = a.url ? '<a class="btn btn-lg" href="' + esc(a.url) + '" aria-label="' + esc(a.name) + ' 열기">열기</a>' : '<span class="soon">곧 만나요</span>';
     // "화면 보기": 앱 탭(/apps/)에서 그 앱의 실제 화면 사진으로 가요. 사진(screens)이 있는 앱만 보여요
     if (a.screens) act += ' <a class="btn btn-lg btn-ghost" href="/apps/#' + esc(a.id) + '">화면 보기</a>';
