@@ -151,7 +151,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .tab-btn[aria-selected="true"] + .cap { color: var(--accent); font-weight: 600; }
 .tab-btn img { display: block; width: 35px; height: 35px; object-fit: contain; }
 .tab-btn[aria-selected="true"] img { width: 39px; height: 39px; }
-/* 원본 앱 아이콘은 고유 색을 유지합니다. 텔리오는 파비콘이 정해지기 전까지 기존 싹 아이콘을 씁니다. */
+/* 앱의 고유 심벌을 사용합니다. 텔리오는 prokope에서 채택한 B2-2 시안으로 표시합니다. */
 .art-app-icon { display: block; width: clamp(132px, 46%, 220px); height: auto; filter: drop-shadow(0 12px 18px var(--shadow)); }
 /* 고른 탭에서 카드로 내려오는 가는 선 */
 .conn { position: relative; height: 30px; }
@@ -557,7 +557,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   var sel = 0, introOn = !reduce, tabsEl = $('#tabs'), panel = $('#panel'), conn = $('#conn');
   tabsEl.innerHTML = APPS.map(function (a, i) {
     return '<div class="tab"><button type="button" class="tab-btn" role="tab" id="tab' + i + '" data-i="' + i + '" aria-controls="card" aria-label="' + esc(a.name) + '">' +
-      (a.id === 'koide' ? '<img src="icons/app-koide.svg" alt="">' : a.id === 'didako' ? '<img src="icons/app-didako.svg" alt="">' : MINI[kindOf(a, i)]) + '</button><span class="cap">' + esc(a.tag) + '</span></div>';
+      (a.id === 'koide' ? '<img src="icons/app-koide.svg" alt="">' : a.id === 'didako' ? '<img src="icons/app-didako.svg" alt="">' : a.id === 'telio' ? '<img src="icons/app-telio.svg" alt="">' : MINI[kindOf(a, i)]) + '</button><span class="cap">' + esc(a.tag) + '</span></div>';
   }).join('');
   $('#dots').innerHTML = APPS.map(function (a, i) {
     return '<button type="button" class="dot" data-i="' + i + '" aria-label="' + esc(a.name) + ' 보기"></button>';
@@ -587,7 +587,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
     panel.innerHTML = '<span class="pill">' + esc(a.tag) + '</span><h3 class="app-name">' + esc(a.name) + '</h3><p class="greek">' + esc(a.greek) +
       '</p><p class="desc">' + esc(a.desc) + '</p><div class="act">' + act + '</div>';
     if (!first && !reduce) { panel.style.setProperty('--dx', (dir * 14) + 'px'); panel.classList.remove('swap'); void panel.offsetWidth; panel.classList.add('swap'); }
-    $('#art').innerHTML = a.id === 'koide' ? '<img class="art-app-icon" src="icons/app-koide.svg" alt="코이데 매듭 아이콘">' : a.id === 'didako' ? '<img class="art-app-icon" src="icons/app-didako.svg" alt="디다코 세 겹 책갈피 아이콘">' : ART[kindOf(a, sel)];            // 다시 끼워 넣어서 그림 움직임이 처음부터 다시 돌아요
+    $('#art').innerHTML = a.id === 'koide' ? '<img class="art-app-icon" src="icons/app-koide.svg" alt="코이데 매듭 아이콘">' : a.id === 'didako' ? '<img class="art-app-icon" src="icons/app-didako.svg" alt="디다코 세 겹 책갈피 아이콘">' : a.id === 'telio' ? '<img class="art-app-icon" src="icons/app-telio.svg" alt="텔리오 오르막 길 싹 아이콘">' : ART[kindOf(a, sel)];            // 다시 끼워 넣어서 그림 움직임이 처음부터 다시 돌아요
     $$('#mk .kl').forEach(function (el) { el.classList.toggle('on', +el.getAttribute('data-k') === sel); });
     if (!first || !introOn) { introOn = false; setHero(sel); }
     if (o.user) introOn = false;
