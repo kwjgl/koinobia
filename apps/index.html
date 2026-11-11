@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>앱 · 코이노비아</title>
+<meta name="description" content="코이데, 디다코, 프로코페 세 앱을 실제 화면과 함께 소개해요.">
+<meta name="theme-color" content="#2B6A62">
+<meta property="og:type" content="website">
+<meta property="og:title" content="앱 · 코이노비아">
+<meta property="og:description" content="코이데, 디다코, 프로코페 세 앱을 실제 화면과 함께 소개해요.">
+<meta property="og:image" content="https://koinobia.com/og.png">
+<meta property="og:url" content="https://koinobia.com/apps/">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/page.css">
+<link rel="stylesheet" href="/tabs.css">
+</head>
+<body data-tab="apps">
+<header class="nav gut">
+  <div class="nav-in box">
+    <a class="brand" href="/" id="brand" aria-label="코이노비아 홈"></a>
+    <nav class="toplinks" id="toplinks" aria-label="메뉴"></nav>
+    <a class="btn btn-sm" id="navOpen" href="#" hidden></a>
+  </div>
+</header>
+
+<main class="gut">
+  <div class="box">
+    <div class="head narrow" style="margin:0">
+      <p class="eyebrow">앱</p>
+      <h1 class="title">세 앱 소개</h1>
+      <p class="lead">실제 화면으로 둘러보세요. 사진을 누르면 크게 볼 수 있어요.</p>
+    </div>
+    <!-- 앱 카드는 site.js의 apps(이름·설명·열기 주소·screens 사진)에서 가져와 채워요 -->
+    <div class="body" id="list"></div>
+  </div>
+</main>
+
+<footer class="foot gut">
+  <div class="foot-in box">
+    <span class="foot-brand" id="footBrand"></span>
+    <span class="foot-links" id="foot"></span>
+  </div>
+</footer>
+<script src="/site.js"></script>
+<script src="/tabs.js"></script>
+<script>
+(function () {
+  var C = window.KOINOBIA || {}, APPS = C.apps || [];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  // 앱별 작은 그림(대문과 같음): 촛불, 펼친 책, 새싹
+  var ICON = {
+    koide: '<rect x="8.5" y="12" width="7" height="9" rx="1.6"/><path d="M12 3c2.4 2.6 2.8 4.4 0 7.2-2.8-2.8-2.4-4.6 0-7.2z"/>',
+    didako: '<path d="M12 6.5c-2.2-1.6-5-1.9-8-1.1V18c3-.8 5.8-.5 8 1 2.2-1.5 5-1.8 8-1V5.4c-3-.8-5.8-.5-8 1.1zM12 6.5V19"/>',
+    prokope: '<path d="M12 21v-9M12 13c0-3.2-2.2-5-6-5 0 3.2 2.2 5 6 5zM12 11c0-3.2 2.2-5 6-5 0 3.2-2.2 5-6 5z"/>'
+  };
+  function img(src) { return '/' + String(src).replace(/^\//, ''); }
+  document.getElementById('list').innerHTML = APPS.map(function (a) {
+    var s = a.screens || {}, phone = s.phone || [], pc = s.pc || [];
+    var act = a.url ? '<a class="btn" href="' + esc(a.url) + '">' + esc(a.name) + ' 열기</a>' : '<span class="soon">곧 만나요</span>';
+    var html = '<section class="card" id="' + esc(a.id) + '">' +
+      '<div class="app-top"><span class="app-ic"><svg viewBox="0 0 24 24" aria-hidden="true">' + (ICON[a.id] || ICON.koide) + '</svg></span>' +
+      '<div><h2 class="app-name">' + esc(a.name) + '<span class="pill">' + esc(a.tag) + '</span></h2><p class="greek">' + esc(a.greek) + '</p></div>' +
+      '<div class="app-act">' + act + '</div></div>' +
+      '<p class="desc">' + esc(a.desc) + '</p>';
+    if (phone.length) {
+      html += '<p class="shots-label">휴대폰</p><div class="shots">' + phone.map(function (p) {
+        return '<figure class="shot"><a href="' + esc(img(p[0])) + '" target="_blank" rel="noopener"><img src="' + esc(img(p[0])) +
+          '" alt="' + esc(a.name + ' 화면: ' + (p[1] || '')) + '" loading="lazy" width="390" height="844"></a><figcaption>' + esc(p[1] || '') + '</figcaption></figure>';
+      }).join('') + '</div>';
+    }
+    if (pc.length) {
+      html += '<p class="shots-label">컴퓨터</p>' + pc.map(function (p) {
+        return '<figure class="pc"><a href="' + esc(img(p[0])) + '" target="_blank" rel="noopener"><img src="' + esc(img(p[0])) +
+          '" alt="' + esc(a.name + ' 화면: ' + (p[1] || '')) + '" loading="lazy" width="1440" height="900"></a><figcaption>' + esc(p[1] || '') + '</figcaption></figure>';
+      }).join('');
+    }
+    if (!phone.length && !pc.length) html += '<p class="noshot">화면은 준비 중이에요.</p>';
+    return html + '</section>';
+  }).join('');
+  // 주소 끝에 #koide처럼 붙어서 들어왔으면 그 앱으로 내려가요(카드를 다 그린 다음이라 여기서 해요)
+  if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+})();
+</script>
+</body>
+</html>

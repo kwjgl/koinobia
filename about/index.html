@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>이야기 · 코이노비아</title>
+<meta name="description" content="코이노비아가 바라는 것과 세 앱을 만든 까닭을 소개해요.">
+<meta name="theme-color" content="#2B6A62">
+<meta property="og:type" content="website">
+<meta property="og:title" content="이야기 · 코이노비아">
+<meta property="og:description" content="코이노비아가 바라는 것과 세 앱을 만든 까닭을 소개해요.">
+<meta property="og:image" content="https://koinobia.com/og.png">
+<meta property="og:url" content="https://koinobia.com/about/">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/page.css">
+<link rel="stylesheet" href="/tabs.css">
+</head>
+<body data-tab="about">
+<header class="nav gut">
+  <div class="nav-in box">
+    <a class="brand" href="/" id="brand" aria-label="코이노비아 홈"></a>
+    <nav class="toplinks" id="toplinks" aria-label="메뉴"></nav>
+    <a class="btn btn-sm" id="navOpen" href="#" hidden></a>
+  </div>
+</header>
+
+<main class="gut">
+  <div class="narrow">
+    <div class="head">
+      <p class="eyebrow">이야기</p>
+      <h1 class="title">코이노비아 이야기</h1>
+      <p class="lead">코이노비아가 바라는 것과 세 앱을 만든 까닭을 적었어요.</p>
+    </div>
+
+    <div class="body">
+      <!-- ① 이름의 뜻 -->
+      <section class="card prose">
+        <h2 class="h2">이름에 담은 뜻</h2>
+        <p>코이노비아는 초대교회에서 "함께 살고 기도하던 공동체(코이노비온)"를 뜻하는 그리스어에서 따왔어요.</p>
+        <p>우리가 바라는 삶은 <b>공동체로 존재하는 그리스도인의 삶</b>이에요. 혼자 믿고 혼자 자라는 신앙이 아니라, 서로를 위해 기도하고 함께 말씀을 배우며 같이 자라 가는 삶이에요.</p>
+      </section>
+
+      <!-- ② 기획 의도 (초안이에요. 직접 고쳐 주세요) -->
+      <section class="card prose">
+        <h2 class="h2">왜 만들었나요</h2>
+        <p>교회 공동체는 서로의 기도제목을 나누고, 같은 말씀을 읽고, 삶을 돌봐요. 그런데 바쁜 일상 속에서 이 일을 꾸준히 이어 가기는 쉽지 않아요. 기도제목은 단톡방에 묻히고, 함께 읽던 말씀은 모임이 끝나면 흩어지기 쉬워요.</p>
+        <p>코이노비아의 세 앱은 이 일을 조금 더 쉽고 꾸준하게 할 수 있도록 돕는 도구예요. 앱이 공동체를 대신하지는 않아요. 앱은 사람과 사람이 더 잘 만나도록 곁에서 거들 뿐이에요.</p>
+      </section>
+
+      <!-- ③ 세 고리: site.js의 apps에서 이름·설명을 가져와 채워요 -->
+      <section class="card prose">
+        <h2 class="h2">세 고리가 하나로 엮여 있어요</h2>
+        <p>코이노비아의 로고는 세 고리가 끊기지 않는 한 줄로 엮인 매듭이에요. 기도와 말씀과 자람은 따로 떨어진 일이 아니라 서로 이어져 있다는 뜻을 담았어요.</p>
+        <ul id="rings"></ul>
+        <p><a href="/apps/">세 앱의 실제 화면 보기 →</a></p>
+      </section>
+
+      <!-- ④ 세 앱이 함께 지키는 것 -->
+      <section class="card prose">
+        <h2 class="h2">세 앱이 함께 지키는 것</h2>
+        <ul class="und-list">
+          <li><b>화면보다 사람</b><p>모임에서는 화면을 내려놓고 서로를 바라봐요. 앱은 모임 전후에 준비하고 기억하는 일을 도와요.</p></li>
+          <li><b>나눈 것은 지켜져요</b><p>코이데의 기도제목은 내가 고른 사람에게만 보이고, 누가 몇 번 기도했는지는 보이지 않아요. 디다코의 내 기록은 암호화해서 보관해요. 운영자·목사님·리더도 볼 수 없어요.</p></li>
+          <li><b>겨루지 않고 함께 완성해요</b><p>코이데에서는 기도할 때마다 기도의 끈에 매듭이 지어지고, 모두를 위해 기도하면 끈이 완성돼요. 누가 더 많이 했는지가 아니라 함께 이루는 것을 봐요.</p></li>
+        </ul>
+      </section>
+
+      <!-- ⑤ 기도와 말씀 이해: site.js의 understand에서 가져와 채워요(대문과 같은 내용) -->
+      <div id="und"></div>
+
+      <!-- ⑥ 앞으로 -->
+      <section class="card prose">
+        <h2 class="h2">앞으로</h2>
+        <p>코이데부터 문을 열었어요. 디다코와 프로코페도 차근차근 준비하고 있어요.</p>
+        <p>새 소식은 <a href="/news/">소식</a> 탭에서 알려 드릴게요.</p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="foot gut">
+  <div class="foot-in box">
+    <span class="foot-brand" id="footBrand"></span>
+    <span class="foot-links" id="foot"></span>
+  </div>
+</footer>
+<script src="/site.js"></script>
+<script src="/tabs.js"></script>
+<script>
+(function () {
+  var C = window.KOINOBIA || {}, APPS = C.apps || [];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  // ③ 세 고리
+  document.getElementById('rings').innerHTML = APPS.map(function (a) {
+    return '<li><b>' + esc(a.tag) + ' · ' + esc(a.name) + '</b> ─ ' + esc(a.desc) + '</li>';
+  }).join('');
+  // ⑤ 기도와 말씀 이해
+  document.getElementById('und').innerHTML = APPS.filter(function (a) { return a.understand; }).map(function (a) {
+    return '<section class="card prose"><h2 class="h2">' + esc(a.understand.title) + '</h2><ul class="und-list">' +
+      a.understand.items.map(function (it) { return '<li><b>' + esc(it[0]) + '</b><p>' + esc(it[1]) + '</p></li>'; }).join('') +
+      '</ul></section>';
+  }).join('') + (C.understandNote ? '<p class="muted" style="text-align:center;font-size:.88rem;margin:16px 0 20px">' + esc(C.understandNote) + '</p>' : '');
+})();
+</script>
+</body>
+</html>

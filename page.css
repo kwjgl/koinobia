@@ -1,0 +1,118 @@
+/* 코이노비아 안쪽 페이지(이야기·앱·소식)가 같이 쓰는 모양이에요.
+   색과 글꼴은 대문(index.html)과 같은 값을 그대로 써요. 색을 바꾸려면 대문과 여기 두 곳을 같이 바꿔 주세요. */
+:root {
+  --page: #F3F5F2; --surface: #FFFFFF; --surface-2: #EEF2EF;
+  --ink: #1B2523; --ink-2: #5B6965; --line: #DDE4E0; --line-strong: #B9C4BF;
+  --accent: #2B6A62; --accent-mid: #8DBDB5; --accent-soft: #DCEBE7; --on-accent: #FFFFFF;
+  --shadow: rgba(20, 35, 32, .14);
+  --base: 16px;
+  --f-display: 'Gowun Batang', 'AppleMyungjo', 'Batang', serif;
+  --f-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --page: #141B19; --surface: #1C2522; --surface-2: #232D2A;
+  --ink: #E5ECE9; --ink-2: #9CAAA5; --line: #2D3935; --line-strong: #4A5853;
+  --accent: #7CC2B7; --accent-mid: #3F7C73; --accent-soft: #1E3934; --on-accent: #0F1A18;
+  --shadow: rgba(0, 0, 0, .5); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --page: #141B19; --surface: #1C2522; --surface-2: #232D2A;
+  --ink: #E5ECE9; --ink-2: #9CAAA5; --line: #2D3935; --line-strong: #4A5853;
+  --accent: #7CC2B7; --accent-mid: #3F7C73; --accent-soft: #1E3934; --on-accent: #0F1A18;
+  --shadow: rgba(0, 0, 0, .5); color-scheme: dark; }
+@media (min-width: 1000px) { :root { --base: 17px; } }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+html { font-size: var(--base); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 76px; }
+body { background: var(--page); color: var(--ink); font-family: var(--f-body); line-height: 1.7; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--page); }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3, p { margin: 0; }
+img { max-width: 100%; display: block; }
+
+.gut { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.box { max-width: 1180px; margin: 0 auto; }
+.narrow { max-width: 760px; margin: 0 auto; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .4em; min-height: 44px; padding: 0 1.2em; border-radius: 12px; border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none; cursor: pointer; flex: none; transition: filter .2s, transform .2s; }
+.btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn-ghost:hover { filter: none; border-color: var(--accent); color: var(--accent); }
+.btn-sm { min-height: 40px; padding: 0 1em; border-radius: 10px; font-size: .92em; }
+
+/* 위쪽 띠 */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--page) 72%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.nav-in { display: flex; align-items: center; gap: 20px; height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; white-space: nowrap; flex: none; text-decoration: none; color: var(--ink); font-family: var(--f-display); font-size: 1.25rem; line-height: 1; }
+.brand svg { width: 28px; height: 28px; display: block; }
+
+/* 페이지 머리 */
+.head { padding-block: clamp(40px, 7vw, 88px) clamp(24px, 4vw, 40px); }
+.eyebrow { font-size: .82rem; font-weight: 600; color: var(--ink-2); letter-spacing: .14em; }
+.title { font-family: var(--f-display); font-weight: 700; font-size: clamp(2.2rem, 5.4vw, 3.6rem); line-height: 1.2; letter-spacing: -.01em; margin-top: .3em; word-break: keep-all; }
+.lead { color: var(--ink-2); margin-top: .9em; font-size: 1.05rem; word-break: keep-all; }
+.body { padding-bottom: clamp(56px, 9vw, 112px); }
+
+/* 카드 */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: clamp(22px, 4vw, 40px); box-shadow: 0 24px 60px -34px var(--shadow); }
+.body > * + *, .card + .card { margin-top: 20px; }
+.h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(1.45rem, 2.6vw, 1.9rem); line-height: 1.35; word-break: keep-all; }
+.pill { display: inline-block; font-size: .82rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: .25em .95em; }
+.soon { display: inline-block; font-size: .88rem; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: .4em 1.1em; }
+
+/* 글(이야기, 소식 본문) */
+.prose { word-break: keep-all; }
+.prose p, .prose ul, .prose ol { margin: 1em 0 0; }
+.prose .h2 + p { margin-top: .8em; }
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose li + li { margin-top: .35em; }
+.prose b, .prose strong { font-weight: 600; }
+.prose a { color: var(--accent); }
+.muted { color: var(--ink-2); }
+
+/* 이야기: 기도와 말씀 이해(대문과 같은 내용) */
+.und-list { list-style: none; margin: 1.2em 0 0; padding: 0; }
+.und-list li { padding-block: 14px; border-top: 1px solid var(--line); }
+.und-list b { display: block; font-weight: 600; }
+.und-list p { margin-top: .2em; color: var(--ink-2); font-size: .96rem; }
+
+/* 앱 */
+.app-top { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.app-ic { flex: none; width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.app-ic svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.app-name { font-family: var(--f-display); font-weight: 700; font-size: clamp(1.8rem, 3.4vw, 2.4rem); line-height: 1.15; }
+.app-name .pill { vertical-align: middle; margin-left: .5em; font-family: var(--f-body); }
+.greek { color: var(--ink-2); font-size: .88rem; margin-top: .2em; word-break: keep-all; }
+.app-act { margin-left: auto; }
+.desc { margin-top: 1.1em; word-break: keep-all; font-size: 1.04rem; }
+.shots-label { margin-top: 1.8em; font-size: .86rem; font-weight: 600; color: var(--ink-2); }
+/* 휴대폰 화면: 옆으로 밀어 넘겨 보는 줄(앱스토어처럼) */
+.shots { display: flex; gap: 14px; margin: .7em calc(-1 * clamp(22px, 4vw, 40px)) 0; padding: 4px clamp(22px, 4vw, 40px) 14px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.shot { flex: none; width: clamp(180px, 46vw, 230px); scroll-snap-align: start; margin: 0; }
+.shot a { display: block; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 12px 30px -16px var(--shadow); background: var(--surface-2); }
+.shot img { width: 100%; height: auto; aspect-ratio: 390 / 844; object-fit: cover; }
+.shot figcaption, .pc figcaption { margin-top: .6em; font-size: .86rem; color: var(--ink-2); text-align: center; word-break: keep-all; }
+/* PC 화면: 브라우저 창 모양 */
+.pc { margin: .7em 0 0; }
+.pc a { display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 18px 40px -20px var(--shadow); background: var(--surface-2); }
+.pc a::before { content: ""; display: block; height: 22px; border-bottom: 1px solid var(--line);
+  background: radial-gradient(circle at 14px 50%, var(--line-strong) 3.5px, transparent 4px), radial-gradient(circle at 28px 50%, var(--line-strong) 3.5px, transparent 4px), radial-gradient(circle at 42px 50%, var(--line-strong) 3.5px, transparent 4px), var(--surface-2); }
+.pc img { width: 100%; height: auto; }
+.noshot { margin-top: 1.4em; padding: 26px; border: 1px dashed var(--line-strong); border-radius: 16px; text-align: center; color: var(--ink-2); font-size: .94rem; }
+
+/* 소식 */
+.news-item time { font-size: .86rem; color: var(--ink-2); font-weight: 500; }
+.news-item .h2 { margin-top: .25em; }
+.news-item .pill { margin-left: .4em; vertical-align: 2px; }
+.empty { text-align: center; color: var(--ink-2); padding: 40px 0; }
+
+/* 아래쪽 */
+.foot { border-top: 1px solid var(--line); padding-block: 28px 40px; }
+.foot-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 28px; font-size: .86rem; color: var(--ink-2); }
+.foot-brand { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; max-width: 100%; }
+.foot-brand svg { width: 24px; height: 24px; }
+.foot-tag { word-break: keep-all; }
+.foot-brand b { font-family: var(--f-display); color: var(--ink); font-size: 1rem; font-weight: 700; }
+.foot-links { display: flex; flex-wrap: wrap; gap: .3em 1.4em; }
+.foot a { color: var(--accent); }

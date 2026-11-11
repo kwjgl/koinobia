@@ -20,6 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="tabs.css">
 <style>
 /* 색과 글꼴은 코이데(app/index.html)의 기본 스타일과 같은 값을 그대로 씁니다. 새 색은 없어요 */
 :root {
@@ -73,25 +74,8 @@ h1, h2, h3, p { margin: 0; }
 .nav-in { display: flex; align-items: center; gap: 20px; height: 64px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; white-space: nowrap; flex: none; text-decoration: none; color: var(--ink); font-family: var(--f-display); font-size: 1.25rem; line-height: 1; }
 .brand svg { width: 28px; height: 28px; display: block; }
-.menu { position: relative; display: none; }
-.nav-link { display: none; }
-.menu-btn, .nav-link { white-space: nowrap; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; color: var(--ink); font-weight: 500; font-size: .95rem; text-decoration: none; cursor: pointer; }
-.menu-btn { display: inline-flex; }
-.x-unused { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; color: var(--ink); font-weight: 500; font-size: .95rem; text-decoration: none; cursor: pointer; }
-.menu-btn:hover, .nav-link:hover, .menu.open .menu-btn { background: var(--surface-2); }
-.menu-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; }
-.menu.open .menu-btn svg { transform: rotate(180deg); }
-.mega { position: absolute; top: 100%; left: 50%; width: 380px; margin-left: -190px; padding-top: 10px; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .2s, transform .2s, visibility .2s; }
-.mega-in { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; box-shadow: 0 18px 44px -12px var(--shadow); }
-.menu.open .mega { opacity: 1; visibility: visible; transform: none; }
-.mega-item { display: flex; align-items: center; gap: 14px; width: 100%; padding: 12px; border: 0; border-radius: 12px; background: transparent; text-align: left; cursor: pointer; }
-.mega-item:hover, .mega-item:focus-visible { background: var(--surface-2); }
 .mini-ic { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
 .mini-ic svg, .tab-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.mega-item b { display: block; font-weight: 600; font-size: .98rem; }
-.mega-item b small { font-weight: 500; color: var(--ink-2); margin-left: .5em; font-size: .82em; }
-.mega-item span.t { display: block; color: var(--ink-2); font-size: .85rem; word-break: keep-all; line-height: 1.45; }
-@media (min-width: 900px) { .menu, .nav-link { display: inline-flex; } .menu { display: block; } }
 
 /* ───── 2. 첫 화면 ───── */
 .hero { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(36px, 7vw, 96px) clamp(56px, 8vw, 110px); }
@@ -158,7 +142,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .app-name { font-family: var(--f-display); font-weight: 700; font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 1.15; margin-top: .35em; }
 .greek { color: var(--ink-2); font-size: .88rem; margin-top: .3em; word-break: keep-all; }
 .desc { margin-top: 1em; word-break: keep-all; }
-.act { margin-top: 1.6em; }
+.act { margin-top: 1.6em; display: flex; flex-wrap: wrap; gap: 10px; }
 .soon { display: inline-block; font-size: .88rem; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: .4em 1.1em; }
 .mk { position: absolute; top: 14px; right: 14px; z-index: 2; width: 48px; height: 48px; padding: 2px; border-radius: 50%; background: color-mix(in srgb, var(--surface) 80%, transparent); border: 1px solid var(--line); }
 .mk svg { width: 100%; height: 100%; display: block; }
@@ -277,17 +261,12 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 }
 </style>
 </head>
-<body>
+<body data-tab="home">
 
 <header class="nav gut">
   <div class="nav-in box">
     <a class="brand" href="#top" id="brand" aria-label="코이노비아 맨 위로"></a>
-    <div class="menu" id="menu">
-      <button class="menu-btn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="mega">우리 앱
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-      <div class="mega" id="mega"><div class="mega-in" id="megaIn"></div></div>
-    </div>
-    <a class="nav-link" href="#home">홈 화면에 두기</a>
+    <nav class="toplinks" id="toplinks" aria-label="메뉴"></nav>
     <a class="btn btn-sm" id="navOpen" href="#" hidden></a>
   </div>
 </header>
@@ -371,6 +350,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 </footer>
 
 <script src="site.js"></script>
+<script src="tabs.js"></script>
 <script>
 (function () {
   var C = window.KOINOBIA || {}, APPS = C.apps || [];
@@ -533,24 +513,6 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
       var b = $(s); b.hidden = false; b.href = firstOpen.url; b.textContent = firstOpen.name + ' 열기';
     });
   }
-  $('#megaIn').innerHTML = APPS.map(function (a, i) {
-    return '<button type="button" class="mega-item" data-i="' + i + '"><span class="mini-ic">' + MINI[kindOf(a, i)] + '</span><span><b>' +
-      esc(a.name) + '<small>' + esc(a.tag) + '</small></b><span class="t">' + esc(a.desc) + '</span></span></button>';
-  }).join('');
-
-  var menu = $('#menu'), menuBtn = $('#menuBtn'), leaveT;
-  function setMenu(on) { menu.classList.toggle('open', on); menuBtn.setAttribute('aria-expanded', on); }
-  menu.addEventListener('mouseenter', function () { clearTimeout(leaveT); setMenu(true); });
-  menu.addEventListener('mouseleave', function () { leaveT = setTimeout(function () { setMenu(false); }, 140); });
-  menuBtn.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
-  menu.addEventListener('focusin', function () { setMenu(true); });
-  menu.addEventListener('focusout', function (e) { if (!e.relatedTarget || !menu.contains(e.relatedTarget)) setMenu(false); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); menuBtn.focus(); } });
-  document.addEventListener('click', function (e) { if (!menu.contains(e.target)) setMenu(false); });
-  $('#megaIn').addEventListener('click', function (e) {
-    var b = e.target.closest('.mega-item'); if (!b) return;
-    setMenu(false); select(+b.getAttribute('data-i'), { scroll: true });
-  });
 
   /* ───── 첫 화면 매듭: 스스로 그려지고, 고리가 차례로 빛나요 ───── */
   var HK = Knot.build(300, 22, 200, 200);
@@ -596,6 +558,8 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
     $$('.dot').forEach(function (b) { b.setAttribute('aria-current', +b.getAttribute('data-i') === sel); });
     $('#card').setAttribute('aria-labelledby', 'tab' + sel);
     var act = a.url ? '<a class="btn btn-lg" href="' + esc(a.url) + '" aria-label="' + esc(a.name) + ' 열기">열기</a>' : '<span class="soon">곧 만나요</span>';
+    // "화면 보기": 앱 탭(/apps/)에서 그 앱의 실제 화면 사진으로 가요. 사진(screens)이 있는 앱만 보여요
+    if (a.screens) act += ' <a class="btn btn-lg btn-ghost" href="/apps/#' + esc(a.id) + '">화면 보기</a>';
     panel.innerHTML = '<span class="pill">' + esc(a.tag) + '</span><h3 class="app-name">' + esc(a.name) + '</h3><p class="greek">' + esc(a.greek) +
       '</p><p class="desc">' + esc(a.desc) + '</p><div class="act">' + act + '</div>';
     if (!first && !reduce) { panel.style.setProperty('--dx', (dir * 14) + 'px'); panel.classList.remove('swap'); void panel.offsetWidth; panel.classList.add('swap'); }
