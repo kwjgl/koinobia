@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 디다코 노트 앱 아이콘: 세 겹 책갈피를 종이(색 테마 "종이", 노트의 기본색) 동그라미 위에. 띠는 흰색·옅은 미색(accent-soft)·중간 갈색(accent-mid)으로 한 색의 진하기만 다르게(아이폰 어두운 화면에서 바탕이 검게 바뀌어도 코이데와 구별되게). 아래 maskable·애플용은 같은 그림을 정사각형 바탕으로 만든다 -->
+  <circle cx="256" cy="256" r="256" fill="#6B4A2E"/>
+  <g transform="translate(80 81.1) scale(22)" fill="none"><circle cx="8" cy="2.6" r="1.5" stroke="#FFFFFF" stroke-width="1.4"/><path d="M8 4.2V5.8" stroke="#FFFFFF" stroke-width="1.2"/><clipPath id="c"><path d="M4.2 5.6H11.8V14.8L8 11.8L4.2 14.8Z"/></clipPath><g clip-path="url(#c)"><rect x="4.2" y="4.6" width="2.53" height="12" fill="#FFFFFF"/><rect x="6.73" y="4.6" width="2.54" height="12" fill="#EADFCD"/><rect x="9.27" y="4.6" width="2.53" height="12" fill="#C4A27F"/><path d="M6.73 4.6V15M9.27 4.6V15" stroke="#6B4A2E" stroke-width=".5"/></g></g>
+</svg>
