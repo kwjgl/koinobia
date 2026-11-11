@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/page.css?v=20261111">
+<link rel="stylesheet" href="/page.css?v=20261111-3">
 <link rel="stylesheet" href="/tabs.css?v=20261111">
 </head>
 <body data-tab="news">
@@ -29,7 +29,10 @@
 </header>
 
 <main class="gut">
-  <div class="narrow">
+  <div class="news-wrap">
+  <!-- 넓은 화면: 왼쪽에 붙어 있는 목록(news.js에서 채워요) -->
+  <aside class="toc" id="toc" aria-label="소식 목록"></aside>
+  <div class="news-main">
     <div class="head">
       <p class="eyebrow">소식</p>
       <h1 class="title">코이노비아 소식</h1>
@@ -39,9 +42,14 @@
         <button type="button" role="tab" data-type="notice" aria-selected="false">공지</button>
         <button type="button" role="tab" data-type="note" aria-selected="false">개발 노트</button>
       </div>
+      <!-- 앱 고르기: 노트가 있는 앱이 둘 이상이면 "개발 노트"를 골랐을 때 나와요 -->
+      <div class="app-chips" id="appChips" hidden></div>
+      <!-- 휴대폰: 눌러서 펼치는 목록 -->
+      <details class="toc-m" id="tocM"><summary>목록 보기</summary><div id="tocMIn"></div></details>
     </div>
     <!-- 소식은 news.js에서 가져와 채워요 -->
     <div class="body" id="list"></div>
+  </div>
   </div>
 </main>
 
@@ -52,7 +60,7 @@
   </div>
 </footer>
 <script src="/site.js?v=20261111"></script>
-<script src="/news.js?v=20261111-2"></script>
+<script src="/news.js?v=20261111-4"></script>
 <script src="/tabs.js?v=20261111"></script>
 <script>
 (function () {
@@ -88,12 +96,14 @@
     return String(b.date || '').localeCompare(String(a.date || '')) || a._i - b._i;
   });
 
+  // 모든 글에 이름(id)을 붙여요. 공지처럼 id가 없으면 차례로 만들어요(목록에서 바로 가려고)
+  NEWS.forEach(function (n, k) { if (!n.id) n.id = (isNote(n) ? 'note-' : 'notice-') + (k + 1); });
   function item(n) {
     var top = n.date ? '<time datetime="' + esc(n.date) + '">' + day(n.date) + '</time>' : '';
     if (isNote(n)) {
       top = '<span class="pill">' + (n.app ? esc(n.app) + ' ' : '') + '개발 노트</span>';
       // 노트: 제목과 요약만 보이고, 누르면 펼쳐져요
-      return '<details class="card prose news-item note"' + (n.id ? ' id="' + esc(n.id) + '"' : '') + ' data-type="note"><summary>' + top +
+      return '<details class="card prose news-item note"' + (n.id ? ' id="' + esc(n.id) + '"' : '') + ' data-type="note" data-app="' + esc(n.app || '') + '"><summary>' + top +
         '<h2 class="h2">' + esc(n.title) + '</h2>' + (n.summary ? '<p class="sum">' + inline(n.summary) + '</p>' : '') +
         '<span class="more" aria-hidden="true"></span></summary>' + body(n.body) +
         src(n.source) + '</details>';
@@ -105,13 +115,44 @@
   var list = document.getElementById('list');
   list.innerHTML = NEWS.length ? NEWS.map(item).join('') : '<p class="empty">아직 소식이 없어요.</p>';
 
-  // [전체 | 공지 | 개발 노트]
-  var chips = document.getElementById('chips');
-  function show(type) {
+  // 노트가 있는 앱들(news.js에 적힌 차례대로). 디다코·텔리오 노트를 더하면 저절로 늘어나요
+  var APPS = [];
+  NEWS.forEach(function (n) { if (isNote(n) && n.app && APPS.indexOf(n.app) < 0) APPS.push(n.app); });
+
+  // 목록: 공지, 그리고 앱마다 노트 제목
+  function tocHtml() {
+    var groups = [], notices = NEWS.filter(function (n) { return !isNote(n); });
+    if (notices.length) groups.push(['공지', notices]);
+    APPS.forEach(function (a) { groups.push([a + ' 개발 노트', NEWS.filter(function (n) { return isNote(n) && n.app === a; })]); });
+    var etc = NEWS.filter(function (n) { return isNote(n) && !n.app; });
+    if (etc.length) groups.push(['개발 노트', etc]);
+    return groups.map(function (g) {
+      return '<p class="toc-h">' + esc(g[0]) + ' <span>' + g[1].length + '</span></p><ol>' +
+        g[1].map(function (n) { return '<li><a href="#' + esc(n.id) + '">' + esc(n.title) + '</a></li>'; }).join('') + '</ol>';
+    }).join('');
+  }
+  document.getElementById('toc').innerHTML = '<p class="toc-title">목록</p>' + tocHtml();
+  document.getElementById('tocMIn').innerHTML = tocHtml();
+  document.querySelector('#tocM summary').textContent = '목록 보기 · ' + NEWS.length + '개';
+
+  // [전체 | 공지 | 개발 노트] + 앱 고르기
+  var chips = document.getElementById('chips'), appChips = document.getElementById('appChips'), curApp = '';
+  appChips.innerHTML = ['<button type="button" data-app="" aria-pressed="true">모든 앱</button>'].concat(APPS.map(function (a) {
+    return '<button type="button" data-app="' + esc(a) + '" aria-pressed="false">' + esc(a) + '</button>';
+  })).join('');
+  function show(type, app) {
+    curApp = type === 'note' ? (app || '') : '';
     [].forEach.call(chips.querySelectorAll('button'), function (b) { b.setAttribute('aria-selected', b.getAttribute('data-type') === type); });
-    [].forEach.call(list.querySelectorAll('.news-item'), function (el) { el.hidden = type !== 'all' && el.getAttribute('data-type') !== type; });
+    appChips.hidden = type !== 'note' || APPS.length < 2;
+    [].forEach.call(appChips.querySelectorAll('button'), function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-app') === curApp); });
+    [].forEach.call(list.querySelectorAll('.news-item'), function (el) {
+      el.hidden = (type !== 'all' && el.getAttribute('data-type') !== type) || (curApp && el.getAttribute('data-app') !== curApp);
+    });
   }
   chips.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show(b.getAttribute('data-type')); });
+  appChips.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show('note', b.getAttribute('data-app')); });
+  // 휴대폰 목록에서 하나를 고르면 목록을 접어요
+  document.getElementById('tocMIn').addEventListener('click', function (e) { if (e.target.closest('a')) document.getElementById('tocM').open = false; });
 
   // 주소 끝의 #노트id: 그 글을 펼쳐서 보여 줘요(노트 안의 "다음 노트" 링크도 이걸로 움직여요)
   function openHash() {
