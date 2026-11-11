@@ -129,3 +129,19 @@ img { max-width: 100%; display: block; }
 .foot-brand b { font-family: var(--f-display); color: var(--ink); font-size: 1rem; font-weight: 700; }
 .foot-links { display: flex; flex-wrap: wrap; gap: .3em 1.4em; }
 .foot a { color: var(--accent); }
+
+/* 소식: 종류 고르기 단추, 노트 펼쳐 읽기 */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.4em; }
+.chips button { font: inherit; font-size: .9rem; font-weight: 500; min-height: 38px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.chips button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+.news-item.note summary { list-style: none; cursor: pointer; }
+.news-item.note summary::-webkit-details-marker { display: none; }
+.news-item .sum { margin-top: .6em; color: var(--ink-2); }
+.news-item .more { display: inline-block; margin-top: .9em; font-size: .9rem; font-weight: 600; color: var(--accent); }
+.news-item .more::after { content: "펼쳐 읽기 ↓"; }
+.news-item[open] .more::after { content: "접기 ↑"; }
+.news-item[open] summary { padding-bottom: 1em; margin-bottom: .4em; border-bottom: 1px solid var(--line); }
+.prose h3 { font-family: var(--f-display); font-weight: 700; font-size: 1.18rem; line-height: 1.4; margin: 1.6em 0 0; word-break: keep-all; }
+.prose h3 + p, .prose h3 + ul { margin-top: .6em; }
+.prose blockquote { margin: 1em 0 0; padding: .9em 1.1em; border-left: 3px solid var(--accent-mid); background: var(--surface-2); border-radius: 0 12px 12px 0; font-family: var(--f-display); font-weight: 700; line-height: 1.7; }
+.news-item .src { margin-top: 1.8em; padding-top: 1em; border-top: 1px solid var(--line); font-size: .84rem; color: var(--ink-2); }
