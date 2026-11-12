@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/page.css?v=20261112">
+<link rel="stylesheet" href="/page.css?v=20261112-toc1">
 <link rel="stylesheet" href="/tabs.css?v=20261111">
 </head>
 <body data-tab="news">
@@ -30,6 +30,8 @@
 
 <main class="gut">
   <div class="news-wrap">
+    <aside class="news-toc" id="newsToc" aria-label="소식 목차"></aside>
+    <div class="news-main">
     <div class="head">
       <p class="eyebrow">소식</p>
       <h1 class="title">코이노비아 소식</h1>
@@ -41,9 +43,11 @@
       </div>
       <!-- 앱 고르기: 노트가 있는 앱이 둘 이상이면 "개발 노트"를 골랐을 때 나와요 -->
       <div class="app-chips" id="appChips" hidden></div>
+      <details class="news-toc-mobile" id="newsTocMobile"><summary>목차 보기</summary><nav id="newsTocMobileItems" aria-label="모바일 소식 목차"></nav></details>
     </div>
     <!-- 소식은 news.js에서 가져와 채워요. 공지와 노트 모두 제목과 요약만 보이고, 누르면 그 자리에서 펼쳐져요 -->
     <div class="body" id="list"></div>
+    </div>
   </div>
 </main>
 <dialog class="shot-dialog" id="shotDialog" aria-label="앱 화면 사진 확대">
@@ -143,6 +147,26 @@
   var APPS = [];
   NEWS.forEach(function (n) { if (isNote(n) && n.app && APPS.indexOf(n.app) < 0) APPS.push(n.app); });
 
+  // 목차: 공지는 모두 표시하고, 개발 노트는 앱별로 접을 수 있게 합니다.
+  function tocLink(n) {
+    return '<li><a href="#' + esc(n.id) + '" data-news-id="' + esc(n.id) + '">' + esc(n.title) + '</a></li>';
+  }
+  function tocHtml() {
+    var notices = NEWS.filter(function (n) { return !isNote(n); });
+    var out = '<p class="news-toc-title">목차</p>';
+    if (notices.length) out += '<section class="news-toc-group"><h2>공지 <span>' + notices.length + '</span></h2><ol>' + notices.map(tocLink).join('') + '</ol></section>';
+    APPS.forEach(function (app) {
+      var notes = NEWS.filter(function (n) { return isNote(n) && n.app === app; });
+      out += '<details class="news-toc-group"><summary>' + esc(app) + ' <span>' + notes.length + '</span></summary><ol>' + notes.map(tocLink).join('') + '</ol></details>';
+    });
+    var other = NEWS.filter(function (n) { return isNote(n) && !n.app; });
+    if (other.length) out += '<details class="news-toc-group"><summary>기타 개발 노트 <span>' + other.length + '</span></summary><ol>' + other.map(tocLink).join('') + '</ol></details>';
+    return out;
+  }
+  document.getElementById('newsToc').innerHTML = tocHtml();
+  document.getElementById('newsTocMobileItems').innerHTML = tocHtml();
+  document.querySelector('#newsTocMobile > summary').textContent = '목차 보기 · ' + NEWS.length + '개';
+
   // [전체 | 공지 | 개발 노트] + 앱 고르기
   var chips = document.getElementById('chips'), appChips = document.getElementById('appChips'), curApp = '';
   // 단추에 글 수를 함께 보여 줘요(노트가 많은 앱부터)
@@ -180,14 +204,34 @@
   shotDialog.addEventListener('click', function (e) { if (e.target === shotDialog) shotDialog.close(); });
   shotDialog.addEventListener('close', function () { shotLarge.removeAttribute('src'); });
 
-  // 주소 끝의 #노트id: 그 글을 펼쳐서 보여 줘요(노트 안의 "다음 노트" 링크도 이걸로 움직여요)
-  function openHash() {
-    var t = location.hash && document.getElementById(location.hash.slice(1));
-    if (!t || !t.classList.contains('news-item')) return;
+  // 목차와 기존 공유 링크에서 이동할 때 필터를 해제하고 해당 글을 펼칩니다.
+  function openItem(id) {
+    var target = document.getElementById(id);
+    if (!target || !target.classList.contains('news-item')) return;
     show('all');
-    if (t.tagName === 'DETAILS') t.open = true;
-    t.scrollIntoView();
+    if (target.tagName === 'DETAILS') target.open = true;
+    [].forEach.call(document.querySelectorAll('.news-toc a[data-news-id]'), function (a) {
+      if (a.getAttribute('data-news-id') === id) {
+        var group = a.closest('details.news-toc-group');
+        if (group) group.open = true;
+      }
+    });
+    document.getElementById('newsTocMobile').open = false;
+    target.scrollIntoView({ block: 'start' });
   }
+  function openHash() {
+    if (location.hash) openItem(decodeURIComponent(location.hash.slice(1)));
+  }
+  function tocClick(e) {
+    var a = e.target.closest('a[data-news-id]');
+    if (!a) return;
+    e.preventDefault();
+    var id = a.getAttribute('data-news-id');
+    if (location.hash !== '#' + id) location.hash = id;
+    openItem(id);
+  }
+  document.getElementById('newsToc').addEventListener('click', tocClick);
+  document.getElementById('newsTocMobileItems').addEventListener('click', tocClick);
   window.addEventListener('hashchange', openHash);
   openHash();
 })();
