@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/page.css?v=20261111-5">
+<link rel="stylesheet" href="/page.css?v=20261112">
 <link rel="stylesheet" href="/tabs.css?v=20261111">
 </head>
 <body data-tab="news">
@@ -30,9 +30,6 @@
 
 <main class="gut">
   <div class="news-wrap">
-  <!-- 넓은 화면: 왼쪽에 붙어 있는 목록(news.js에서 채워요) -->
-  <aside class="toc" id="toc" aria-label="소식 목록"></aside>
-  <div class="news-main">
     <div class="head">
       <p class="eyebrow">소식</p>
       <h1 class="title">코이노비아 소식</h1>
@@ -44,12 +41,9 @@
       </div>
       <!-- 앱 고르기: 노트가 있는 앱이 둘 이상이면 "개발 노트"를 골랐을 때 나와요 -->
       <div class="app-chips" id="appChips" hidden></div>
-      <!-- 휴대폰: 눌러서 펼치는 목록 -->
-      <details class="toc-m" id="tocM"><summary>목록 보기</summary><div id="tocMIn"></div></details>
     </div>
-    <!-- 소식은 news.js에서 가져와 채워요 -->
+    <!-- 소식은 news.js에서 가져와 채워요. 공지와 노트 모두 제목과 요약만 보이고, 누르면 그 자리에서 펼쳐져요 -->
     <div class="body" id="list"></div>
-  </div>
   </div>
 </main>
 <dialog class="shot-dialog" id="shotDialog" aria-label="앱 화면 사진 확대">
@@ -67,15 +61,16 @@
   </div>
 </footer>
 <script src="/site.js?v=20261111-2"></script>
-<script src="/news.js?v=20261112-3"></script>
+<script src="/news.js?v=20261112-4"></script>
 <script src="/tabs.js?v=20261111-2"></script>
 <script>
 (function () {
   var NEWS = (window.KOINOBIA_NEWS || []).map(function (n, i) { n._i = i; return n; });
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  // 한 줄 안의 꾸밈: **굵게**, [글자](https://주소 · /주소 · #노트id)
+  // 한 줄 안의 꾸밈: **굵게**, *기울임*, [글자](https://주소 · /주소 · #노트id)
   function inline(s) {
     return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+      .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>')
       .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]*|#[\w-]+)\)/g, '<a href="$2">$1</a>');
   }
   // 본문: 빈 줄로 덩어리를 나눠요. "### "는 작은 제목, "> "는 인용, "- "는 점 목록
@@ -129,8 +124,17 @@
         shots(n.images) + src(n.source) + '</details>';
     }
     if (n.tag) top += '<span class="pill">' + esc(n.tag) + '</span>';
-    return '<article class="card prose news-item"' + (n.id ? ' id="' + esc(n.id) + '"' : '') + ' data-type="notice">' + top +
-      '<h2 class="h2">' + esc(n.title) + '</h2>' + body(n.body) + '</article>';
+    // 공지: 노트처럼 제목과 요약만 보이고, 누르면 펼쳐져요. summary가 없으면 본문 첫 문단을 요약으로 써요
+    return '<details class="card prose news-item notice"' + (n.id ? ' id="' + esc(n.id) + '"' : '') + ' data-type="notice"><summary>' + top +
+      '<h2 class="h2">' + esc(n.title) + '</h2><p class="sum">' + inline(n.summary || lead(n.body)) + '</p>' +
+      '<span class="more" aria-hidden="true"></span></summary>' + body(n.body) + '</details>';
+  }
+  // 본문 첫 문단(작은 제목·인용·목록이 아닌 첫 글)을 요약으로. 너무 길면 줄여요
+  function lead(text) {
+    var p = String(text || '').trim().split(/\n\s*\n/).map(function (b) { return b.trim(); })
+      .filter(function (b) { return b && !/^(###|>|- )/.test(b); })[0] || '';
+    p = p.replace(/\s*\n\s*/g, ' ');
+    return p.length > 110 ? p.slice(0, 108).replace(/\s+\S*$/, '') + '…' : p;
   }
   var list = document.getElementById('list');
   list.innerHTML = NEWS.length ? NEWS.map(item).join('') : '<p class="empty">아직 소식이 없어요.</p>';
@@ -139,27 +143,15 @@
   var APPS = [];
   NEWS.forEach(function (n) { if (isNote(n) && n.app && APPS.indexOf(n.app) < 0) APPS.push(n.app); });
 
-  // 목록: 공지, 그리고 앱마다 노트 제목
-  function tocHtml() {
-    var groups = [], notices = NEWS.filter(function (n) { return !isNote(n); });
-    if (notices.length) groups.push(['공지', notices]);
-    APPS.forEach(function (a) { groups.push([a + ' 개발 노트', NEWS.filter(function (n) { return isNote(n) && n.app === a; })]); });
-    var etc = NEWS.filter(function (n) { return isNote(n) && !n.app; });
-    if (etc.length) groups.push(['개발 노트', etc]);
-    return groups.map(function (g) {
-      return '<p class="toc-h">' + esc(g[0]) + ' <span>' + g[1].length + '</span></p><ol>' +
-        g[1].map(function (n) { return '<li><a href="#' + esc(n.id) + '">' + esc(n.title) + '</a></li>'; }).join('') + '</ol>';
-    }).join('');
-  }
-  document.getElementById('toc').innerHTML = '<p class="toc-title">목록</p>' + tocHtml();
-  document.getElementById('tocMIn').innerHTML = tocHtml();
-  document.querySelector('#tocM summary').textContent = '목록 보기 · ' + NEWS.length + '개';
-
   // [전체 | 공지 | 개발 노트] + 앱 고르기
   var chips = document.getElementById('chips'), appChips = document.getElementById('appChips'), curApp = '';
-  appChips.innerHTML = ['<button type="button" data-app="" aria-pressed="true">모든 앱</button>'].concat(APPS.map(function (a) {
-    return '<button type="button" data-app="' + esc(a) + '" aria-pressed="false">' + esc(a) + '</button>';
-  })).join('');
+  // 단추에 글 수를 함께 보여 줘요(노트가 많은 앱부터)
+  function count(a) { return NEWS.filter(function (n) { return isNote(n) && (!a || n.app === a); }).length; }
+  APPS.sort(function (x, y) { return count(y) - count(x); });
+  function chip(a, label) {
+    return '<button type="button" data-app="' + esc(a) + '" aria-pressed="' + (a ? 'false' : 'true') + '">' + esc(label) + ' <span>' + count(a) + '</span></button>';
+  }
+  appChips.innerHTML = [chip('', '모든 앱')].concat(APPS.map(function (a) { return chip(a, a); })).join('');
   function show(type, app) {
     curApp = type === 'note' ? (app || '') : '';
     [].forEach.call(chips.querySelectorAll('button'), function (b) { b.setAttribute('aria-selected', b.getAttribute('data-type') === type); });
@@ -171,8 +163,6 @@
   }
   chips.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show(b.getAttribute('data-type')); });
   appChips.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show('note', b.getAttribute('data-app')); });
-  // 휴대폰 목록에서 하나를 고르면 목록을 접어요
-  document.getElementById('tocMIn').addEventListener('click', function (e) { if (e.target.closest('a')) document.getElementById('tocM').open = false; });
 
   // 사진 단추를 누르면 원본 비율로 확대합니다. ESC·닫기·바깥 영역 누르기로 닫힙니다.
   var shotDialog = document.getElementById('shotDialog');

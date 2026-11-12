@@ -141,8 +141,8 @@ img { max-width: 100%; display: block; }
 .chips button { font: inherit; font-size: .9rem; font-weight: 500; min-height: 38px; padding: 0 18px; border: 0; border-radius: 9px; background: transparent; color: var(--ink-2); cursor: pointer; white-space: nowrap; transition: background .2s, color .2s; }
 .chips button:hover { color: var(--ink); }
 .chips button[aria-selected="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px var(--shadow); }
-.news-item.note summary { list-style: none; cursor: pointer; }
-.news-item.note summary::-webkit-details-marker { display: none; }
+details.news-item summary { list-style: none; cursor: pointer; }
+details.news-item summary::-webkit-details-marker { display: none; }
 .news-item .sum { margin-top: .6em; color: var(--ink-2); }
 .news-item .more { display: inline-block; margin-top: .9em; font-size: .9rem; font-weight: 600; color: var(--accent); }
 .news-item .more::after { content: "펼쳐 읽기 ↓"; }
@@ -156,30 +156,12 @@ img { max-width: 100%; display: block; }
 .news-item .src ul { margin: 0; padding-left: 1.2em; }
 .news-item .src li + li { margin-top: .15em; }
 
-/* 소식: 목록 바로가기와 앱 고르기 */
+/* 소식: 앱 고르기 */
 .news-wrap { max-width: 760px; margin: 0 auto; }
-.toc { display: none; }
-@media (min-width: 1000px) {
-  .news-wrap { max-width: 1080px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 48px; align-items: start; }
-  .toc { display: block; position: sticky; top: 88px; max-height: calc(100vh - 110px); overflow-y: auto; padding: clamp(40px, 7vw, 88px) 4px 24px 0; font-size: .9rem; }
-  .toc-m { display: none; }
-}
-.toc-title { font-size: .82rem; font-weight: 600; color: var(--ink-2); letter-spacing: .14em; margin-bottom: .8em; }
-.toc-h { font-weight: 600; color: var(--ink); margin: 1.2em 0 .4em; font-size: .9rem; }
-.toc-h:first-of-type { margin-top: 0; }
-.toc-h span { color: var(--ink-2); font-weight: 500; font-size: .85em; margin-left: .2em; }
-.toc ol, .toc-m ol { list-style: none; margin: 0; padding: 0; }
-.toc a, .toc-m a { display: block; padding: .35em .6em; margin-left: -.6em; border-radius: 8px; color: var(--ink-2); text-decoration: none; line-height: 1.45; word-break: keep-all; }
-.toc a:hover, .toc-m a:hover { background: var(--surface-2); color: var(--ink); }
-.toc-m { margin-top: 1em; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
-.toc-m summary { cursor: pointer; padding: .75em 1em; font-size: .92rem; font-weight: 600; list-style: none; }
-.toc-m summary::-webkit-details-marker { display: none; }
-.toc-m summary::after { content: " ↓"; color: var(--ink-2); }
-.toc-m[open] summary::after { content: " ↑"; }
-.toc-m > div { padding: 0 1em 1em; font-size: .92rem; }
 .app-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .7em; }
 .app-chips button { font: inherit; font-size: .85rem; min-height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); cursor: pointer; }
 .app-chips button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); font-weight: 600; }
+.app-chips button span { margin-left: .15em; font-size: .9em; font-weight: 500; color: var(--ink-2); }
 
 
 /* 개발 노트 화면 사진: 실제 앱 사진만 선택해서 보여 주고, 눌러서 크게 봅니다. */
