@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/page.css?v=20261112">
+<link rel="stylesheet" href="/page.css?v=20261112-a11y1">
 <link rel="stylesheet" href="/tabs.css?v=20261111">
 </head>
 <body data-tab="apps">
@@ -33,7 +33,7 @@
     <div class="head narrow" style="margin:0">
       <p class="eyebrow">앱</p>
       <h1 class="title">세 앱 소개</h1>
-      <p class="lead">실제 화면으로 둘러보세요. 사진을 누르면 크게 볼 수 있어요.</p>
+      <p class="lead">세 앱의 방향과 준비 중인 화면을 소개해요. 사진을 누르면 크게 볼 수 있어요.</p>
     </div>
     <!-- 앱 카드는 site.js의 apps(이름·설명·열기 주소·screens 사진)에서 가져와 채워요 -->
     <div class="body" id="list"></div>
@@ -46,7 +46,7 @@
     <span class="foot-links" id="foot"></span>
   </div>
 </footer>
-<script src="/site.js?v=20261111-2"></script>
+<script src="/site.js?v=20261112-sync1"></script>
 <script src="/tabs.js?v=20261111-2"></script>
 <script>
 (function () {
@@ -68,6 +68,7 @@
       '<div class="app-act">' + act + '</div></div>' +
       '<p class="desc">' + esc(a.desc) + '</p>';
     if (phone.length) {
+      if (a.id === 'didako') html += '<p class="muted app-screen-note">아래 사진은 공동체 성경공부 시안입니다. 개인 질문 노트는 별도로 준비하고 있습니다.</p>';
       html += '<p class="shots-label">휴대폰</p><div class="shots">' + phone.map(function (p) {
         return '<figure class="shot"><a href="' + esc(img(p[0])) + '" target="_blank" rel="noopener"><img src="' + esc(img(p[0])) +
           '" alt="' + esc(a.name + ' 화면: ' + (p[1] || '')) + '" loading="lazy" width="390" height="844"></a><figcaption>' + esc(p[1] || '') + '</figcaption></figure>';
