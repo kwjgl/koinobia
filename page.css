@@ -171,7 +171,7 @@ details.news-item summary::-webkit-details-marker { display: none; }
 .news-toc-group summary span, .news-toc-group h2 span { font-size: .82rem; color: var(--ink-2); font-weight: 400; margin-left: .25em; }
 .news-toc-group ol { list-style: none; margin: 8px 0 0; padding: 0; }
 .news-toc-group li { margin: 0; }
-.news-toc-group a { display: block; padding: 6px 5px; border-radius: 7px; color: var(--ink-2); text-decoration: none; font-size: .86rem; line-height: 1.55; overflow-wrap: anywhere; }
+.news-toc-group a { display: block; padding: 10px 5px; border-radius: 7px; color: var(--ink-2); text-decoration: none; font-size: .86rem; line-height: 1.55; overflow-wrap: anywhere; }
 .news-toc-group a:hover, .news-toc-group a:focus-visible { color: var(--ink); background: var(--surface-2); }
 @media (min-width: 1000px) {
   .news-wrap { max-width: 1080px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 48px; align-items: start; }
@@ -179,7 +179,7 @@ details.news-item summary::-webkit-details-marker { display: none; }
   .news-toc-mobile { display: none; }
 }
 .app-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .7em; }
-.app-chips button { font: inherit; font-size: .85rem; min-height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.app-chips button { font: inherit; font-size: .85rem; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); cursor: pointer; }
 .app-chips button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); font-weight: 600; }
 .app-chips button span { margin-left: .15em; font-size: .9em; font-weight: 500; color: var(--ink-2); }
 
@@ -198,3 +198,12 @@ details.news-item summary::-webkit-details-marker { display: none; }
 .shot-dialog img { display: block; max-width: 100%; max-height: calc(92vh - 115px); object-fit: contain; }
 .shot-dialog p { margin: 0; font-size: .86rem; color: var(--ink-2); text-align: center; }
 @media (max-width: 440px) { .note-shots figure { max-width: 100%; } }
+
+/* 모바일 터치 영역·키보드 탐색·움직임 줄이기 */
+.app-screen-note { margin-top: 1.3em; font-size: .9rem; }
+.news-toc-mobile > summary { min-height: 44px; }
+.news-toc-group > summary { min-height: 44px; display: list-item; padding-block: 9px; }
+:where(a, button, summary):focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

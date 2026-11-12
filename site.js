@@ -28,7 +28,7 @@ window.KOINOBIA = {
                 ['screens/koide/phone-4.jpg', '지난 기록']],
         pc: [['screens/koide/pc-1.jpg', '컴퓨터에서 본 이번 달 화면']] } },
     { id: 'didako', name: '디다코', tag: '말씀', greek: '디다케(가르침) + 코이노니아(교제)',
-      desc: '같은 말씀을 함께 읽고, 그 말씀 앞에서 각자의 삶을 나눕니다.',
+      desc: '말씀 앞에서 생긴 질문을 품고 발견과 이어 갑니다. 교회의 성경공부 교재와 모임도 함께 준비하고 있습니다.',
       url: '',
       understand: { title: '디다코는 말씀을 이렇게 이해합니다',
         items: [['아버지께서 주신 말씀', '공교회에서 선포되는 말씀을 공동체가 함께 읽고 듣습니다.'],
@@ -40,8 +40,8 @@ window.KOINOBIA = {
                 ['screens/didako/phone-3.jpg', '나눔하기'],
                 ['screens/didako/phone-4.jpg', '내 기록']],
         pc: [['screens/didako/pc-1.jpg', '컴퓨터에서 본 이번 주 화면']] } },
-    { id: 'telio', name: '텔리오', tag: '자람', greek: '텔레이오오(온전하게 하다, 이루다)',
-      desc: '오늘 할 일과 한 해의 계획을 차근차근 돌보며 온전함을 향해 자라 갑니다.',
+    { id: 'telio', name: '텔리오', tag: '자람', greek: '텔로스(목적·끝·완성)에서 따온 이름',
+      desc: '지적·신체적·영적·사회적 네 영역에서 한 해와 분기, 한 주의 걸음을 하나님 앞에서 돌보도록 준비하고 있습니다.',
       url: '' }
   ]
 };
