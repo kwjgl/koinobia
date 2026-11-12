@@ -20,7 +20,8 @@
 - **파일 버전 번호**: 각 페이지는 `page.css?v=20261111`처럼 같이 쓰는 파일 끝에 번호를 붙여 불러요. `page.css`, `tabs.css`, `tabs.js`, `site.js`, `news.js`를 고치면 네 페이지(`index.html`, `about/`, `apps/`, `news/`)의 이 번호를 모두 오늘 날짜로 바꿔 주세요. 안 바꾸면 방문자 브라우저가 예전 파일을 그대로 써서 바뀐 모습이 안 보일 수 있어요.
 
 ## 소식 올리기
-`news.js`를 열고 맨 위 설명대로 공지(`type: 'notice'`)나 개발 노트(`type: 'note'`) 한 덩어리를 더해요. 개발 노트는 날짜 없이, 적힌 순서대로 공지 아래에 보여요. GitHub 웹에서 연필(✏️) 버튼으로 고치고 저장(Commit)하면 1~2분 뒤 사이트에 보여요.
+`news.js`를 열고 맨 위 설명대로 공지(`type: 'notice'`)나 개발 노트(`type: 'note'`) 한 덩어리를 더해요. 개발 노트는 날짜 없이, 적힌 순서대로 공지 아래에 보여요.
+- 개발 노트에 사진을 붙이려면 `images: [['/screens/notes/사진.jpg', '사진 설명']]`처럼 적어요. 노트용 사진은 `screens/notes/`에 있고, 앱 화면이 바뀌면 `node tools/make-note-screens.js`로 다시 찍어요. GitHub 웹에서 연필(✏️) 버튼으로 고치고 저장(Commit)하면 1~2분 뒤 사이트에 보여요.
 
 ## 앱 화면 사진 바꾸기
 - 사진은 `screens/koide/`, `screens/didako/`에 있어요(휴대폰 `phone-1~4.jpg`, 컴퓨터 `pc-1.jpg`).
