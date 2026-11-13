@@ -3,7 +3,7 @@
 window.KOINOBIA = {
   // 문의 받을 이메일 주소. 예: 'hello@example.com'. 비우면 문의 칸이 숨겨집니다.
   contactEmail: '',
-  // 후원하기 주소(https://로 시작). 비우면 후원하기 칸이 숨겨집니다.
+  // 후원 안내 페이지(/support/)의 [후원하기] 버튼 주소(https://로 시작). 비우면 '준비 중'으로 보입니다.
   donateUrl: '',
   // 개인정보 처리방침 주소(https://로 시작). 비우면 "개인정보 처리방침 · 준비 중"으로 보입니다.
   privacyUrl: '',

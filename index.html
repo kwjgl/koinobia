@@ -375,8 +375,8 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   </div>
 </footer>
 
-<script src="site.js?v=20261112-sync1"></script>
-<script src="tabs.js?v=20261111-2"></script>
+<script src="site.js?v=20261113"></script>
+<script src="tabs.js?v=20261113"></script>
 <script>
 (function () {
   var C = window.KOINOBIA || {}, APPS = C.apps || [];
@@ -667,7 +667,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   var f = [];
   f.push(C.privacyUrl ? '<a href="' + esc(C.privacyUrl) + '">개인정보 처리방침</a>' : '<span>개인정보 처리방침 · 준비 중</span>');
   if (C.contactEmail) f.push('<a href="mailto:' + esc(C.contactEmail) + '">문의</a>');
-  if (C.donateUrl) f.push('<a href="' + esc(C.donateUrl) + '">후원하기</a>');
+  f.push('<a href="/support/">후원 안내</a>');
   $('#foot').innerHTML = f.join('');
 
   /* ───── 스크롤 등장: 첫 화면 아래에 있는 것만 숨겼다가 보일 때 올라와요 ───── */

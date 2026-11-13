@@ -83,6 +83,7 @@ img { max-width: 100%; display: block; }
 .prose li + li { margin-top: .35em; }
 .prose b, .prose strong { font-weight: 600; }
 .prose a { color: var(--accent); }
+.prose a.btn { color: var(--on-accent); text-decoration: none; }
 .muted { color: var(--ink-2); }
 
 /* 이야기: 기도와 말씀 이해(대문과 같은 내용) */
