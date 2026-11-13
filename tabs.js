@@ -44,7 +44,7 @@
   if (foot) {
     var f = [C.privacyUrl ? '<a href="' + esc(C.privacyUrl) + '">개인정보 처리방침</a>' : '<span>개인정보 처리방침 · 준비 중</span>'];
     if (C.contactEmail) f.push('<a href="mailto:' + esc(C.contactEmail) + '">문의</a>');
-    if (C.donateUrl) f.push('<a href="' + esc(C.donateUrl) + '">후원하기</a>');
+    f.push('<a href="/support/">후원 안내</a>');
     foot.innerHTML = f.join('');
   }
 })();
