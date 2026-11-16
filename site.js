@@ -5,8 +5,8 @@ window.KOINOBIA = {
   contactEmail: '',
   // 후원 안내 페이지(/support/)의 [후원하기] 버튼 주소(https://로 시작). 비우면 '준비 중'으로 보입니다.
   donateUrl: '',
-  // 개인정보 처리방침 주소(https://로 시작). 비우면 "개인정보 처리방침 · 준비 중"으로 보입니다.
-  privacyUrl: '',
+  // 개인정보 처리방침 주소(https://로 시작). 방침 글은 privacy/index.html에 있어요. 비우면 "개인정보 처리방침 · 준비 중"으로 보입니다.
+  privacyUrl: 'https://koinobia.com/privacy/',
   // "기도와 말씀" 구역 아래에 한 번 보이는 작은 글. 비우면 숨겨집니다.
   understandNote: '웨스트민스터 대요리문답이 풀어 쓴 기도와 말씀의 뜻을 쉬운 말로 옮겼습니다.',
   // 앱 카드. url을 채우면 [열기] 버튼이 생기고, 비우면 "곧 만나요"로 보입니다.
