@@ -157,6 +157,22 @@ details.news-item summary::-webkit-details-marker { display: none; }
 .news-item .src ul { margin: 0; padding-left: 1.2em; }
 .news-item .src li + li { margin-top: .15em; }
 
+/* 개인정보 처리방침: 표와 차례. 표는 좁은 화면에서 옆으로 밀어 볼 수 있어요 */
+.tbl-wrap { margin: 1.1em 0 0; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 14px; }
+.ptable { width: 100%; min-width: 600px; border-collapse: collapse; font-size: .9rem; line-height: 1.6; }
+.ptable th, .ptable td { text-align: left; vertical-align: top; padding: 10px 12px; border-top: 1px solid var(--line); word-break: keep-all; }
+.ptable thead th { background: var(--surface-2); color: var(--ink-2); font-weight: 600; border-top: 0; white-space: nowrap; }
+.ptable tbody th { font-weight: 600; }
+.ptable td + td, .ptable th + th, .ptable th + td { border-left: 1px solid var(--line); }
+.tbl-hint { display: none; margin-top: .8em; color: var(--ink-2); font-size: .86rem; }
+@media (max-width: 640px) { .tbl-hint { display: block; } }
+.toc { columns: 2 220px; column-gap: 28px; }
+.toc li { break-inside: avoid; }
+.toc a { text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+.prose h2[id] { scroll-margin-top: 80px; }
+.pdate { margin-top: .6em; color: var(--ink-2); font-size: .94rem; }
+
 /* 소식: 앱 고르기 */
 .news-wrap { max-width: 760px; margin: 0 auto; }
 .news-main { min-width: 0; }
