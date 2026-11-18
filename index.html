@@ -88,6 +88,7 @@ h1, h2, h3, p { margin: 0; }
 .nav-in { display: flex; align-items: center; gap: 20px; height: 64px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; white-space: nowrap; flex: none; text-decoration: none; color: var(--ink); font-family: var(--f-display); font-size: 1.25rem; line-height: 1; }
 .brand svg { width: 28px; height: 28px; display: block; }
+.brand svg.wm, .foot-mark svg.wm { width: auto; height: 19px; }
 .mini-ic { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
 .mini-ic svg, .tab-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -269,6 +270,8 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .foot-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 28px; font-size: .86rem; color: var(--ink-2); }
 .foot-brand { display: inline-flex; align-items: center; gap: 10px; }
 .foot-brand svg { width: 24px; height: 24px; }
+.foot-mark { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); }
+.foot-mark svg.wm { height: 15px; }
 .foot-brand { flex-wrap: wrap; min-width: 0; max-width: 100%; }
 .foot-tag { word-break: keep-all; }
 .foot-brand b { font-family: var(--f-display); color: var(--ink); font-size: 1rem; font-weight: 700; }
@@ -379,7 +382,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 </footer>
 
 <script src="site.js?v=20261116"></script>
-<script src="tabs.js?v=20261113"></script>
+<script src="tabs.js?v=20261118"></script>
 <script>
 (function () {
   var C = window.KOINOBIA || {}, APPS = C.apps || [];
@@ -481,6 +484,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 
   // 작은 로고(머리글·아래쪽): 먹 세 톤 매듭. 네 페이지가 같은 로고를 쓰도록 tabs.js의 것을 가져와요
   function logoSvg() { return window.KOINOBIA_LOGO || ''; }
+  function wordmarkSvg() { return window.KOINOBIA_WORDMARK || ''; }
   // 카드 모서리의 작은 매듭: 고른 고리만 진하게
   function miniKnotSvg() {
     var k = Knot.build(78, 9, 50, 50);
@@ -532,8 +536,8 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   ];
 
   /* ───── 머리글: 로고, 우리 앱 메뉴, 열기 버튼 ───── */
-  $('#brand').innerHTML = logoSvg() + '<span>코이노비아</span>';
-  $('#footBrand').innerHTML = logoSvg() + '<b>코이노비아</b> <span class="foot-tag">공동체로 존재하는 그리스도인의 삶</span>';
+  $('#brand').innerHTML = logoSvg() + wordmarkSvg();
+  $('#footBrand').innerHTML = '<span class="foot-mark">' + logoSvg() + wordmarkSvg() + '</span> <span class="foot-tag">코이노비아 · 공동체로 존재하는 그리스도인의 삶</span>';
   var firstOpen = APPS.filter(function (a) { return a.url; })[0];
   if (firstOpen) {
     ['#navOpen', '#heroOpen'].forEach(function (s) {
