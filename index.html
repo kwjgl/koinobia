@@ -218,11 +218,14 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .und-card::before { content: ""; position: absolute; z-index: -1; width: 62%; aspect-ratio: 1; border-radius: 50%; right: -18%; top: -26%; background: var(--accent-soft); filter: blur(50px); opacity: .6; pointer-events: none; will-change: transform; animation: drift2 22s ease-in-out infinite alternate; }
 .und-card:nth-child(even)::before { right: auto; left: -18%; top: auto; bottom: -30%; animation: drift1 19s ease-in-out infinite alternate; }
 .und-card .mini-ic { position: relative; }
-/* 동그란 배지: 촛불은 살짝 일렁이고 물결이 한 겹 번져요 / 책은 책갈피가 흔들리고 숨 쉬듯 커졌다 작아져요 */
+/* 동그란 배지: 코이데는 물결이 한 겹 번지고, 디다코는 숨 쉬듯 커졌다 작아져요(앱 아이콘이 없을 땐 촛불·책 그림) */
 .und-card .mini-ic::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--accent-mid); opacity: 0; pointer-events: none; }
 .und-card[data-kind="0"] .mini-ic::after { animation: ring 3s ease-out infinite; }
 .und-card[data-kind="0"] .mini-ic path { transform-box: fill-box; transform-origin: 50% 100%; animation: flick2 2.4s ease-in-out infinite alternate; }
 .und-card[data-kind="1"] .mini-ic { animation: breathe 4.4s ease-in-out infinite; }
+/* 앱 아이콘 배지: 바탕 없이 앱 아이콘 그림을 그대로 보여 줘요 */
+.und-card .mini-ic.app { background: none; }
+.und-card .mini-ic.app img { display: block; width: 40px; height: 40px; }
 .und-card .mr { fill: var(--accent-mid); transform-box: fill-box; transform-origin: 50% 0; animation: sway 3.6s ease-in-out infinite alternate; }
 @keyframes ring { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
 @keyframes flick2 { from { transform: scale(1); opacity: 1; } to { transform: scale(.94, 1.06) rotate(-2deg); opacity: .82; } }
@@ -387,8 +390,9 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 
   /* ───── 로고 "엮인 세 고리 매듭" (tools/make-images.js의 knotPath를 화면용으로 옮김) ───── */
   var Knot = (function () {
-    var N = 720, GAP = 8, raw = [], i, j, t;
-    for (i = 0; i < N; i++) { t = 2 * Math.PI * i / N; raw.push([Math.sin(t) + 2 * Math.sin(2 * t), -(Math.cos(t) - 2 * Math.cos(2 * t))]); }
+    // 위쪽 로고(tabs.js의 LOGO)와 똑같은 모양·방향이에요: 고리 하나가 위로 솟고, 겹치는 곳의 위아래도 같은 깊이(z)로 정해요
+    var N = 720, GAP = 8, raw = [], Z = [], i, j, t;
+    for (i = 0; i < N; i++) { t = 2 * Math.PI * i / N; raw.push([Math.sin(t) + 2 * Math.sin(2 * t), Math.cos(t) - 2 * Math.cos(2 * t)]); Z.push(-Math.sin(3 * t)); }
     var xs = raw.map(function (p) { return p[0]; }), ys = raw.map(function (p) { return p[1]; });
     var x0 = Math.min.apply(0, xs), x1 = Math.max.apply(0, xs), y0 = Math.min.apply(0, ys), y1 = Math.max.apply(0, ys);
     var W = x1 - x0;
@@ -407,16 +411,16 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
       if (seg(U[i], U[(i + 1) % N], U[j], U[(j + 1) % N])) hits.push([i, j]);
     }
     if (hits.length !== 3 && window.console) console.warn('매듭 교차점이 3개가 아니에요: ' + hits.length);
-    // 줄을 따라 만나는 순서대로 위/아래를 번갈아 정해요. 아래로 지나는 줄만 끊어요
+    // 교차점에서 깊이(z)가 낮은 줄이 아래로 지나가요(로고와 같은 규칙). 아래로 지나는 줄만 끊어요
     var visits = [];
     hits.forEach(function (h, n) { visits.push([h[0], n]); visits.push([h[1], n]); });
     visits.sort(function (a, b) { return a[0] - b[0]; });
-    var under = visits.filter(function (_, n) { return n % 2 === 1; }).map(function (v) { return v[0]; });
+    var under = hits.map(function (h) { return Z[h[0]] < Z[h[1]] ? h[0] : h[1]; });
     var cum = [0];
     for (i = 1; i < N; i++) cum.push(cum[i - 1] + Math.hypot(U[i][0] - U[i - 1][0], U[i][1] - U[i - 1][1]));
     var per = cum[N - 1] + Math.hypot(U[0][0] - U[N - 1][0], U[0][1] - U[N - 1][1]);
-    // 고리 세 개의 끝(꼭짓점) 위치: t = 5π/3(왼쪽 위), π/3(오른쪽 위), π(아래)
-    var tips = [Math.round(N * 5 / 6), Math.round(N / 6), Math.round(N / 2)];
+    // 고리 세 개의 끝(꼭짓점) 위치: t = π(위, 기도), π/3(오른쪽 아래, 말씀), 5π/3(왼쪽 아래, 자람). 시계 방향으로 기도 → 말씀 → 자람
+    var tips = [Math.round(N / 2), Math.round(N / 6), Math.round(N * 5 / 6)];
     var under_ = {};
     under.forEach(function (u) { under_[u] = true; });
     var vis = visits.map(function (v) { return v[0]; });
@@ -618,9 +622,11 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   }
 
   /* ───── 기도와 말씀: 설정에 understand가 있는 앱만 카드가 돼요 ───── */
+  // 카드 머리의 동그란 배지는 각 앱의 진짜 아이콘(icons/app-*.svg, 코이데·디다코 저장소의 아이콘과 같은 그림)이에요
+  var APP_ICON = { koide: 'icons/app-koide.svg', didako: 'icons/app-didako.svg', telio: 'icons/app-telio.svg' };
   var undHtml = APPS.map(function (a, i) {
     var u = a.understand; if (!u || !u.items) return '';
-    return '<article class="und-card" data-rv data-kind="' + kindOf(a, i) + '" style="--i:' + i + '"><div class="und-top"><span class="mini-ic">' + (kindOf(a, i) === 1 ? MINI[1].replace('</svg>', '<path class="mr" d="M15.2 5.9v4.2l1.3-.9 1.3.9V5.5z" stroke-width="1"/></svg>') : MINI[kindOf(a, i)]) + '</span><span class="pill">' + esc(a.name) + '</span></div>' +
+    return '<article class="und-card" data-rv data-kind="' + kindOf(a, i) + '" style="--i:' + i + '"><div class="und-top"><span class="mini-ic' + (APP_ICON[a.id] ? ' app' : '') + '">' + (APP_ICON[a.id] ? '<img src="' + APP_ICON[a.id] + '" alt="">' : kindOf(a, i) === 1 ? MINI[1].replace('</svg>', '<path class="mr" d="M15.2 5.9v4.2l1.3-.9 1.3.9V5.5z" stroke-width="1"/></svg>') : MINI[kindOf(a, i)]) + '</span><span class="pill">' + esc(a.name) + '</span></div>' +
       '<h3 class="und-title">' + esc(u.title) + '</h3><ol class="und-list">' +
       u.items.map(function (it, n) {
         return '<li class="und-item" style="--j:' + n + '"><span class="num" aria-hidden="true">' + (n + 1) + '</span><div><b>' + esc(it[0]) + '</b><p>' + esc(it[1]) + '</p></div></li>';
