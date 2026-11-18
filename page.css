@@ -60,6 +60,7 @@ img { max-width: 100%; display: block; }
 .nav-in { display: flex; align-items: center; gap: 20px; height: 64px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; white-space: nowrap; flex: none; text-decoration: none; color: var(--ink); font-family: var(--f-display); font-size: 1.25rem; line-height: 1; }
 .brand svg { width: 28px; height: 28px; display: block; }
+.brand svg.wm, .foot-mark svg.wm { width: auto; height: 19px; }
 
 /* 페이지 머리 */
 .head { padding-block: clamp(40px, 7vw, 88px) clamp(24px, 4vw, 40px); }
@@ -131,6 +132,8 @@ img { max-width: 100%; display: block; }
 .foot-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 28px; font-size: .86rem; color: var(--ink-2); }
 .foot-brand { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; max-width: 100%; }
 .foot-brand svg { width: 24px; height: 24px; }
+.foot-mark { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); }
+.foot-mark svg.wm { height: 15px; }
 .foot-tag { word-break: keep-all; }
 .foot-brand b { font-family: var(--f-display); color: var(--ink); font-size: 1rem; font-weight: 700; }
 .foot-links { display: flex; flex-wrap: wrap; gap: .3em 1.4em; }

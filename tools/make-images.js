@@ -2,6 +2,7 @@
 //  - icons/favicon.svg, icons/favicon-32.png : 브라우저 탭 아이콘(파비콘)
 //  - og.png : 링크를 보낼 때 뜨는 미리보기 그림
 //  - tabs.js의 LOGO : 위쪽 메뉴와 맨 아래에 나오는 작은 로고(네 페이지 공통)
+//  - tabs.js의 WORDMARK : 로고 옆 영문 워드마크 KOINOBIA. icons/logo/koinobia-wordmark.svg(tools/make-logo.py가 만듦)에서 가져와요
 // 로고는 "엮인 세 고리 매듭": 끊기지 않는 한 줄이 세 고리를 이루고, 교차점마다 아래로 지나는 줄만 끊어 보여요.
 // 세 고리는 성부·성자·성령, 그리고 세 앱을 뜻해요. 고리마다 먹의 진하기를 달리해(먹 세 톤) 셋이면서 하나로 보이게 해요.
 // 다시 만들 때: 저장소 맨 위에서  node tools/make-images.js
@@ -93,15 +94,26 @@ const markOg = `<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${
 // 메뉴·아래쪽 작은 로고: 색은 CSS 변수라 밝은/어두운 화면에 맞춰 바뀌어요
 const logoInline = `<svg viewBox="0 0 100 100" aria-hidden="true">${markG(['var(--logo-1)', 'var(--logo-2)', 'var(--logo-3)'], 82, 9.5, 50, 50)}</svg>`;
 
+// 영문 워드마크: 로고 파일에서 바깥 여백(40)을 덜어 내고, 먹색을 currentColor로 바꿔 글자색을 따르게 해요
+const WM_FILE = path.join(root, 'icons/logo/koinobia-wordmark.svg');
+const wmSrc = fs.readFileSync(WM_FILE, 'utf8');
+const wmBox = wmSrc.match(/viewBox="([^"]+)"/)[1].split(' ').map(Number);
+const wmBody = wmSrc.replace(/^[\s\S]*?<\/title>\n?/, '').replace(/<\/svg>\s*$/, '').replace(/#1D1D1B/g, 'currentColor').replace(/\n/g, '');
+const tight = [wmBox[0] + 40, wmBox[1] + 40, wmBox[2] - 80, wmBox[3] - 80].map(n => +n.toFixed(1)).join(' ');
+const wordmarkInline = `<svg class="wm" viewBox="${tight}" aria-hidden="true">${wmBody}</svg>`;
+if (/'/.test(wordmarkInline)) throw new Error('워드마크에 작은따옴표가 있으면 tabs.js에 넣을 수 없어요');
+
 const ogHtml = `<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@500&display=swap">
 <style>
 html,body{margin:0;width:1200px;height:630px;background:${PAGE};}
 body{display:flex;align-items:center;justify-content:center;gap:64px;}
 .m{width:290px;height:290px;flex:none;} .m svg{width:100%;height:100%;display:block;}
-h1{font-family:'Gowun Batang',serif;font-weight:700;font-size:140px;line-height:1.15;margin:0;color:${INK};letter-spacing:-2px;}
-p{font-family:'Gowun Batang',serif;font-weight:700;font-size:54px;margin:10px 0 0 6px;color:${ACCENT};}
-</style></head><body><div class="m">${markOg}</div><div><h1>코이노비아</h1><p>함께 나누는 삶</p></div></body></html>`;
+body{flex-direction:column;gap:56px;}
+.row{display:flex;align-items:center;gap:34px;}
+.m{width:124px;height:124px;} .wm{height:92px;width:auto;display:block;color:${INK};}
+p{font-family:'Gowun Batang',serif;font-weight:700;font-size:46px;margin:0;color:${ACCENT};letter-spacing:.02em;}
+</style></head><body><div class="row"><div class="m">${markOg}</div>${wordmarkInline}</div><p>코이노비아 · 함께 나누는 삶</p></body></html>`;
 
 (async () => {
   fs.mkdirSync(path.join(root, 'icons'), { recursive: true });
@@ -111,7 +123,9 @@ p{font-family:'Gowun Batang',serif;font-weight:700;font-size:54px;margin:10px 0 
   const tabs = fs.readFileSync(tabsFile, 'utf8');
   const line = /^  var LOGO = '.*';$/m;
   if (!line.test(tabs)) throw new Error("tabs.js에서 var LOGO = '...'; 줄을 찾지 못했어요");
-  fs.writeFileSync(tabsFile, tabs.replace(line, () => `  var LOGO = '${logoInline}';`));
+  const wmLine = /^  var WORDMARK = '.*';$/m;
+  if (!wmLine.test(tabs)) throw new Error("tabs.js에서 var WORDMARK = '...'; 줄을 찾지 못했어요");
+  fs.writeFileSync(tabsFile, tabs.replace(line, () => `  var LOGO = '${logoInline}';`).replace(wmLine, () => `  var WORDMARK = '${wordmarkInline}';`));
 
   const exe = fs.existsSync('/opt/pw-browsers/chromium') ? { executablePath: '/opt/pw-browsers/chromium' } : {};
   const b = await chromium.launch(exe);
