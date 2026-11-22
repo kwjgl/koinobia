@@ -1,14 +1,14 @@
 """코이노비아 로고 파일(icons/logo/*.svg)을 만드는 도구예요.
 
 확정안(2026-11-18): Tenor Sans 대문자 + 고리 O + 가로획 없는 A(Λ) + 자간 0.11em
-                    + 매듭 심볼 80%(글자 앞) + 중간 두께(+0.014em)
+                    + 매듭 심볼(글자 앞) + 중간 두께(+0.014em). 매듭은 2026-11-22부터 굵기가 달라지는 띠(Codex 시안 B), 먹 한 가지
 글자는 Tenor Sans 글꼴 파일에서 윤곽선을 꺼내 그림으로 바꾸므로, 만든 SVG는 글꼴 없이도 똑같이 보여요.
-매듭은 icons/favicon.svg(tools/make-images.js가 만듦)의 선을 그대로 가져와요.
+매듭은 tools/knot-symbol.svg(채운 면 path 세 개)를 그대로 가져와요.
 
 다시 만들 때(저장소 맨 위에서):
   pip install fonttools
   curl -o /tmp/TenorSans.ttf "https://fonts.gstatic.com/s/tenorsans/v21/bx6ANxqUneKx06UkIXISr3I.ttf"
-  python3 tools/make-logo.py /tmp/TenorSans.ttf icons/favicon.svg icons/logo
+  python3 tools/make-logo.py /tmp/TenorSans.ttf tools/knot-symbol.svg icons/logo
   node tools/make-images.js      # 메뉴 로고(tabs.js)와 링크 미리보기(og.png)에도 반영
 Tenor Sans는 SIL 오픈 폰트 라이선스(OFL)라 로고에 써도 돼요.
 """
@@ -28,13 +28,11 @@ TRACK = 110          # 자간 0.11em
 OVER = 12            # 둥근 글자의 위아래 넘침
 RING_OUT = CAP + 2 * OVER          # 고리 바깥 지름(굵기 보정 전)
 RING_SB = 50                       # 고리 좌우 여백(폰트의 O와 같음)
-KNOT_EM = 0.92                     # 심볼 크기 = 1.15em × 80%
+KNOT_H = 841                       # 심볼 잉크 높이(대문자 높이의 약 1.2배, 2026-11-18 확정 크기와 같게)
 GAP = 420                          # 심볼과 K 사이(잉크 기준)
 KERN = {('K', 'O'): -30, ('I', 'A'): -10}
 
 INK = {'light': '#1D1D1B', 'dark': '#ECECE8'}
-KNOT_TONES = {'light': ('#1F1F1D', '#4A4945', '#77756E'),
-              'dark': ('#F2F2EE', '#C9C8C2', '#A09E97')}
 
 font = TTFont(FONT)
 gs = font.getGlyphSet()
@@ -67,8 +65,12 @@ def open_a(x):
 
 
 def knot_paths():
+    # 매듭 원본(tools/knot-symbol.svg, 채운 면 path 세 개)과 먹이 칠해진 범위(제어점 기준)
     svg = open(FAVICON, encoding='utf-8').read()
-    return re.findall(r' d="([^"]+)"', svg)
+    ds = re.findall(r' d="([^"]+)"', svg)
+    n = [float(v) for v in re.findall(r'-?\d+(?:\.\d+)?', ' '.join(ds))]
+    xs, ys = n[0::2], n[1::2]
+    return ds, (min(xs), max(xs), min(ys), max(ys))
 
 
 def build(tone, with_knot):
@@ -76,10 +78,10 @@ def build(tone, with_knot):
     letters, rings = [], []
     x = 0.0
     if with_knot:
-        knot_px = KNOT_EM * 1000
-        k = knot_px / 512
-        knot_w = (506 - 6) * k            # 획 굵기를 포함한 실제 잉크 폭
-        kx, ky = -6 * k, CAP / 2 - 256 * k
+        kds, (bx0, bx1, by0, by1) = knot_paths()
+        k = KNOT_H / (by1 - by0)
+        knot_w = (bx1 - bx0) * k          # 실제 잉크 폭
+        kx, ky = -bx0 * k, CAP / 2 - (by0 + by1) / 2 * k
         x = knot_w + GAP - 120            # K의 왼쪽 여백(120)을 뺀다
     else:
         x = -120
@@ -106,18 +108,16 @@ def build(tone, with_knot):
     height = CAP + 2 * (OVER + BOLD + m)
     width = right + 2 * m
     if with_knot:
-        height = max(height, KNOT_EM * 1000 * (490 - 22) / 512 + 2 * m)
+        height = max(height, KNOT_H + 2 * m)
         top = CAP / 2 - height / 2
     out = []
     out.append('<svg xmlns="http://www.w3.org/2000/svg" viewBox="%s %s %s %s" role="img" aria-label="KOINOBIA 코이노비아">'
                % (fmt(left), fmt(top), fmt(width), fmt(height)))
     out.append('<title>코이노비아 KOINOBIA</title>')
     if with_knot:
-        t0, t1, t2 = KNOT_TONES[tone]
-        out.append('<g transform="translate(%s %s) scale(%s)" fill="none" stroke-width="60" stroke-linecap="round" stroke-linejoin="round">'
-                   % (fmt(kx), fmt(ky), ('%.5f' % k)))
-        for d, c in zip(knot_paths(), (t0, t1, t2)):
-            out.append('<path stroke="%s" d="%s"/>' % (c, d))
+        out.append('<g transform="translate(%s %s) scale(%s)" fill="%s">' % (fmt(kx), fmt(ky), ('%.5f' % k), ink))
+        for d in kds:
+            out.append('<path d="%s"/>' % d)
         out.append('</g>')
     out.append('<g fill="%s" stroke="%s" stroke-width="%d" stroke-linejoin="round">' % (ink, ink, BOLD))
     for d in letters:
