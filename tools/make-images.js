@@ -70,6 +70,12 @@ p{font-family:'Gowun Batang',serif;font-weight:700;font-size:46px;margin:0;color
   const tabs = fs.readFileSync(tabsFile, 'utf8');
   const line = /^  var LOGO = '.*';$/m;
   if (!line.test(tabs)) throw new Error("tabs.js에서 var LOGO = '...'; 줄을 찾지 못했어요");
+  // index.html의 RIBBON 한 줄(첫 화면·카드 매듭의 띠 모양)을 원본으로 바꿔 끼워요
+  const idxFile = path.join(root, 'index.html');
+  const idx = fs.readFileSync(idxFile, 'utf8');
+  const rbLine = /^  var RIBBON = .*;$/m;
+  if (!rbLine.test(idx)) throw new Error("index.html에서 var RIBBON = ...; 줄을 찾지 못했어요");
+  fs.writeFileSync(idxFile, idx.replace(rbLine, () => '  var RIBBON = ' + JSON.stringify({ d: SYM_D, box: [BOX.x0, BOX.x1, BOX.y0, BOX.y1] }) + ';'));
   const wmLine = /^  var WORDMARK = '.*';$/m;
   if (!wmLine.test(tabs)) throw new Error("tabs.js에서 var WORDMARK = '...'; 줄을 찾지 못했어요");
   fs.writeFileSync(tabsFile, tabs.replace(line, () => `  var LOGO = '${logoInline}';`).replace(wmLine, () => `  var WORDMARK = '${wordmarkInline}';`));
