@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="tabs.css?v=20261111">
+<link rel="stylesheet" href="tabs.css?v=20261123">
 <style>
 /* 코이노비아 색: 흰 바탕 + 먹색 포인트. 세 앱의 색(--c0 코이데·--c1 디다코·--c2 텔리오)은 매듭 고리와 앱 카드에 써요 */
 :root {
@@ -34,11 +34,11 @@
   --c2: #A8435C; --c2-mid: #DDA2B1; --c2-soft: #F5DFE5;
   /* 로고 색(먹 세 톤): 세 고리 = 성부·성자·성령, 세 앱. tools/make-images.js의 TONES와 같은 값 */
   --logo-1: #1F1F1D; --logo-2: #4A4945; --logo-3: #77756E;
-  /* 첫 화면 매듭의 유리 색: 같은 밝기·채도로 맞춘 세 빛깔(밝은 쪽 hi → 깊은 쪽 lo). 0 기도(청록) · 1 말씀(호박빛) · 2 자람(장밋빛) */
-  --g0-hi: #9FE6DA; --g0-lo: #1E9484;
-  --g1-hi: #FFD9A0; --g1-lo: #D08A2E;
-  --g2-hi: #FFB8C8; --g2-lo: #D4567A;
-  --g-alpha: .86; --g-shadow: rgba(40, 30, 50, .18);
+  /* 첫 화면 매듭의 서리 유리 색: 같은 밝기·채도로 맞춘 세 빛깔(밝은 쪽 hi → 깊은 쪽 lo). 0 기도(청록) · 1 말씀(호박빛) · 2 자람(장밋빛) */
+  --g0-hi: #D6F1EC; --g0-lo: #4AA597;
+  --g1-hi: #F8E8CC; --g1-lo: #D29F5A;
+  --g2-hi: #FADBE2; --g2-lo: #D47E96;
+  --g-alpha: .78; --g-shadow: rgba(40, 30, 50, .10);
   --base: 16px;
   --f-display: 'Gowun Batang', 'AppleMyungjo', 'Batang', serif;
   --f-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
@@ -51,8 +51,8 @@
   --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
   --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
   --logo-1: #F2F2EE; --logo-2: #C9C8C2; --logo-3: #A09E97;
-  --g0-hi: #B8F5EA; --g0-lo: #2BA896; --g1-hi: #FFE2B5; --g1-lo: #E09B3C; --g2-hi: #FFC9D6; --g2-lo: #E06A8C;
-  --g-alpha: .8; --g-shadow: rgba(0, 0, 0, .55);
+  --g0-hi: #A9DDD3; --g0-lo: #3E968A; --g1-hi: #EED8B4; --g1-lo: #B98A4C; --g2-hi: #F1C3CF; --g2-lo: #B96880;
+  --g-alpha: .72; --g-shadow: rgba(0, 0, 0, .45);
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; } }
 :root[data-theme="dark"] {
   --page: #141414; --surface: #1D1D1C; --surface-2: #252524;
@@ -62,8 +62,8 @@
   --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
   --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
   --logo-1: #F2F2EE; --logo-2: #C9C8C2; --logo-3: #A09E97;
-  --g0-hi: #B8F5EA; --g0-lo: #2BA896; --g1-hi: #FFE2B5; --g1-lo: #E09B3C; --g2-hi: #FFC9D6; --g2-lo: #E06A8C;
-  --g-alpha: .8; --g-shadow: rgba(0, 0, 0, .55);
+  --g0-hi: #A9DDD3; --g0-lo: #3E968A; --g1-hi: #EED8B4; --g1-lo: #B98A4C; --g2-hi: #F1C3CF; --g2-lo: #B96880;
+  --g-alpha: .72; --g-shadow: rgba(0, 0, 0, .45);
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; }
 @media (min-width: 1000px) { :root { --base: 17px; } }
 
@@ -93,7 +93,7 @@ h1, h2, h3, p { margin: 0; }
 .btn-sm { min-height: 40px; padding: 0 1em; border-radius: 10px; font-size: .92em; }
 
 /* ───── 1. 위쪽 띠(유리 느낌) ───── */
-.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--page) 72%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--glass-bg, color-mix(in srgb, var(--page) 62%, transparent)); -webkit-backdrop-filter: blur(20px) saturate(1.7); backdrop-filter: blur(20px) saturate(1.7); border-bottom: 1px solid var(--glass-line, var(--line)); box-shadow: inset 0 -1px 0 var(--glass-edge, transparent), 0 8px 24px -20px var(--shadow); }
 .nav-in { display: flex; align-items: center; gap: 20px; height: 64px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; white-space: nowrap; flex: none; text-decoration: none; color: var(--ink); font-family: var(--f-display); font-size: 1.25rem; line-height: 1; }
 .brand svg { width: 28px; height: 28px; display: block; }
@@ -147,10 +147,10 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 /* 리퀴드 글래스: 첫 화면 매듭은 앱 색 대신 유리 색(--g*)으로, 빛 반사(specular)·테두리 광·그림자를 얹어요.
    띠 아래 회색 바탕은 비치지 않게 숨기고, 고르지 않은 고리도 거의 또렷하게 둬요 */
 .knot-svg .k-base { fill: none; }
-.knot-svg .k-ribbon { filter: drop-shadow(0 14px 18px var(--g-shadow)); }
+.knot-svg .k-ribbon { filter: drop-shadow(0 10px 16px var(--g-shadow)); }
 .knot-svg .kl { opacity: .9; fill-opacity: var(--g-alpha); filter: url(#kglass); }
 .knot-svg .kl[data-k="0"] { fill: url(#kg0); } .knot-svg .kl[data-k="1"] { fill: url(#kg1); } .knot-svg .kl[data-k="2"] { fill: url(#kg2); }
-.knot-svg .kl.on { opacity: 1; fill-opacity: 1; filter: url(#kglass) drop-shadow(0 0 14px color-mix(in srgb, var(--glo) 60%, transparent)); }
+.knot-svg .kl.on { opacity: 1; fill-opacity: 1; filter: url(#kglass) drop-shadow(0 0 10px color-mix(in srgb, var(--glo) 40%, transparent)); }
 .knot-fig [data-k="0"] { --ghi: var(--g0-hi); --glo: var(--g0-lo); } .knot-fig [data-k="1"] { --ghi: var(--g1-hi); --glo: var(--g1-lo); } .knot-fig [data-k="2"] { --ghi: var(--g2-hi); --glo: var(--g2-lo); }
 .klabel { -webkit-backdrop-filter: blur(14px) saturate(1.8); backdrop-filter: blur(14px) saturate(1.8); background: color-mix(in srgb, var(--surface) 55%, transparent); border-color: color-mix(in srgb, #fff 70%, transparent); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), inset 0 -1px 2px rgba(0, 0, 0, .05), 0 6px 16px -8px var(--shadow); }
 .klabel:hover { border-color: var(--glo); color: var(--ink); }
@@ -197,7 +197,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .desc { margin-top: 1em; word-break: keep-all; }
 .act { margin-top: 1.6em; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .soon { display: inline-block; font-size: .88rem; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: .4em 1.1em; }
-.mk { position: absolute; top: 14px; right: 14px; z-index: 2; width: 48px; height: 48px; padding: 2px; border-radius: 50%; background: color-mix(in srgb, var(--surface) 80%, transparent); border: 1px solid var(--line); }
+.mk { position: absolute; top: 14px; right: 14px; z-index: 2; width: 48px; height: 48px; padding: 2px; border-radius: 50%; background: var(--glass-bg); -webkit-backdrop-filter: blur(12px) saturate(1.6); backdrop-filter: blur(12px) saturate(1.6); border: 1px solid var(--glass-line); box-shadow: inset 0 1px 0 var(--glass-edge), 0 4px 14px -8px var(--shadow); }
 .mk svg { width: 100%; height: 100%; display: block; }
 .mk .mb { fill: var(--accent-mid); }
 .mk .kl { fill: var(--app); opacity: 0; } .mk .kl.on { opacity: 1; filter: none; }
@@ -602,14 +602,17 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
     return '<linearGradient id="kg' + k + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--g' + k + '-hi)"/><stop offset=".55" style="stop-color:var(--g' + k + '-lo)"/><stop offset="1" style="stop-color:var(--g' + k + '-lo)"/></linearGradient>';
   }).join('') +
     '<filter id="kglass" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">' +
-    '<feGaussianBlur in="SourceAlpha" stdDeviation="7.5" result="b"/>' +
-    '<feSpecularLighting in="b" surfaceScale="5" specularConstant="1" specularExponent="28" lighting-color="#fff" result="s"><fePointLight x="70" y="20" z="300"/></feSpecularLighting>' +
+    '<feGaussianBlur in="SourceAlpha" stdDeviation="9" result="b"/>' +
+    '<feSpecularLighting in="b" surfaceScale="3" specularConstant=".45" specularExponent="10" lighting-color="#fff" result="s"><fePointLight x="70" y="20" z="320"/></feSpecularLighting>' +
     '<feComposite in="s" in2="SourceAlpha" operator="in" result="sp"/>' +
-    '<feComposite in="SourceGraphic" in2="sp" operator="arithmetic" k2="1" k3=".7" result="lit"/>' +
-    '<feMorphology in="SourceAlpha" operator="erode" radius="1.4" result="er"/>' +
+    '<feGaussianBlur in="SourceAlpha" stdDeviation="4" result="b2"/>' +
+    '<feComposite in="SourceAlpha" in2="b2" operator="arithmetic" k2="1" k3="-1" result="edge"/>' +
+    '<feFlood flood-color="#fff" flood-opacity=".55"/><feComposite in2="edge" operator="in" result="edgec"/>' +
+    '<feComposite in="SourceGraphic" in2="sp" operator="arithmetic" k2="1" k3=".5" result="lit"/>' +
+    '<feMorphology in="SourceAlpha" operator="erode" radius="1" result="er"/>' +
     '<feComposite in="SourceAlpha" in2="er" operator="out" result="rim"/>' +
-    '<feFlood flood-color="#fff" flood-opacity=".75"/><feComposite in2="rim" operator="in" result="rimc"/>' +
-    '<feMerge><feMergeNode in="lit"/><feMergeNode in="rimc"/></feMerge></filter></defs>';
+    '<feFlood flood-color="#fff" flood-opacity=".6"/><feComposite in2="rim" operator="in" result="rimc"/>' +
+    '<feMerge><feMergeNode in="lit"/><feMergeNode in="edgec"/><feMergeNode in="rimc"/></feMerge></filter></defs>';
   var heroHtml = '<svg class="knot-svg" viewBox="0 0 400 400" aria-hidden="true">' + GLASS +
     '<path class="k-line" pathLength="1" d="' + HR.line + '"/><g class="k-ribbon"><g class="k-base">' + HR.body + '</g>' +
     [0, 1, 2].map(function (k) { return '<g class="kl" data-k="' + k + '">' + HR.lobes[k] + '</g>'; }).join('') + '</g></svg>';
