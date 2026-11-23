@@ -2,7 +2,7 @@
 // 값을 채우면 그 항목이 화면에 나타나고, 비워 두면(작은따옴표 사이를 비움) 나타나지 않거나 "준비 중"으로 보입니다.
 window.KOINOBIA = {
   // 문의 받을 이메일 주소. 예: 'hello@example.com'. 비우면 문의 칸이 숨겨집니다.
-  contactEmail: '',
+  contactEmail: 'koinobia.admin@gmail.com',
   // 후원 안내 페이지(/support/)의 [후원하기] 버튼 주소(https://로 시작). 비우면 '준비 중'으로 보입니다.
   donateUrl: '',
   // 개인정보 처리방침 주소(https://로 시작). 방침 글은 privacy/index.html에 있어요. 비우면 "개인정보 처리방침 · 준비 중"으로 보입니다.

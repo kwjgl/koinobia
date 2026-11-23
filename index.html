@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="tabs.css?v=20261123">
+<link rel="stylesheet" href="tabs.css?v=20261123b">
 <style>
 /* 코이노비아 색: 흰 바탕 + 먹색 포인트. 세 앱의 색(--c0 코이데·--c1 디다코·--c2 텔리오)은 매듭 고리와 앱 카드에 써요 */
 :root {
@@ -290,6 +290,50 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .step.pop { animation: rise .5s cubic-bezier(.2, .7, .2, 1) backwards; animation-delay: calc(var(--i) * 90ms); }
 .note { margin-top: 22px; text-align: center; font-size: .86rem; color: var(--ink-2); word-break: keep-all; }
 
+/* ───── 3-3. 질문으로 묵상하기 책장(표지 가로 넘김) ───── */
+.shelf { display: grid; gap: 28px; align-items: center; }
+@media (min-width: 900px) { .shelf { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 48px; } }
+.shelf .h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); }
+.shelf-lead { color: var(--ink-2); margin-top: .9em; word-break: keep-all; }
+.shelf-act { margin-top: 1.6em; }
+.hscroll { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding: 4px 2px 14px; scrollbar-width: thin; outline-offset: 2px; }
+.hscroll > * { flex: none; scroll-snap-align: start; }
+.cover { width: 220px; margin: 0; }
+.cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); box-shadow: 0 10px 24px -16px var(--shadow); }
+.cover b { display: block; margin-top: .6em; font-size: .95rem; font-weight: 600; }
+.cover span { display: block; color: var(--ink-2); font-size: .8rem; }
+@media (max-width: 899px) { .cover { width: 188px; } }
+.shelf-nav { display: none; gap: 8px; margin-top: 4px; justify-content: flex-end; }
+@media (min-width: 900px) and (hover: hover) { .shelf-nav { display: flex; } }
+.shelf-nav button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; display: grid; place-items: center; }
+.shelf-nav button:hover { border-color: var(--accent); color: var(--accent); }
+.shelf-nav svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.shelf-count { margin-right: auto; align-self: center; font-size: .82rem; color: var(--ink-2); }
+
+/* ───── 3-4. 세 층(노트·공동체·교회): 계단처럼 올라가는 카드 셋 ───── */
+.stairs { display: grid; gap: 18px; margin-top: 40px; align-items: stretch; }
+@media (min-width: 900px) { .stairs { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; } .floor.f1 { margin-top: 72px; } .floor.f2 { margin-top: 36px; } }
+.floor { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 24px 60px -34px var(--shadow); }
+.floor.f3 { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 24px 60px -34px var(--shadow); }
+.floor .shot { height: 250px; display: flex; justify-content: center; padding: 20px 20px 0; overflow: hidden; background: var(--surface-2); }
+.floor .ph { width: 168px; flex: none; border-radius: 24px 24px 0 0; border: 5px solid var(--ink); border-bottom: 0; overflow: hidden; background: var(--surface); }
+.floor .ph img { width: 100%; height: auto; display: block; }
+.fbody { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 8px; flex: 1; align-items: flex-start; }
+.fl { font-size: .8rem; font-weight: 700; letter-spacing: .08em; color: var(--accent); }
+.fbody h3 { font-family: var(--f-display); font-weight: 700; font-size: 1.3rem; line-height: 1.35; word-break: keep-all; }
+.fbody .fd { color: var(--ink-2); font-size: .96rem; flex: 1; word-break: keep-all; }
+.stairnote { margin-top: 24px; text-align: center; font-size: .86rem; color: var(--ink-2); word-break: keep-all; }
+
+/* ───── 4-2. 소식 ───── */
+.newsrow { max-width: 760px; margin: 36px auto 0; border-top: 2px solid var(--ink); }
+.newsrow a { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 18px; padding: 16px 2px; min-height: 52px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.newsrow a:hover b { color: var(--accent); text-decoration: underline; }
+.newsrow b { font-weight: 600; word-break: keep-all; }
+.newsrow time { font-size: .86rem; color: var(--ink-2); flex: none; }
+.newsmore { max-width: 760px; margin: 16px auto 0; text-align: right; font-size: .92rem; }
+.newsmore a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.newsmore a:hover { text-decoration: underline; }
+
 /* ───── 5. 아래쪽 ───── */
 .foot { border-top: 1px solid var(--line); padding-block: 28px 40px; }
 .foot-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 28px; font-size: .86rem; color: var(--ink-2); }
@@ -339,6 +383,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
           세 앱은 공동체의 기도와 말씀, 삶의 자람을 곁에서 돕습니다.</p>
         <div class="hero-cta rise" style="--i:3">
           <a class="btn btn-lg" href="#apps">세 앱 둘러보기 ↓</a>
+          <a class="btn btn-lg btn-ghost" href="/church/">교회와 함께 쓰기</a>
         </div>
       </div>
       <div class="knot-fig" id="heroKnot"></div>
@@ -366,6 +411,43 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
     </div>
   </section>
 
+  <!-- 질문으로 묵상하기 책장 -->
+  <section class="sec gut" id="shelf" aria-labelledby="shelf-t" style="padding-top:0">
+    <div class="box shelf">
+      <div data-rv>
+        <p class="eyebrow">디다코 책장</p>
+        <h2 class="h2" id="shelf-t">질문으로 묵상하기<br>성경 66권</h2>
+        <p class="shelf-lead">말씀 앞에서 생긴 궁금증을 질문 몇 개로 천천히 따라 걷는 연재입니다. 책마다 표지가 있습니다.</p>
+        <p class="shelf-act"><a class="btn btn-ghost" href="https://didako.koinobia.com/" id="shelfGo">디다코에서 책장 열기</a></p>
+      </div>
+      <div data-rv style="min-width:0">
+        <div class="hscroll" id="covers" role="region" aria-label="질문으로 묵상하기 표지, 옆으로 넘겨 보세요" tabindex="0"></div>
+        <div class="shelf-nav"><span class="shelf-count">창세기부터 요한계시록까지</span>
+          <button type="button" id="cvPrev" aria-label="이전 표지"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" id="cvNext" aria-label="다음 표지"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 세 층 -->
+  <section class="sec gut" id="layers" aria-labelledby="layers-t" style="padding-top:0">
+    <div class="box">
+      <div class="sec-head" data-rv>
+        <p class="eyebrow">코이데와 디다코는 같은 세 층입니다</p>
+        <h2 class="h2" id="layers-t">혼자에서 교회까지, 세 층</h2>
+      </div>
+      <div class="stairs">
+        <article class="floor f1" data-rv style="--i:0"><div class="shot"><div class="ph"><img src="/screens/layers/note.jpg" alt="디다코 노트 화면" width="300" height="649" loading="lazy"></div></div>
+          <div class="fbody"><p class="fl">1층 · 노트</p><h3>혼자 적어 두는 노트</h3><p class="fd">기도제목이나 말씀 앞의 질문을 내 폰에 적습니다. 내 기록은 나만 봅니다.</p><span class="pill">언제나 무료</span></div></article>
+        <article class="floor f2" data-rv style="--i:1"><div class="shot"><div class="ph"><img src="/screens/layers/comm.jpg" alt="디다코 공동체 화면" width="300" height="649" loading="lazy"></div></div>
+          <div class="fbody"><p class="fl">2층 · 공동체</p><h3>함께하는 작은 모임</h3><p class="fd">모임장이 열고 초대 링크로 모입니다. 한 사람은 3곳까지, 한 공동체는 12명까지 함께합니다.</p><span class="pill">초대 링크로 들어옵니다</span></div></article>
+        <article class="floor f3" data-rv style="--i:2"><div class="shot"><div class="ph"><img src="/screens/layers/church.jpg" alt="디다코 교회 화면" width="300" height="649" loading="lazy"></div></div>
+          <div class="fbody"><p class="fl">3층 · 교회</p><h3>교역자와 함께하는 교회</h3><p class="fd">교회 코드로 들어옵니다. 교역자와 리더가 사랑방을 돌보고, 교재는 교회가 내려보냅니다.</p><a class="btn btn-sm" href="/church/">교회 안내 보기</a></div></article>
+      </div>
+      <p class="stairnote" data-rv>앱 위쪽의 ‘함께하는 곳’ 메뉴에서 노트, 공동체, 교회를 오갑니다. 위 화면은 디다코이고 코이데도 같은 세 층입니다.</p>
+    </div>
+  </section>
+
   <!-- 기도와 말씀 -->
   <section class="sec gut" id="understand" aria-labelledby="und-t" hidden>
     <div class="box">
@@ -382,7 +464,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   <section class="sec gut" id="home" aria-labelledby="home-t">
     <div class="box">
       <div class="sec-head" data-rv>
-        <p class="eyebrow">홈 화면에 두기</p>
+        <p class="eyebrow">쓰는 법 · 홈 화면에 두기</p>
         <h2 class="h2" id="home-t">앱처럼 아이콘을 눌러 바로 엽니다</h2>
         <p class="sec-lead">링크를 다시 찾을 필요가 없습니다.</p>
         <div class="seg2" role="tablist" aria-label="휴대폰 종류" id="osTabs">
@@ -395,6 +477,17 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
       <p class="note" data-rv>앱은 각각 홈 화면에 추가해야 합니다. 원하는 앱의 [열기] 버튼을 누르고, 앱 화면에서 안내에 따라 진행합니다.</p>
     </div>
   </section>
+  <!-- 소식 -->
+  <section class="sec gut" id="news" aria-labelledby="news-t" style="padding-top:0" hidden>
+    <div class="box">
+      <div class="sec-head" data-rv>
+        <p class="eyebrow">소식</p>
+        <h2 class="h2" id="news-t">새로 알려 드립니다</h2>
+      </div>
+      <div class="newsrow" id="newsRow" data-rv></div>
+      <p class="newsmore"><a href="/news/">소식 전체 보기 →</a></p>
+    </div>
+  </section>
 </main>
 
 <footer class="foot gut">
@@ -404,8 +497,9 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   </div>
 </footer>
 
-<script src="site.js?v=20261123"></script>
-<script src="tabs.js?v=20261123"></script>
+<script src="site.js?v=20261123b"></script>
+<script src="news.js?v=20261123b"></script>
+<script src="tabs.js?v=20261123b"></script>
 <script>
 (function () {
   var C = window.KOINOBIA || {}, APPS = C.apps || [];
@@ -731,6 +825,29 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   $$('#osTabs button').forEach(function (b) { b.addEventListener('click', function () { showOs(b.getAttribute('data-os'), !reduce); }); });
   $('#pc').hidden = isMobile;
   showOs(os, false);
+
+  /* ───── 질문으로 묵상하기 표지: 성경 순서대로 66권, 한 책에 한 장(여러 부로 나뉜 책은 1부 표지) ───── */
+  var BOOKS = [['genesis-1','창세기'],['exodus-1','출애굽기'],['leviticus','레위기'],['numbers','민수기'],['deuteronomy','신명기'],['joshua','여호수아'],['judges','사사기'],['ruth','룻기'],['1samuel','사무엘상'],['2samuel','사무엘하'],['1kings','열왕기상'],['2kings','열왕기하'],['1chronicles','역대상'],['2chronicles','역대하'],['ezra','에스라'],['nehemiah','느헤미야'],['esther','에스더'],['job','욥기'],['psalms-1','시편'],['proverbs','잠언'],['ecclesiastes','전도서'],['song','아가'],['isaiah-1','이사야'],['jeremiah','예레미야'],['lamentations','예레미야애가'],['ezekiel','에스겔'],['daniel','다니엘'],['hosea','호세아'],['joel','요엘'],['amos','아모스'],['obadiah','오바댜'],['jonah','요나'],['micah','미가'],['nahum','나훔'],['habakkuk','하박국'],['zephaniah','스바냐'],['haggai','학개'],['zechariah','스가랴'],['malachi','말라기'],
+    ['matthew-1','마태복음'],['mark-1','마가복음'],['luke-1','누가복음'],['john-1','요한복음'],['acts-1','사도행전'],['romans','로마서'],['1corinthians','고린도전서'],['2corinthians','고린도후서'],['galatians','갈라디아서'],['ephesians','에베소서'],['philippians','빌립보서'],['colossians','골로새서'],['1thessalonians','데살로니가전서'],['2thessalonians','데살로니가후서'],['1timothy','디모데전서'],['2timothy','디모데후서'],['titus','디도서'],['philemon','빌레몬서'],['hebrews','히브리서'],['james','야고보서'],['1peter','베드로전서'],['2peter','베드로후서'],['1john','요한일서'],['2john','요한이서'],['3john','요한삼서'],['jude','유다서'],['revelation','요한계시록']];
+  $('#covers').innerHTML = BOOKS.map(function (b, i) {
+    return '<figure class="cover"><img src="/screens/covers/' + b[0] + '.webp" alt="' + esc(b[1]) + ' 표지" width="480" height="270"' + (i > 3 ? ' loading="lazy"' : '') + ' decoding="async"><b>' + esc(b[1]) + '</b><span>질문으로 묵상하기</span></figure>';
+  }).join('');
+  function cvStep(d) { var el = $('#covers'); el.scrollBy({ left: d * (el.clientWidth * .8), behavior: reduce ? 'auto' : 'smooth' }); }
+  $('#cvPrev').addEventListener('click', function () { cvStep(-1); });
+  $('#cvNext').addEventListener('click', function () { cvStep(1); });
+  (function () { var d = (C.apps || []).filter(function (a) { return a.id === 'didako'; })[0]; if (d && d.url) $('#shelfGo').href = d.url; })();
+
+  /* ───── 소식: news.js의 공지 중 최근 세 개 ───── */
+  (function () {
+    var N = (window.KOINOBIA_NEWS || []).filter(function (n) { return n.type === 'notice' && n.date && n.title; })
+      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 3);
+    if (!N.length) return;
+    function day(d) { var m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(d); return m ? m[1] + '.' + ('0' + m[2]).slice(-2) + '.' + ('0' + m[3]).slice(-2) : d; }
+    $('#newsRow').innerHTML = N.map(function (n) {
+      return '<a href="/news/' + (n.id ? '#' + esc(n.id) : '') + '"><b>' + esc(n.title) + '</b><time datetime="' + esc(n.date) + '">' + day(n.date) + '</time></a>';
+    }).join('');
+    $('#news').hidden = false;
+  })();
 
   /* ───── 아래쪽 안내: 채워진 것만 보인다 ───── */
   var f = [];
