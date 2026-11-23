@@ -228,3 +228,46 @@ details.news-item summary::-webkit-details-marker { display: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* 교회 페이지(/church/): 소개 두 칸, 약속, 시작 순서, 자주 묻는 질문 */
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 1.6em; }
+.small-note { margin-top: 1em; font-size: .88rem; color: var(--ink-2); word-break: keep-all; }
+.layerbar { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 1.6em; font-size: .85rem; color: var(--ink-2); }
+.layerbar span { border: 1px solid var(--line-strong); border-radius: 999px; padding: 2px 14px; }
+.layerbar span.here { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 700; }
+.layerbar i { font-style: normal; }
+.church-sec { margin-top: clamp(36px, 6vw, 64px); }
+.church-sec > .eyebrow + .h2 { margin-top: .3em; }
+.two { display: grid; gap: 20px; margin-top: 1.4em; }
+.keep { display: grid; gap: 20px; margin-top: 1.4em; }
+@media (min-width: 760px) { .two, .keep { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.two .card, .keep .card { margin-top: 0; padding: clamp(20px, 3.4vw, 32px); }
+.who h3, .keep h3 { font-family: var(--f-display); font-weight: 700; font-size: 1.2rem; line-height: 1.4; word-break: keep-all; }
+.who h3 { display: flex; align-items: center; gap: 12px; }
+.who h3 img { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 6px 16px -8px var(--shadow); }
+.who p, .keep p { margin-top: .6em; color: var(--ink-2); word-break: keep-all; }
+.who ul { margin: .9em 0 0; padding-left: 1.2em; word-break: keep-all; }
+.who li + li { margin-top: .35em; }
+#koide-church { --accent: var(--c0); --accent-soft: var(--c0-soft); }
+#didako-church { --accent: var(--c1); --accent-soft: var(--c1-soft); }
+.phones { display: flex; justify-content: center; gap: 14px; margin-top: 2em; }
+.phones img { width: clamp(88px, 24vw, 130px); height: auto; border-radius: 16px; border: 4px solid var(--ink); box-shadow: 0 14px 30px -18px var(--shadow); }
+.steps5 { list-style: none; margin: 1.4em 0 0; padding: 0; display: grid; gap: 12px; counter-reset: s; }
+@media (min-width: 900px) { .steps5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.steps5 li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; font-size: .92rem; color: var(--ink-2); word-break: keep-all; }
+.steps5 li b { display: block; color: var(--ink); font-family: var(--f-display); font-size: 1.08rem; margin-bottom: 4px; }
+.steps5 li::before { content: counter(s); display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: .84rem; margin-bottom: 10px; }
+.faq { max-width: 780px; margin-top: 1.4em; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.faq details + details { margin-top: 10px; }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 52px; padding: 12px 20px; font-weight: 600; word-break: keep-all; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; flex: none; font-size: 1.3rem; font-weight: 400; color: var(--ink-2); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding: 0 20px 18px; color: var(--ink-2); word-break: keep-all; }
+.cta { margin-top: clamp(36px, 6vw, 64px); text-align: center; border-top: 2px solid var(--ink); padding-top: 28px; }
+.cta .h2 { margin-bottom: .3em; }
+.cta p { color: var(--ink-2); word-break: keep-all; }
+.cta .row { justify-content: center; }
+.btn[aria-disabled="true"] { background: var(--surface-2); border-color: var(--line); color: var(--ink-2); cursor: default; pointer-events: none; }
+.btn[aria-disabled="true"]:hover { filter: none; transform: none; }

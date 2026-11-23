@@ -2,7 +2,7 @@
 
 코이노비아(함께 나누는 삶)는 코이데, 디다코, 텔리오 세 앱으로 들어가는 대문 사이트예요. 빌드 없이 HTML·CSS·JS 파일만으로 돼 있어요.
 
-## 탭 네 개
+## 탭 다섯 개
 코이데·디다코처럼 휴대폰에서는 화면 아래 탭 막대, 컴퓨터(넓은 화면)에서는 위쪽 띠에 메뉴 글자가 보여요.
 
 | 탭 | 주소 | 파일 | 내용을 고치는 곳 |
@@ -10,7 +10,10 @@
 | 홈 | `/` | `index.html` | `site.js` |
 | 이야기 | `/about/` | `about/index.html` | `about/index.html`의 글(①~⑥ 표시) |
 | 앱 | `/apps/` | `apps/index.html` | `site.js`의 `apps`(이름·설명·`screens` 사진) |
+| 교회 | `/church/` | `church/index.html` | `church/index.html`의 글 |
 | 소식 | `/news/` | `news/index.html` | `news.js` |
+
+- 교회 탭은 코이데 교회·디다코 교회 소개, 지키는 약속, 시작 순서, 자주 묻는 질문, 문의만 있어요. **요금표와 무료 기간은 정해지기 전이라 쓰지 않았어요.** 정해지면 `church/index.html`의 "이용료는 얼마인가요?" 답을 고치고 요금표를 더해요. 맨 위 [교회 신청하기 · 곧 엽니다]는 앱의 교회 신청서(`church_apply`)를 켜는 날 같이 열어요. 탭의 `새` 배지는 `tabs.js`의 `TABS`에서 `true`를 지우면 없어져요.
 
 후원 안내 `/support/`, 개인정보 처리방침 `/privacy/` ─ 탭에는 없고 바닥글에서 들어가요. 방침 글은 `privacy/index.html`에 있고, 앱이 정보를 저장·공개하는 방식이 바뀌면 이 글도 같이 고치고 맨 아래 시행일을 바꿔 주세요.
 
@@ -19,7 +22,13 @@
 - `tabs.css`: 탭 막대와 위쪽 메뉴 모양.
 - `page.css`: 이야기·앱·소식 페이지의 모양(색·글꼴은 대문과 같은 값). 색을 바꾸면 `index.html`의 `:root`도 같이 바꿔요.
 - 각 페이지는 `<body data-tab="about">`처럼 자기가 어느 탭인지 적어 둬요.
-- **파일 버전 번호**: 각 페이지는 `page.css?v=20261111`처럼 같이 쓰는 파일 끝에 번호를 붙여 불러요. `page.css`, `tabs.css`, `tabs.js`, `site.js`, `news.js`를 고치면 다섯 페이지(`index.html`, `about/`, `apps/`, `news/`, `support/`)와 `privacy/`의 이 번호를 모두 오늘 날짜로 바꿔 주세요. 안 바꾸면 방문자 브라우저가 예전 파일을 그대로 써서 바뀐 모습이 안 보일 수 있어요.
+- **파일 버전 번호**: 각 페이지는 `page.css?v=20261111`처럼 같이 쓰는 파일 끝에 번호를 붙여 불러요. `page.css`, `tabs.css`, `tabs.js`, `site.js`, `news.js`를 고치면 여섯 페이지(`index.html`, `about/`, `apps/`, `church/`, `news/`, `support/`)와 `privacy/`의 이 번호를 모두 오늘 날짜로 바꿔 주세요. 안 바꾸면 방문자 브라우저가 예전 파일을 그대로 써서 바뀐 모습이 안 보일 수 있어요.
+
+## 홈에 있는 것
+- 질문으로 묵상하기 표지 줄: 성경 66권, 책마다 표지 한 장(여러 부로 나뉜 책은 1부). 그림은 `screens/covers/`(디다코 저장소 `note/img/walk/`의 표지를 480×270 WebP로 줄인 것), 책 이름과 순서는 `index.html`의 `BOOKS`. 새 표지가 바뀌면 같은 이름으로 바꿔 올려요.
+- 세 층(노트·공동체·교회) 계단 카드: 화면 사진은 `screens/layers/`(디다코 데모 화면).
+- 쓰는 법: 홈 화면에 두기(아이폰·안드로이드).
+- 소식: `news.js` 공지 중 날짜가 가장 최근인 세 개가 저절로 나와요.
 
 ## 소식 올리기
 `news.js`를 열고 맨 위 설명대로 공지(`type: 'notice'`)나 개발 노트(`type: 'note'`) 한 덩어리를 더해요. 개발 노트는 날짜 없이, 적힌 순서대로 공지 아래에 보여요.
@@ -36,7 +45,7 @@
 
 ```
 이 사이트는 빌드 도구 없이 HTML·CSS·JS 파일만으로 된 GitHub Pages 사이트야.
-- 탭: 홈(index.html), 이야기(about/index.html), 앱(apps/index.html), 소식(news/index.html)
+- 탭: 홈(index.html), 이야기(about/index.html), 앱(apps/index.html), 교회(church/index.html), 소식(news/index.html)
 - 탭 목록은 tabs.js의 TABS, 모양은 tabs.css
 - 이야기·앱·소식의 모양은 page.css, 색은 :root 변수만 써(새 색을 만들지 마)
 - 앱 정보와 화면 사진 목록은 site.js의 apps, 소식은 news.js
@@ -46,7 +55,7 @@
 
 ## 문의·후원·개인정보 처리방침 켜기
 `site.js` 맨 위 설정에서 한 줄씩 채우면 돼요.
-- `contactEmail`: 이메일을 적으면 아래쪽에 "문의"가 나타나요.
+- `contactEmail`: 이메일을 적으면 아래쪽에 "문의"가 나타나고, 교회 페이지의 [문의하기]도 이 주소로 열려요. 지금은 개인정보 보호책임자 메일(`koinobia.admin@gmail.com`)로 켜 두었어요. 문의 전용 주소가 생기면 여기만 바꿔요.
 - `donateUrl`: `/support/` 페이지의 후원하기 버튼 주소예요. 비워 두면 후원 방법이 준비 중이라고 안내해요.
 - `privacyUrl`: 주소를 적으면 "준비 중"이 "개인정보 처리방침" 링크로 바뀌어요. 지금은 `https://koinobia.com/privacy/`로 켜 두었어요.
 - `apps`의 `url`: 디다코·텔리오 주소를 적으면 "곧 만나요"가 [열기] 버튼으로 바뀌어요.

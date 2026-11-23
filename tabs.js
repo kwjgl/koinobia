@@ -1,29 +1,32 @@
-// 코이노비아 탭 ─ 네 페이지(홈·이야기·앱·소식)가 같이 쓰는 위쪽 메뉴와 아래쪽 탭 막대예요.
+// 코이노비아 탭 ─ 다섯 페이지(홈·이야기·앱·교회·소식)가 같이 쓰는 위쪽 메뉴와 아래쪽 탭 막대예요.
 // 휴대폰에서는 화면 아래에 탭 막대가, PC(넓은 화면)에서는 위쪽 띠에 메뉴 글자가 보여요(코이데·디다코와 같은 방식).
-// 탭을 더하거나 이름을 바꾸려면 아래 TABS만 고치면 돼요: [구분 이름, 보이는 이름, 주소, 그림]
+// 탭을 더하거나 이름을 바꾸려면 아래 TABS만 고치면 돼요: [구분 이름, 보이는 이름, 주소, 그림, 새 표시(true면 작은 '새' 배지)]
+// 새 표시는 새 탭을 연 뒤 한동안만 달고, 그다음엔 true를 지워요
 // 각 페이지는 <body data-tab="구분 이름">으로 자기가 어느 탭인지 알려 줘요.
 (function () {
   var TABS = [
     ['home', '홈', '/', '<path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M10 20v-5.5h4V20"/>'],
     ['about', '이야기', '/about/', '<path d="M12 6.5c-2.2-1.6-5-1.9-8-1.1V18c3-.8 5.8-.5 8 1 2.2-1.5 5-1.8 8-1V5.4c-3-.8-5.8-.5-8 1.1zM12 6.5V19"/>'],
     ['apps', '앱', '/apps/', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.8"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.8"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.8"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.8"/>'],
+    ['church', '교회', '/church/', '<path d="M12 3v4M10 5h4"/><path d="M6 20V11l6-4 6 4v9z"/><path d="M10 20v-4.5a2 2 0 0 1 4 0V20"/>', true],
     ['news', '소식', '/news/', '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>']
   ];
   var cur = document.body.getAttribute('data-tab');
   var C = window.KOINOBIA || {};
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function here(t) { return t[0] === cur ? ' aria-current="page"' : ''; }
+  function badge(t) { return t[4] ? '<span class="new-dot">새</span>' : ''; }
 
   // 위쪽 띠의 메뉴 글자(PC)
   var top = document.getElementById('toplinks');
-  if (top) top.innerHTML = TABS.map(function (t) { return '<a class="toplink" href="' + t[2] + '"' + here(t) + '>' + t[1] + '</a>'; }).join('');
+  if (top) top.innerHTML = TABS.map(function (t) { return '<a class="toplink" href="' + t[2] + '"' + here(t) + '>' + t[1] + badge(t) + '</a>'; }).join('');
 
   // 아래쪽 탭 막대(휴대폰)
   var bar = document.createElement('nav');
   bar.className = 'tabbar';
   bar.setAttribute('aria-label', '탭');
   bar.innerHTML = TABS.map(function (t) {
-    return '<a href="' + t[2] + '"' + here(t) + '><svg viewBox="0 0 24 24" aria-hidden="true">' + t[3] + '</svg><span>' + t[1] + '</span></a>';
+    return '<a href="' + t[2] + '"' + here(t) + '><svg viewBox="0 0 24 24" aria-hidden="true">' + t[3] + '</svg><span>' + t[1] + '</span>' + badge(t) + '</a>';
   }).join('');
   document.body.appendChild(bar);
 
