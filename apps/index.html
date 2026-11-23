@@ -24,7 +24,6 @@
   <div class="nav-in box">
     <a class="brand" href="/" id="brand" aria-label="코이노비아 홈"></a>
     <nav class="toplinks" id="toplinks" aria-label="메뉴"></nav>
-    <a class="btn btn-sm" id="navOpen" href="#" hidden></a>
   </div>
 </header>
 
@@ -46,24 +45,20 @@
     <span class="foot-links" id="foot"></span>
   </div>
 </footer>
-<script src="/site.js?v=20261116"></script>
-<script src="/tabs.js?v=20261122"></script>
+<script src="/site.js?v=20261123"></script>
+<script src="/tabs.js?v=20261123"></script>
 <script>
 (function () {
   var C = window.KOINOBIA || {}, APPS = C.apps || [];
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  // 앱별 작은 그림(대문과 같음): 촛불, 펼친 책, 새싹
-  var ICON = {
-    koide: '<rect x="8.5" y="12" width="7" height="9" rx="1.6"/><path d="M12 3c2.4 2.6 2.8 4.4 0 7.2-2.8-2.8-2.4-4.6 0-7.2z"/>',
-    didako: '<path d="M12 6.5c-2.2-1.6-5-1.9-8-1.1V18c3-.8 5.8-.5 8 1 2.2-1.5 5-1.8 8-1V5.4c-3-.8-5.8-.5-8 1.1zM12 6.5V19"/>',
-    telio: '<path d="M12 21v-9M12 13c0-3.2-2.2-5-6-5 0 3.2 2.2 5 6 5zM12 11c0-3.2 2.2-5 6-5 0 3.2-2.2 5-6 5z"/>'
-  };
+  // 앱 아이콘: 대문과 같은 각 앱의 진짜 아이콘(icons/app-*.svg). 코이데(매듭)·디다코(세 겹 책갈피)·텔리오(세 잎 꽃)
+  var ICON = { koide: '/icons/app-koide.svg', didako: '/icons/app-didako.svg', telio: '/icons/app-telio.svg' };
   function img(src) { return '/' + String(src).replace(/^\//, ''); }
   document.getElementById('list').innerHTML = APPS.map(function (a) {
     var s = a.screens || {}, phone = s.phone || [], pc = s.pc || [];
     var act = a.url ? '<a class="btn" href="' + esc(a.url) + '">' + esc(a.name) + ' 열기</a>' : '<span class="soon">곧 만나요</span>';
     var html = '<section class="card" id="' + esc(a.id) + '">' +
-      '<div class="app-top"><span class="app-ic"><svg viewBox="0 0 24 24" aria-hidden="true">' + (ICON[a.id] || ICON.koide) + '</svg></span>' +
+      '<div class="app-top"><span class="app-ic">' + (ICON[a.id] ? '<img src="' + ICON[a.id] + '" alt="">' : '') + '</span>' +
       '<div><h2 class="app-name">' + esc(a.name) + '<span class="pill">' + esc(a.tag) + '</span></h2><p class="greek">' + esc(a.greek) + '</p></div>' +
       '<div class="app-act">' + act + '</div></div>' +
       '<p class="desc">' + esc(a.desc) + '</p>';

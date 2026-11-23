@@ -35,13 +35,28 @@
   var WORDMARK = '<svg class="wm" viewBox="0 -26 6024 752" aria-hidden="true"><g fill="currentColor" stroke="currentColor" stroke-width="14" stroke-linejoin="round"><path d="M0 700H91V454L204 333L470 700H574L262 271L516 0H466L91 394V0H0Z"/><path d="M1778 0V700H1869V0Z"/><path d="M2823 0V535H2819L2264 -12H2259V700H2305V165H2309L2864 712H2869V0Z"/><path d="M4153 700H4404Q4471 700 4517.0 682.5Q4563 665 4591.0 637.0Q4619 609 4631.5 573.5Q4644 538 4644 502Q4644 445 4619.5 411.0Q4595 377 4561.0 359.0Q4527 341 4491.0 335.0Q4455 329 4433 328V324Q4468 324 4499.0 310.5Q4530 297 4553.5 275.5Q4577 254 4591.0 225.5Q4605 197 4605 165Q4605 137 4593.0 108.0Q4581 79 4556.5 55.0Q4532 31 4493.5 15.5Q4455 0 4403 0H4153ZM4244 656V350H4354Q4403 350 4439.0 363.0Q4475 376 4498.5 398.0Q4522 420 4533.5 449.0Q4545 478 4545 510Q4545 545 4532.5 572.0Q4520 599 4499.0 618.0Q4478 637 4449.5 646.5Q4421 656 4389 656ZM4244 306V44H4366Q4405 44 4432.5 55.0Q4460 66 4477.5 84.0Q4495 102 4503.0 125.0Q4511 148 4511 171Q4511 200 4499.5 225.0Q4488 250 4467.5 268.0Q4447 286 4420.5 296.0Q4394 306 4364 306Z"/><path d="M4964 0V700H5055V0Z"/><path d="M5345 700 L5681 -12 L6017 700 L5921.4 700 L5681 190.6 L5440.6 700Z"/></g><g fill="none" stroke="currentColor" stroke-width="105"><circle cx="1096" cy="350" r="316.5"/><circle cx="3511" cy="350" r="316.5"/></g></svg>';
   window.KOINOBIA_LOGO = LOGO;
   window.KOINOBIA_WORDMARK = WORDMARK;
+  // 작은 로고의 유리 질감(tabs.css의 "작은 로고 유리"): 고리마다 밝은 쪽 → 깊은 쪽 그라디언트와, 왼쪽 위에서 오는 작은 반사광.
+  // 위 LOGO 줄은 생성기가 만들므로 손대지 않고, 색과 질감은 여기 defs와 CSS로만 입혀요
+  if (!document.getElementById('kbDefs')) {
+    var defs = document.createElement('div');
+    defs.id = 'kbDefs';
+    defs.setAttribute('aria-hidden', 'true');
+    defs.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+    defs.innerHTML = '<svg width="0" height="0"><defs>' + [0, 1, 2].map(function (k) {
+      return '<linearGradient id="kb' + k + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--lg' + k + '-hi)"/><stop offset=".6" style="stop-color:var(--lg' + k + '-lo)"/><stop offset="1" style="stop-color:var(--lg' + k + '-lo)"/></linearGradient>';
+    }).join('') +
+      '<filter id="kbGlass" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">' +
+      '<feGaussianBlur in="SourceAlpha" stdDeviation=".9" result="b"/>' +
+      '<feSpecularLighting in="b" surfaceScale="1.6" specularConstant=".7" specularExponent="14" lighting-color="#fff" result="s"><fePointLight x="-20" y="-30" z="60"/></feSpecularLighting>' +
+      '<feComposite in="s" in2="SourceAlpha" operator="in" result="sp"/>' +
+      '<feComposite in="SourceGraphic" in2="sp" operator="arithmetic" k2="1" k3=".55"/></filter></defs></svg>';
+    document.body.appendChild(defs);
+  }
 
   // 아래부터는 홈이 아닌 페이지(이야기·앱·소식)에서만 해요. 홈(index.html)은 자기 코드로 같은 일을 해요
   if (cur === 'home') return;
   var brand = document.getElementById('brand');
   if (brand) brand.innerHTML = LOGO + WORDMARK;
-  var open = document.getElementById('navOpen'), first = (C.apps || []).filter(function (a) { return a.url; })[0];
-  if (open && first) { open.hidden = false; open.href = first.url; open.textContent = first.name + ' 열기'; }
   var fb = document.getElementById('footBrand');
   if (fb) fb.innerHTML = '<span class="foot-mark">' + LOGO + WORDMARK + '</span> <span class="foot-tag">코이노비아 · 공동체로 존재하는 그리스도인의 삶</span>';
   var foot = document.getElementById('foot');

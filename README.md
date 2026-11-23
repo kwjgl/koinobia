@@ -64,7 +64,7 @@
 ## 아이콘과 링크 미리보기 그림
 - 대문은 앱이 아니라서 휴대폰 홈 화면 아이콘은 두지 않아요. 로고(엮인 세 고리 매듭)는 브라우저 탭 아이콘(`icons/favicon.svg`, `icons/favicon-32.png`)과 카카오톡 같은 링크 미리보기 그림(`og.png`)에만 작게 써요.
 - 대문 첫 화면의 큰 매듭과 "우리 앱" 카드 구석의 작은 매듭도 이 로고와 같은 모양·방향이에요(고리 하나가 위로. 왼쪽 아래가 기도, 오른쪽 아래가 말씀, 위 가운데가 자람). 로고를 바꾸면 `index.html`의 `Knot`도 같이 맞춰 주세요.
-- "기도와 말씀" 카드 머리의 동그란 그림은 각 앱 아이콘(`icons/app-koide.svg`, `icons/app-didako.svg`)이에요. 코이데(pray-for)·디다코(gbs) 저장소의 앱 아이콘이 바뀌면 이 파일도 같은 그림으로 바꿔요.
+- 앱 아이콘(`icons/app-koide.svg`, `icons/app-didako.svg`, `icons/app-telio.svg`)은 홈의 앱 탭·카드, "기도와 말씀" 카드, "앱" 탭에 같이 쓰여요. 코이데(pray-for)·디다코(gbs)·텔리오(prokope) 저장소의 앱 아이콘이 바뀌면 이 파일도 같은 그림으로 바꿔요. SVG 주석 안에는 `--`를 쓰지 마세요(그림이 깨져요).
 - 그림을 다시 만들려면 저장소 맨 위에서 `node tools/make-images.js`를 실행해요(Playwright가 있는 곳에서).
 - 위쪽 메뉴와 맨 아래의 로고는 매듭 + 영문 워드마크 KOINOBIA예요(2026-11-18 확정). 로고 파일은 `icons/logo/`에 있고, `tools/make-logo.py`로 만들어요(만드는 법은 그 파일 맨 위에 적었어요). 로고 파일을 바꾸면 `node tools/make-images.js`를 다시 실행해 메뉴 로고(`tabs.js`)와 미리보기 그림(`og.png`)에도 반영해요. 쓰는 규칙은 브랜드 가이드라인의 ‘로고와 상징’에 있어요(브랜드 문서는 2026-11-19부터 비공개 저장소 `kwjgl/koinobia-content`의 `docs/brand/`에 있어요).
 - 이야기·앱·소식 페이지도 같은 미리보기 그림(`og.png`)을 써요. 각 페이지 `<head>`의 `og:url`은 그 페이지 주소예요.

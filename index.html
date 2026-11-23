@@ -324,7 +324,6 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   <div class="nav-in box">
     <a class="brand" href="#top" id="brand" aria-label="코이노비아 맨 위로"></a>
     <nav class="toplinks" id="toplinks" aria-label="메뉴"></nav>
-    <a class="btn btn-sm" id="navOpen" href="#" hidden></a>
   </div>
 </header>
 
@@ -339,8 +338,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
         <p class="lead rise" style="--i:2">코이노비아라는 이름은 초대교회의 "코이노비온"에서 왔습니다. 함께 살고 함께 기도하던 공동체를 가리키는 그리스어입니다.<br>
           세 앱은 공동체의 기도와 말씀, 삶의 자람을 곁에서 돕습니다.</p>
         <div class="hero-cta rise" style="--i:3">
-          <a class="btn btn-lg" id="heroOpen" href="#" hidden></a>
-          <a class="btn btn-lg btn-ghost" href="#apps">세 앱 둘러보기 ↓</a>
+          <a class="btn btn-lg" href="#apps">세 앱 둘러보기 ↓</a>
         </div>
       </div>
       <div class="knot-fig" id="heroKnot"></div>
@@ -406,8 +404,8 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   </div>
 </footer>
 
-<script src="site.js?v=20261116"></script>
-<script src="tabs.js?v=20261122"></script>
+<script src="site.js?v=20261123"></script>
+<script src="tabs.js?v=20261123"></script>
 <script>
 (function () {
   var C = window.KOINOBIA || {}, APPS = C.apps || [];
@@ -584,15 +582,9 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
       '<path class="leaf r" style="--d:2.2s" d="M251 80C269 80 277 68 275 55C259 55 249 66 251 80Z" fill="var(--accent-soft)" stroke="var(--accent)"/></svg>'
   ];
 
-  /* ───── 머리글: 로고, 우리 앱 메뉴, 열기 버튼 ───── */
+  /* ───── 머리글: 로고와 메뉴. 앱이 여럿이라 한 앱만 여는 버튼은 두지 않고, 앱마다 아래 카드에서 [열기] ───── */
   $('#brand').innerHTML = logoSvg() + wordmarkSvg();
   $('#footBrand').innerHTML = '<span class="foot-mark">' + logoSvg() + wordmarkSvg() + '</span> <span class="foot-tag">코이노비아 · 공동체로 존재하는 그리스도인의 삶</span>';
-  var firstOpen = APPS.filter(function (a) { return a.url; })[0];
-  if (firstOpen) {
-    ['#navOpen', '#heroOpen'].forEach(function (s) {
-      var b = $(s); b.hidden = false; b.href = firstOpen.url; b.textContent = firstOpen.name + ' 열기';
-    });
-  }
 
   /* ───── 첫 화면 매듭: 스스로 그려지고, 고리가 차례로 빛나요 ───── */
   var HK = Knot.build(300, 22, 200, 200);
@@ -662,7 +654,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
     panel.innerHTML = '<span class="pill">' + esc(a.tag) + '</span><h3 class="app-name">' + esc(a.name) + '</h3><p class="greek">' + esc(a.greek) +
       '</p><p class="desc">' + esc(a.desc) + '</p><div class="act">' + act + '</div>';
     if (!first && !reduce) { panel.style.setProperty('--dx', (dir * 14) + 'px'); panel.classList.remove('swap'); void panel.offsetWidth; panel.classList.add('swap'); }
-    $('#art').innerHTML = a.id === 'koide' ? '<img class="art-app-icon" src="icons/app-koide.svg" alt="코이데 매듭 아이콘">' : a.id === 'didako' ? '<img class="art-app-icon" src="icons/app-didako.svg" alt="디다코 세 겹 책갈피 아이콘">' : a.id === 'telio' ? '<img class="art-app-icon" src="icons/app-telio.svg" alt="텔리오 오르막 길 싹 아이콘">' : ART[kindOf(a, sel)];            // 다시 끼워 넣어서 그림 움직임이 처음부터 다시 돌아요
+    $('#art').innerHTML = a.id === 'koide' ? '<img class="art-app-icon" src="icons/app-koide.svg" alt="코이데 매듭 아이콘">' : a.id === 'didako' ? '<img class="art-app-icon" src="icons/app-didako.svg" alt="디다코 세 겹 책갈피 아이콘">' : a.id === 'telio' ? '<img class="art-app-icon" src="icons/app-telio.svg" alt="텔리오 세 잎 꽃 아이콘">' : ART[kindOf(a, sel)];            // 다시 끼워 넣어서 그림 움직임이 처음부터 다시 돌아요
     $$('#mk .kl').forEach(function (el) { el.classList.toggle('on', +el.getAttribute('data-k') === sel); });
     if (!first || !introOn) { introOn = false; setHero(sel); }
     if (o.user) introOn = false;

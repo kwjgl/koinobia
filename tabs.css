@@ -6,6 +6,16 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --glass-edge: rgba(255, 255, 255, .12); --glass-line: rgba(255, 255, 255, .07); } }
 :root[data-theme="dark"] { --glass-edge: rgba(255, 255, 255, .12); --glass-line: rgba(255, 255, 255, .07); }
 
+/* 작은 로고 유리(머리글·바닥글): 첫 화면 매듭과 같은 세 빛깔. 고리 1 기도(청록) · 2 말씀(호박빛) · 3 자람(장밋빛).
+   작은 크기에서도 보이게 첫 화면보다 한 톤 짙어요. 그라디언트와 반사광은 tabs.js의 kbDefs */
+:root { --lg0-hi: #8FD9CC; --lg0-lo: #23887A; --lg1-hi: #F4D29E; --lg1-lo: #C2832F; --lg2-hi: #F5B4C4; --lg2-lo: #C4577A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --lg0-hi: #BDF2E8; --lg0-lo: #4DB3A4; --lg1-hi: #FFE4BA; --lg1-lo: #D9A55E; --lg2-hi: #FFCFDA; --lg2-lo: #E07F9C; } }
+:root[data-theme="dark"] { --lg0-hi: #BDF2E8; --lg0-lo: #4DB3A4; --lg1-hi: #FFE4BA; --lg1-lo: #D9A55E; --lg2-hi: #FFCFDA; --lg2-lo: #E07F9C; }
+.brand > svg:not(.wm), .foot-mark > svg:not(.wm) { overflow: visible; filter: url(#kbGlass) drop-shadow(0 2px 3px rgba(20, 20, 18, .16)); }
+.brand > svg:not(.wm) path:nth-of-type(1), .foot-mark > svg:not(.wm) path:nth-of-type(1) { fill: url(#kb0); }
+.brand > svg:not(.wm) path:nth-of-type(2), .foot-mark > svg:not(.wm) path:nth-of-type(2) { fill: url(#kb1); }
+.brand > svg:not(.wm) path:nth-of-type(3), .foot-mark > svg:not(.wm) path:nth-of-type(3) { fill: url(#kb2); }
+
 /* PC: 위쪽 띠의 메뉴 글자 */
 .toplinks { display: none; gap: 4px; }
 .toplink { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 10px; color: var(--ink); font-weight: 500; font-size: .95rem; text-decoration: none; white-space: nowrap; }

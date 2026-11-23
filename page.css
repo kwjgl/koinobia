@@ -99,7 +99,8 @@ img { max-width: 100%; display: block; }
 #telio { --accent: var(--c2); --accent-mid: var(--c2-mid); --accent-soft: var(--c2-soft); }
 .app-top { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
 .app-ic { flex: none; width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
-.app-ic svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.app-ic:has(img) { background: none; }
+.app-ic img { width: 56px; height: 56px; display: block; border-radius: 14px; box-shadow: 0 6px 16px -8px var(--shadow); }
 .app-name { font-family: var(--f-display); font-weight: 700; font-size: clamp(1.8rem, 3.4vw, 2.4rem); line-height: 1.15; }
 .app-name .pill { vertical-align: middle; margin-left: .5em; font-family: var(--f-body); }
 .greek { color: var(--ink-2); font-size: .88rem; margin-top: .2em; word-break: keep-all; }
