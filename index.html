@@ -278,9 +278,9 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .seg2 button { font-size: .9rem; border: 0; border-radius: 8px; padding: .3em 1em; min-height: 40px; background: transparent; color: var(--ink-2); cursor: pointer; }
 .seg2 button.on { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px var(--shadow); }
 .pcnote { margin-top: 1em; font-size: .92rem; color: var(--ink-2); text-align: center; word-break: keep-all; }
-.steps { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; }
+.steps { list-style: none; margin: 28px auto 0; padding: 0; display: grid; gap: 14px; max-width: 880px; }
 @media (min-width: 760px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
-.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 14px; transition: transform .25s, box-shadow .25s, border-color .25s, opacity .6s; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 14px; transition: transform .25s, box-shadow .25s, border-color .25s, opacity .6s; }
 .step:hover { transform: translateY(-4px); box-shadow: 0 16px 34px -18px var(--shadow); border-color: var(--line-strong); }
 .step-top { display: flex; align-items: center; justify-content: space-between; }
 .num { font-family: var(--f-display); font-weight: 700; font-size: 2.6rem; line-height: 1; color: var(--accent); }
@@ -293,13 +293,18 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 /* ───── 3-3. 질문으로 묵상하기 책장(표지 가로 넘김) ───── */
 .shelf { display: grid; gap: 28px; align-items: center; }
 @media (min-width: 900px) { .shelf { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 48px; } }
+.shelf.rev > :first-child { order: 0; }
+@media (min-width: 900px) { .shelf.rev { grid-template-columns: minmax(0, 1fr) minmax(0, 300px); } .shelf.rev > :first-child { order: 2; } }
+.cover.wide { width: 300px; }
+.cover.wide img { aspect-ratio: 32 / 15; }
+@media (max-width: 899px) { .cover.wide { width: 236px; } }
 .shelf .h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); }
 .shelf-lead { color: var(--ink-2); margin-top: .9em; word-break: keep-all; }
 .shelf-act { margin-top: 1.6em; }
 .hscroll { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding: 4px 2px 14px; scrollbar-width: thin; outline-offset: 2px; }
 .hscroll > * { flex: none; scroll-snap-align: start; }
 .cover { width: 220px; margin: 0; }
-.cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); box-shadow: 0 10px 24px -16px var(--shadow); }
+.cover img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); box-shadow: 0 10px 24px -16px var(--shadow); }
 .cover b { display: block; margin-top: .6em; font-size: .95rem; font-weight: 600; }
 .cover span { display: block; color: var(--ink-2); font-size: .8rem; }
 @media (max-width: 899px) { .cover { width: 188px; } }
@@ -407,6 +412,24 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
           <div class="stage"><i class="sb s1"></i><i class="sb s2"></i><div class="art" id="art"></div></div>
         </div>
         <div class="dots" id="dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 코이데 이달의 그림 -->
+  <section class="sec gut" id="months" aria-labelledby="months-t" style="padding-top:0">
+    <div class="box shelf rev">
+      <div data-rv>
+        <p class="eyebrow">코이데 이달의 그림</p>
+        <h2 class="h2" id="months-t">기도가 쌓이면<br>자라는 그림</h2>
+        <p class="shelf-lead">한 달에 한 장, 달마다 다른 풍경이 열립니다. 기도한 날은 주인공이 늘고, 기도한 이웃은 소품이 되고, 같은 날 함께 기도하면 하트가 떠오릅니다. 그림은 나만 봅니다.</p>
+        <p class="shelf-act"><a class="btn btn-ghost" href="https://koide.koinobia.com/app/" id="monthsGo">코이데에서 열기</a></p>
+      </div>
+      <div data-rv style="min-width:0">
+        <div class="hscroll" id="months-list" role="region" aria-label="코이데 이달의 그림, 옆으로 넘겨 보세요" tabindex="0"></div>
+        <div class="shelf-nav"><span class="shelf-count">첫 해 9월부터 둘째 해 8월까지, 스물네 장</span>
+          <button type="button" id="mvPrev" aria-label="이전 그림"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" id="mvNext" aria-label="다음 그림"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
       </div>
     </div>
   </section>
@@ -826,15 +849,26 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   $('#pc').hidden = isMobile;
   showOs(os, false);
 
+  function rowStep(sel, d) { var el = $(sel); el.scrollBy({ left: d * (el.clientWidth * .8), behavior: reduce ? 'auto' : 'smooth' }); }
+
+  /* ───── 코이데 이달의 그림: 첫 해 9월부터 둘째 해 8월까지 스물네 장(앱이 그리는 모습 그대로, 기도가 가득 찬 달) ───── */
+  var MONTHS = [['1-9','9월 · 광야의 만나',1],['1-10','10월 · 선한 목자',1],['1-11','11월 · 추수감사',1],['1-12','12월 · 베들레헴의 별',1],['1-1','1월 · 씨 뿌리는 사람',1],['1-2','2월 · 노아의 방주',1],['1-3','3월 · 겨자씨',1],['1-4','4월 · 부활의 아침',1],['1-5','5월 · 반석 위의 집',1],['1-6','6월 · 포도나무',1],['1-7','7월 · 오병이어',1],['1-8','8월 · 그물 가득',1],
+    ['2-1','1월 · 예수님의 세례',2],['2-2','2월 · 바람은 임의로 불매',2],['2-3','3월 · 창조의 첫 아침',2],['2-4','4월 · 호산나, 종려 가지',2],['2-5','5월 · 참새 한 마리도',2],['2-6','6월 · 오순절',2],['2-7','7월 · 생명수의 강',2],['2-8','8월 · 바다를 잔잔케 하심',2],['2-9','9월 · 성령의 열매',2],['2-10','10월 · 다니엘과 사자',2],['2-11','11월 · 한 해를 관 씌우시니',2],['2-12','12월 · 말씀이 육신이 되어',2]];
+  $('#months-list').innerHTML = MONTHS.map(function (m, i) {
+    return '<figure class="cover wide"><img src="/screens/months/' + m[0] + '.webp" alt="' + esc(m[1]) + ' 그림" width="520" height="244"' + (i > 2 ? ' loading="lazy"' : '') + ' decoding="async"><b>' + esc(m[1]) + '</b><span>' + (m[2] === 1 ? '첫 해' : '둘째 해') + '</span></figure>';
+  }).join('');
+  $('#mvPrev').addEventListener('click', function () { rowStep('#months-list', -1); });
+  $('#mvNext').addEventListener('click', function () { rowStep('#months-list', 1); });
+  (function () { var k = (C.apps || []).filter(function (a) { return a.id === 'koide'; })[0]; if (k && k.url) $('#monthsGo').href = k.url; })();
+
   /* ───── 질문으로 묵상하기 표지: 성경 순서대로 66권, 한 책에 한 장(여러 부로 나뉜 책은 1부 표지) ───── */
   var BOOKS = [['genesis-1','창세기'],['exodus-1','출애굽기'],['leviticus','레위기'],['numbers','민수기'],['deuteronomy','신명기'],['joshua','여호수아'],['judges','사사기'],['ruth','룻기'],['1samuel','사무엘상'],['2samuel','사무엘하'],['1kings','열왕기상'],['2kings','열왕기하'],['1chronicles','역대상'],['2chronicles','역대하'],['ezra','에스라'],['nehemiah','느헤미야'],['esther','에스더'],['job','욥기'],['psalms-1','시편'],['proverbs','잠언'],['ecclesiastes','전도서'],['song','아가'],['isaiah-1','이사야'],['jeremiah','예레미야'],['lamentations','예레미야애가'],['ezekiel','에스겔'],['daniel','다니엘'],['hosea','호세아'],['joel','요엘'],['amos','아모스'],['obadiah','오바댜'],['jonah','요나'],['micah','미가'],['nahum','나훔'],['habakkuk','하박국'],['zephaniah','스바냐'],['haggai','학개'],['zechariah','스가랴'],['malachi','말라기'],
     ['matthew-1','마태복음'],['mark-1','마가복음'],['luke-1','누가복음'],['john-1','요한복음'],['acts-1','사도행전'],['romans','로마서'],['1corinthians','고린도전서'],['2corinthians','고린도후서'],['galatians','갈라디아서'],['ephesians','에베소서'],['philippians','빌립보서'],['colossians','골로새서'],['1thessalonians','데살로니가전서'],['2thessalonians','데살로니가후서'],['1timothy','디모데전서'],['2timothy','디모데후서'],['titus','디도서'],['philemon','빌레몬서'],['hebrews','히브리서'],['james','야고보서'],['1peter','베드로전서'],['2peter','베드로후서'],['1john','요한일서'],['2john','요한이서'],['3john','요한삼서'],['jude','유다서'],['revelation','요한계시록']];
   $('#covers').innerHTML = BOOKS.map(function (b, i) {
     return '<figure class="cover"><img src="/screens/covers/' + b[0] + '.webp" alt="' + esc(b[1]) + ' 표지" width="480" height="270"' + (i > 3 ? ' loading="lazy"' : '') + ' decoding="async"><b>' + esc(b[1]) + '</b><span>질문으로 묵상하기</span></figure>';
   }).join('');
-  function cvStep(d) { var el = $('#covers'); el.scrollBy({ left: d * (el.clientWidth * .8), behavior: reduce ? 'auto' : 'smooth' }); }
-  $('#cvPrev').addEventListener('click', function () { cvStep(-1); });
-  $('#cvNext').addEventListener('click', function () { cvStep(1); });
+  $('#cvPrev').addEventListener('click', function () { rowStep('#covers', -1); });
+  $('#cvNext').addEventListener('click', function () { rowStep('#covers', 1); });
   (function () { var d = (C.apps || []).filter(function (a) { return a.id === 'didako'; })[0]; if (d && d.url) $('#shelfGo').href = d.url; })();
 
   /* ───── 소식: news.js의 공지 중 최근 세 개 ───── */
