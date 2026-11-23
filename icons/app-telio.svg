@@ -1,7 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- prokope/prototype/symbols.html 의 채택 심벌 B2-2를 장미색 앱 아이콘 형태로 표시 -->
+  <!-- 텔리오 앱 아이콘: 세 잎 꽃(prokope/docs/design.md 7장, prototype/index.html의 #s-fl과 같은 그림)을 장미색 바탕 위에.
+       꽃은 장미 page 색(#F8F2F3)으로 바탕의 약 3분의 2 크기. 코이노비아 사이트에서는 코이데·디다코와 모양을 맞추려고 둥근 네모(rx 112)를 써요.
+       텔리오 아이콘이 바뀌면 이 파일도 같은 그림으로 바꿔요 -->
+  <defs>
+    <path id="fl-petal" d="M0 0L3.64-2.1C4.6-2.7 5.8-3.8 5.8-5.5C5.8-7.4 4.4-8.6 2.9-8.8C2.3-8.9 1.9-9.2 1.6-9.6C1.2-10.1.7-10.4 0-10.4S-1.2-10.1-1.6-9.6C-1.9-9.2-2.3-8.9-2.9-8.8C-4.4-8.6-5.8-7.4-5.8-5.5C-5.8-3.8-4.6-2.7-3.64-2.1Z"/>
+    <mask id="fl-cut" maskUnits="userSpaceOnUse" x="-12" y="-12" width="24" height="24"><rect x="-12" y="-12" width="24" height="24" fill="#fff"/><circle r="3.25" fill="#000"/><path d="M2.8-1.62L6.4-3.7M-2.8-1.62L-6.4-3.7M0 3.25V7.4" stroke="#000" stroke-width=".8" fill="none"/></mask>
+  </defs>
   <rect width="512" height="512" rx="112" fill="#A8435C"/>
-  <svg x="75" y="75" width="362" height="362" viewBox="0 0 16 16" color="#FFFFFF">
-    <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 14C6.4 14 8.6 11.6 9 7.4"/></g><g fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"><path d="M9 7.8C8.3 4 10.6 1.8 14 2 14.2 5.6 12.4 7.9 9 7.8Z"/><path d="M7.9 10.9C8 9 6.4 7.8 3.9 8.1 3.9 10 5.5 11.2 7.9 10.9Z"/></g>
+  <svg x="87" y="87" width="338" height="338" viewBox="-11 -11 22 22">
+    <g transform="translate(0 1.1)" fill="#F8F2F3"><g mask="url(#fl-cut)"><use href="#fl-petal"/><use href="#fl-petal" transform="rotate(120)"/><use href="#fl-petal" transform="rotate(240)"/></g><circle r="2.45"/></g>
   </svg>
 </svg>
