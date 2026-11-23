@@ -34,6 +34,11 @@
   --c2: #A8435C; --c2-mid: #DDA2B1; --c2-soft: #F5DFE5;
   /* 로고 색(먹 세 톤): 세 고리 = 성부·성자·성령, 세 앱. tools/make-images.js의 TONES와 같은 값 */
   --logo-1: #1F1F1D; --logo-2: #4A4945; --logo-3: #77756E;
+  /* 첫 화면 매듭의 유리 색: 같은 밝기·채도로 맞춘 세 빛깔(밝은 쪽 hi → 깊은 쪽 lo). 0 기도(청록) · 1 말씀(호박빛) · 2 자람(장밋빛) */
+  --g0-hi: #9FE6DA; --g0-lo: #1E9484;
+  --g1-hi: #FFD9A0; --g1-lo: #D08A2E;
+  --g2-hi: #FFB8C8; --g2-lo: #D4567A;
+  --g-alpha: .86; --g-shadow: rgba(40, 30, 50, .18);
   --base: 16px;
   --f-display: 'Gowun Batang', 'AppleMyungjo', 'Batang', serif;
   --f-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
@@ -46,6 +51,8 @@
   --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
   --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
   --logo-1: #F2F2EE; --logo-2: #C9C8C2; --logo-3: #A09E97;
+  --g0-hi: #B8F5EA; --g0-lo: #2BA896; --g1-hi: #FFE2B5; --g1-lo: #E09B3C; --g2-hi: #FFC9D6; --g2-lo: #E06A8C;
+  --g-alpha: .8; --g-shadow: rgba(0, 0, 0, .55);
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; } }
 :root[data-theme="dark"] {
   --page: #141414; --surface: #1D1D1C; --surface-2: #252524;
@@ -55,6 +62,8 @@
   --c1: #D2B08A; --c1-mid: #7E6247; --c1-soft: #362B20;
   --c2: #E896AB; --c2-mid: #86475A; --c2-soft: #3B2029;
   --logo-1: #F2F2EE; --logo-2: #C9C8C2; --logo-3: #A09E97;
+  --g0-hi: #B8F5EA; --g0-lo: #2BA896; --g1-hi: #FFE2B5; --g1-lo: #E09B3C; --g2-hi: #FFC9D6; --g2-lo: #E06A8C;
+  --g-alpha: .8; --g-shadow: rgba(0, 0, 0, .55);
   --shadow: rgba(0, 0, 0, .5); color-scheme: dark; }
 @media (min-width: 1000px) { :root { --base: 17px; } }
 
@@ -135,6 +144,19 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 .klabel:hover { transform: translate(-50%, -50%) scale(1.06); border-color: var(--app); color: var(--app); }
 .klabel.on { background: var(--app); border-color: var(--app); color: var(--on-accent); }
 @keyframes pop { from { opacity: 0; scale: .8; } }
+/* 리퀴드 글래스: 첫 화면 매듭은 앱 색 대신 유리 색(--g*)으로, 빛 반사(specular)·테두리 광·그림자를 얹어요.
+   띠 아래 회색 바탕은 비치지 않게 숨기고, 고르지 않은 고리도 거의 또렷하게 둬요 */
+.knot-svg .k-base { fill: none; }
+.knot-svg .k-ribbon { filter: drop-shadow(0 14px 18px var(--g-shadow)); }
+.knot-svg .kl { opacity: .9; fill-opacity: var(--g-alpha); filter: url(#kglass); }
+.knot-svg .kl[data-k="0"] { fill: url(#kg0); } .knot-svg .kl[data-k="1"] { fill: url(#kg1); } .knot-svg .kl[data-k="2"] { fill: url(#kg2); }
+.knot-svg .kl.on { opacity: 1; fill-opacity: 1; filter: url(#kglass) drop-shadow(0 0 14px color-mix(in srgb, var(--glo) 60%, transparent)); }
+.knot-fig [data-k="0"] { --ghi: var(--g0-hi); --glo: var(--g0-lo); } .knot-fig [data-k="1"] { --ghi: var(--g1-hi); --glo: var(--g1-lo); } .knot-fig [data-k="2"] { --ghi: var(--g2-hi); --glo: var(--g2-lo); }
+.klabel { -webkit-backdrop-filter: blur(14px) saturate(1.8); backdrop-filter: blur(14px) saturate(1.8); background: color-mix(in srgb, var(--surface) 55%, transparent); border-color: color-mix(in srgb, #fff 70%, transparent); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), inset 0 -1px 2px rgba(0, 0, 0, .05), 0 6px 16px -8px var(--shadow); }
+.klabel:hover { border-color: var(--glo); color: var(--ink); }
+.klabel.on { background: linear-gradient(160deg, color-mix(in srgb, color-mix(in srgb, var(--ghi) 35%, var(--glo)) 88%, transparent), color-mix(in srgb, var(--glo) 92%, #000 8%)); border-color: color-mix(in srgb, #fff 55%, transparent); color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, .25); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 6px 18px -6px color-mix(in srgb, var(--glo) 70%, transparent); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .klabel { border-color: rgba(255, 255, 255, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 6px 16px -8px var(--shadow); } }
+:root[data-theme="dark"] .klabel { border-color: rgba(255, 255, 255, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 6px 16px -8px var(--shadow); }
 
 /* ───── 3. 우리 앱 ───── */
 /* 고른 앱(data-kind)에 따라 탭·카드·그림이 그 앱의 색으로 바뀌어요. 기도와 말씀 카드도 같아요 */
@@ -575,7 +597,20 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   /* ───── 첫 화면 매듭: 스스로 그려지고, 고리가 차례로 빛나요 ───── */
   var HK = Knot.build(300, 22, 200, 200);
   var HR = ribbon('hkc', 300, 200, 200);
-  var heroHtml = '<svg class="knot-svg" viewBox="0 0 400 400" aria-hidden="true">' +
+  // 유리 질감: 고리마다 밝은 쪽(왼쪽 위) → 깊은 쪽(오른쪽 아래) 그라디언트, 그리고 한 빛(왼쪽 위)에서 오는 반사광·안쪽 테두리 광
+  var GLASS = '<defs>' + [0, 1, 2].map(function (k) {
+    return '<linearGradient id="kg' + k + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--g' + k + '-hi)"/><stop offset=".55" style="stop-color:var(--g' + k + '-lo)"/><stop offset="1" style="stop-color:var(--g' + k + '-lo)"/></linearGradient>';
+  }).join('') +
+    '<filter id="kglass" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">' +
+    '<feGaussianBlur in="SourceAlpha" stdDeviation="7.5" result="b"/>' +
+    '<feSpecularLighting in="b" surfaceScale="5" specularConstant="1" specularExponent="28" lighting-color="#fff" result="s"><fePointLight x="70" y="20" z="300"/></feSpecularLighting>' +
+    '<feComposite in="s" in2="SourceAlpha" operator="in" result="sp"/>' +
+    '<feComposite in="SourceGraphic" in2="sp" operator="arithmetic" k2="1" k3=".7" result="lit"/>' +
+    '<feMorphology in="SourceAlpha" operator="erode" radius="1.4" result="er"/>' +
+    '<feComposite in="SourceAlpha" in2="er" operator="out" result="rim"/>' +
+    '<feFlood flood-color="#fff" flood-opacity=".75"/><feComposite in2="rim" operator="in" result="rimc"/>' +
+    '<feMerge><feMergeNode in="lit"/><feMergeNode in="rimc"/></feMerge></filter></defs>';
+  var heroHtml = '<svg class="knot-svg" viewBox="0 0 400 400" aria-hidden="true">' + GLASS +
     '<path class="k-line" pathLength="1" d="' + HR.line + '"/><g class="k-ribbon"><g class="k-base">' + HR.body + '</g>' +
     [0, 1, 2].map(function (k) { return '<g class="kl" data-k="' + k + '">' + HR.lobes[k] + '</g>'; }).join('') + '</g></svg>';
   // 이름표 단추: 고리 끝에서 바깥쪽으로 조금 밀어서 놓아요
