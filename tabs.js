@@ -8,7 +8,7 @@
     ['home', '홈', '/', '<path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M10 20v-5.5h4V20"/>'],
     ['about', '이야기', '/about/', '<path d="M12 6.5c-2.2-1.6-5-1.9-8-1.1V18c3-.8 5.8-.5 8 1 2.2-1.5 5-1.8 8-1V5.4c-3-.8-5.8-.5-8 1.1zM12 6.5V19"/>'],
     ['apps', '앱', '/apps/', '<rect x="4" y="4" width="6.5" height="6.5" rx="1.8"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.8"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.8"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.8"/>'],
-    ['church', '교회', '/church/', '<path d="M12 3v4M10 5h4"/><path d="M6 20V11l6-4 6 4v9z"/><path d="M10 20v-4.5a2 2 0 0 1 4 0V20"/>', true],
+    ['church', '교회', '/church/', '<path d="M12 3v4M10 5h4"/><path d="M6 20V11l6-4 6 4v9z"/><path d="M10 20v-4.5a2 2 0 0 1 4 0V20"/>'],
     ['news', '소식', '/news/', '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>']
   ];
   var cur = document.body.getAttribute('data-tab');
