@@ -11,7 +11,7 @@
 | 이야기 | `/about/` | `about/index.html` | `about/index.html`의 글(①~⑥ 표시) |
 | 앱 | `/apps/` | `apps/index.html` | `site.js`의 `apps`(이름·설명·`screens` 사진) |
 | 교회 | `/church/` | `church/index.html` | `church/index.html`의 글 |
-| 소식 | `/news/` | `news/index.html` | `news.js` |
+| 소식 | `/news/` | `news/index.html` | `news.js`(옛 글·개발 노트)와 운영자 사이트(admin.koinobia.com) '소식'에서 올린 글 |
 
 - 교회 탭은 코이데 교회·디다코 교회 소개, 지키는 약속, 시작 순서, 자주 묻는 질문, 문의만 있어요. **요금표와 무료 기간은 정해지기 전이라 쓰지 않았어요.** 정해지면 `church/index.html`의 "이용료는 얼마인가요?" 답을 고치고 요금표를 더해요. 맨 위 [교회 신청하기 · 곧 엽니다]는 앱의 교회 신청서(`church_apply`)를 켜는 날 같이 열어요. 탭에 `새` 배지를 다시 달려면 `tabs.js`의 `TABS`에서 그 탭 줄 끝에 `true`를 더해요.
 
@@ -31,10 +31,10 @@
 - 질문으로 묵상하기 표지 줄: 성경 66권, 책마다 표지 한 장(여러 부로 나뉜 책은 1부). 그림은 `screens/covers/`(디다코 저장소 `note/img/walk/`의 표지를 480×270 WebP로 줄인 것), 책 이름과 순서는 `index.html`의 `BOOKS`. 새 표지가 바뀌면 같은 이름으로 바꿔 올려요.
 - 세 층(노트·공동체·교회) 계단 카드: 화면 사진은 `screens/layers/`(디다코 데모 화면).
 - 쓰는 법: 홈 화면에 두기(아이폰·안드로이드).
-- 소식: `news.js` 공지 중 날짜가 가장 최근인 세 개가 저절로 나와요.
+- 소식: `news.js` 공지와 운영자 사이트에서 올린 글을 합쳐 날짜가 가장 최근인 세 개가 저절로 나와요.
 
 ## 소식 올리기
-`news.js`를 열고 맨 위 설명대로 공지(`type: 'notice'`)나 개발 노트(`type: 'note'`) 한 덩어리를 더해요. 개발 노트는 날짜 없이, 적힌 순서대로 공지 아래에 보여요.
+**새 글은 운영자 사이트(admin.koinobia.com) '소식' 메뉴에서 쓰고 '올리기'만 누르면 돼요.** 올린 글은 서버(Supabase)에 저장되고 `blog.js`가 읽어 와 `news.js`의 글과 함께 보여 줘요(서버에 못 닿으면 `news.js` 글만 보여요). 개발 노트(앱 이름·참고 자료·사진이 있는 글)와 옛 글은 아직 `news.js`에서 고쳐요. `news.js`를 열고 맨 위 설명대로 공지(`type: 'notice'`)나 개발 노트(`type: 'note'`) 한 덩어리를 더해요. 개발 노트는 날짜 없이, 적힌 순서대로 공지 아래에 보여요.
 - 개발 노트에 사진을 붙이려면 `images: [['/screens/notes/사진.jpg', '사진 설명']]`처럼 적어요. 노트용 사진은 `screens/notes/`에 있고, 앱 화면이 바뀌면 `node tools/make-note-screens.js`로 다시 찍어요. GitHub 웹에서 연필(✏️) 버튼으로 고치고 저장(Commit)하면 1~2분 뒤 사이트에 보여요.
 
 ## 앱 화면 사진 바꾸기

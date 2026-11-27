@@ -520,8 +520,9 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   </div>
 </footer>
 
-<script src="site.js?v=20261123b"></script>
+<script src="site.js?v=20261127"></script>
 <script src="news.js?v=20261123b"></script>
+<script src="blog.js?v=20261127"></script>
 <script src="tabs.js?v=20261124b"></script>
 <script>
 (function () {
@@ -871,16 +872,20 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   $('#cvNext').addEventListener('click', function () { rowStep('#covers', 1); });
   (function () { var d = (C.apps || []).filter(function (a) { return a.id === 'didako'; })[0]; if (d && d.url) $('#shelfGo').href = d.url; })();
 
-  /* ───── 소식: news.js의 공지 중 최근 세 개 ───── */
+  /* ───── 소식: news.js와 운영자 사이트에서 올린 공지 중 최근 세 개 ───── */
   (function () {
-    var N = (window.KOINOBIA_NEWS || []).filter(function (n) { return n.type === 'notice' && n.date && n.title; })
-      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 3);
-    if (!N.length) return;
     function day(d) { var m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(d); return m ? m[1] + '.' + ('0' + m[2]).slice(-2) + '.' + ('0' + m[3]).slice(-2) : d; }
-    $('#newsRow').innerHTML = N.map(function (n) {
-      return '<a href="/news/' + (n.id ? '#' + esc(n.id) : '') + '"><b>' + esc(n.title) + '</b><time datetime="' + esc(n.date) + '">' + day(n.date) + '</time></a>';
-    }).join('');
-    $('#news').hidden = false;
+    function paint(extra) {
+      var N = (window.KOINOBIA_NEWS || []).concat(extra || []).filter(function (n) { return n.type === 'notice' && n.date && n.title; })
+        .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 3);
+      if (!N.length) return;
+      $('#newsRow').innerHTML = N.map(function (n) {
+        return '<a href="/news/' + (n.id ? '#' + esc(n.id) : '') + '"><b>' + esc(n.title) + '</b><time datetime="' + esc(n.date) + '">' + day(n.date) + '</time></a>';
+      }).join('');
+      $('#news').hidden = false;
+    }
+    paint();
+    if (window.KoinobiaBlog) window.KoinobiaBlog.watch(paint);   // 올린 글이 있으면(기억해 둔 것 → 새로 받은 것) 다시 그려요
   })();
 
   /* ───── 아래쪽 안내: 채워진 것만 보인다 ───── */
