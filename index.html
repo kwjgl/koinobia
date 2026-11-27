@@ -522,7 +522,7 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
 
 <script src="site.js?v=20261127"></script>
 <script src="news.js?v=20261123b"></script>
-<script src="blog.js?v=20261127"></script>
+<script src="blog.js?v=20261127b"></script>
 <script src="tabs.js?v=20261124b"></script>
 <script>
 (function () {
@@ -876,7 +876,9 @@ h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(3rem, 8vw
   (function () {
     function day(d) { var m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(d); return m ? m[1] + '.' + ('0' + m[2]).slice(-2) + '.' + ('0' + m[3]).slice(-2) : d; }
     function paint(extra) {
-      var N = (window.KOINOBIA_NEWS || []).concat(extra || []).filter(function (n) { return n.type === 'notice' && n.date && n.title; })
+      var on = {};
+      (extra || []).forEach(function (n) { on[n.id] = true; });   // 서버로 옮겨진 news.js 글은 서버 글만 보여요
+      var N = (window.KOINOBIA_NEWS || []).filter(function (n) { return !on[n.id]; }).concat(extra || []).filter(function (n) { return n.type === 'notice' && n.date && n.title; })
         .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 3);
       if (!N.length) return;
       $('#newsRow').innerHTML = N.map(function (n) {

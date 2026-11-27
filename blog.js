@@ -51,10 +51,24 @@
 
   // ── 올린 글 가져오기 ──
   var CACHE = 'koinobia-blog-v1';
+  // 서버 글 → news.js 글과 같은 모양. 공지는 날짜가 있고, 개발 노트는 날짜가 없고 앱 이름·참고 자료·사진을 가질 수 있어요.
+  // slug는 주소 끝(#slug)에 쓰는 이름이에요. news.js에서 옮겨 온 글은 옛 이름(note-koide-1 등) 그대로예요
   function toNews(items) {
-    return (items || []).filter(function (p) { return p && p.id && p.title && /^\d{4}-\d{2}-\d{2}$/.test(p.date || ''); }).map(function (p) {
-      return { type: 'notice', id: 'post-' + p.id, date: p.date, tag: p.tag || '', title: p.title, summary: p.summary || '', body: p.body || '' };
-    });
+    return (items || []).filter(function (p) {
+      return p && p.title && (p.kind === '개발 노트' || /^\d{4}-\d{2}-\d{2}$/.test(p.date || ''));
+    }).map(function (p) {
+      var id = p.slug || (p.id ? 'post-' + p.id : '');
+      if (p.kind === '개발 노트') {
+        var n = { type: 'note', id: id, app: p.app || '', title: p.title, summary: p.summary || '', body: p.body || '' };
+        if (p.source && p.source.length) n.source = p.source;
+        if (p.images && p.images.length) n.images = p.images;
+        return n;
+      }
+      var a = { type: 'notice', id: id, date: p.date, tag: p.tag || '', title: p.title, summary: p.summary || '', body: p.body || '' };
+      if (p.source && p.source.length) a.source = p.source;
+      if (p.images && p.images.length) a.images = p.images;
+      return a;
+    }).filter(function (n) { return n.id; });
   }
   function readCache() {
     try { var x = JSON.parse(localStorage.getItem(CACHE) || 'null'); return x && Array.isArray(x.items) ? toNews(x.items) : null; } catch (e) { return null; }
@@ -77,5 +91,5 @@
     var c = readCache(); if (c) fn(c);
     fetchPosts(fn);
   }
-  window.KoinobiaBlog = { md: md, lead: lead, inline: inline, watch: watch };
+  window.KoinobiaBlog = { md: md, lead: lead, inline: inline, watch: watch, toNews: toNews };
 })();
