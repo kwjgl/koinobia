@@ -63,30 +63,18 @@
     <span class="foot-links" id="foot"></span>
   </div>
 </footer>
-<script src="/site.js?v=20261123b"></script>
+<script src="/site.js?v=20261127"></script>
 <script src="/news.js?v=20261117-2"></script>
+<script src="/blog.js?v=20261127"></script>
 <script src="/tabs.js?v=20261124b"></script>
 <script>
 (function () {
-  var NEWS = (window.KOINOBIA_NEWS || []).map(function (n, i) { n._i = i; return n; });
+  var B = window.KoinobiaBlog;
+  var STATIC = window.KOINOBIA_NEWS || [];
+  var NEWS = [], APPS = [], curType = 'all';
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  // 한 줄 안의 꾸밈: **굵게**, *기울임*, [글자](https://주소 · /주소 · #노트id)
-  function inline(s) {
-    return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
-      .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>')
-      .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]*|#[\w-]+)\)/g, '<a href="$2">$1</a>');
-  }
-  // 본문: 빈 줄로 덩어리를 나눠요. "### "는 작은 제목, "> "는 인용, "- "는 점 목록
-  function body(text) {
-    return String(text || '').trim().split(/\n\s*\n/).map(function (block) {
-      var lines = block.split('\n').map(function (l) { return l.trim(); }).filter(Boolean), out = '';
-      while (lines.length && /^### /.test(lines[0])) out += '<h3>' + inline(lines.shift().slice(4)) + '</h3>';
-      if (!lines.length) return out;
-      if (lines.every(function (l) { return /^- /.test(l); })) return out + '<ul>' + lines.map(function (l) { return '<li>' + inline(l.slice(2)) + '</li>'; }).join('') + '</ul>';
-      if (lines.every(function (l) { return /^>/.test(l); })) return out + '<blockquote>' + lines.map(function (l) { return inline(l.replace(/^>\s?/, '')); }).join('<br>') + '</blockquote>';
-      return out + '<p>' + lines.map(inline).join('<br>') + '</p>';
-    }).join('');
-  }
+  // 한 줄 꾸밈과 본문(마크다운)은 blog.js가 바꿔요. 운영자 사이트에서 올린 글도 같은 규칙이에요
+  var inline = B.inline, body = B.md, lead = B.lead;
   // 글마다 선택한 실제 화면만 보입니다. img 경로는 news.js에서 관리합니다.
   function shots(images) {
     if (!Array.isArray(images) || !images.length) return '';
@@ -108,14 +96,6 @@
     var rows = [].concat(v);
     return '<div class="src"><b>참고 자료</b><ul>' + rows.map(function (r) { return '<li>' + inline(r) + '</li>'; }).join('') + '</ul></div>';
   }
-  // 날짜가 있는 것(공지)은 최근 날짜가 위로, 날짜가 없는 것(노트)은 그 아래에 news.js에 적힌 순서대로
-  NEWS.sort(function (a, b) {
-    if (!a.date !== !b.date) return a.date ? -1 : 1;
-    return String(b.date || '').localeCompare(String(a.date || '')) || a._i - b._i;
-  });
-
-  // 모든 글에 이름(id)을 붙여요. 공지처럼 id가 없으면 차례로 만들어요(목록에서 바로 가려고)
-  NEWS.forEach(function (n, k) { if (!n.id) n.id = (isNote(n) ? 'note-' : 'notice-') + (k + 1); });
   function item(n) {
     var top = n.date ? '<time datetime="' + esc(n.date) + '">' + day(n.date) + '</time>' : '';
     if (isNote(n)) {
@@ -132,19 +112,21 @@
       '<h2 class="h2">' + esc(n.title) + '</h2><p class="sum">' + inline(n.summary || lead(n.body)) + '</p>' +
       '<span class="more" aria-hidden="true"></span></summary>' + body(n.body) + '</details>';
   }
-  // 본문 첫 문단(작은 제목·인용·목록이 아닌 첫 글)을 요약으로. 너무 길면 줄여요
-  function lead(text) {
-    var p = String(text || '').trim().split(/\n\s*\n/).map(function (b) { return b.trim(); })
-      .filter(function (b) { return b && !/^(###|>|- )/.test(b); })[0] || '';
-    p = p.replace(/\s*\n\s*/g, ' ');
-    return p.length > 110 ? p.slice(0, 108).replace(/\s+\S*$/, '') + '…' : p;
-  }
   var list = document.getElementById('list');
-  list.innerHTML = NEWS.length ? NEWS.map(item).join('') : '<p class="empty">아직 소식이 없어요.</p>';
+  var chips = document.getElementById('chips'), appChips = document.getElementById('appChips'), curApp = '';
 
-  // 노트가 있는 앱들(news.js에 적힌 차례대로). 디다코·텔리오 노트를 더하면 저절로 늘어나요
-  var APPS = [];
-  NEWS.forEach(function (n) { if (isNote(n) && n.app && APPS.indexOf(n.app) < 0) APPS.push(n.app); });
+  // 날짜가 있는 것(공지)은 최근 날짜가 위로, 날짜가 없는 것(노트)은 그 아래에 news.js에 적힌 순서대로
+  function order(arr) {
+    return arr.sort(function (a, b) {
+      if (!a.date !== !b.date) return a.date ? -1 : 1;
+      return String(b.date || '').localeCompare(String(a.date || '')) || a._i - b._i;
+    });
+  }
+  // 모든 글에 이름(id)을 붙여요. 공지처럼 id가 없으면 차례로 만들어요(목록에서 바로 가려고).
+  // 올린 글이 더해져도 옛 주소(#notice-3 등)가 달라지지 않게, news.js의 글끼리만 먼저 세어요
+  var BASE = order(STATIC.map(function (n, i) { var c = {}; for (var k in n) c[k] = n[k]; c._i = i; return c; }));
+  BASE.forEach(function (n, k) { if (!n.id) n.id = (isNote(n) ? 'note-' : 'notice-') + (k + 1); });
+  var posted = [], shown = '';
 
   // 목차: 공지는 모두 표시하고, 개발 노트는 앱별로 접을 수 있게 합니다.
   function tocLink(n) {
@@ -162,20 +144,13 @@
     if (other.length) out += '<details class="news-toc-group"><summary>기타 개발 노트 <span>' + other.length + '</span></summary><ol>' + other.map(tocLink).join('') + '</ol></details>';
     return out;
   }
-  document.getElementById('newsToc').innerHTML = tocHtml();
-  document.getElementById('newsTocMobileItems').innerHTML = tocHtml();
-  document.querySelector('#newsTocMobile > summary').textContent = '목차 보기 · ' + NEWS.length + '개';
-
-  // [전체 | 공지 | 개발 노트] + 앱 고르기
-  var chips = document.getElementById('chips'), appChips = document.getElementById('appChips'), curApp = '';
   // 단추에 글 수를 함께 보여 줘요(노트가 많은 앱부터)
   function count(a) { return NEWS.filter(function (n) { return isNote(n) && (!a || n.app === a); }).length; }
-  APPS.sort(function (x, y) { return count(y) - count(x); });
   function chip(a, label) {
     return '<button type="button" data-app="' + esc(a) + '" aria-pressed="' + (a ? 'false' : 'true') + '">' + esc(label) + ' <span>' + count(a) + '</span></button>';
   }
-  appChips.innerHTML = [chip('', '모든 앱')].concat(APPS.map(function (a) { return chip(a, a); })).join('');
   function show(type, app) {
+    curType = type;
     curApp = type === 'note' ? (app || '') : '';
     [].forEach.call(chips.querySelectorAll('button'), function (b) { b.setAttribute('aria-selected', b.getAttribute('data-type') === type); });
     appChips.hidden = type !== 'note' || APPS.length < 2;
@@ -184,6 +159,24 @@
       el.hidden = (type !== 'all' && el.getAttribute('data-type') !== type) || (curApp && el.getAttribute('data-app') !== curApp);
     });
   }
+  // 목록·목차·단추를 그려요. 올린 글이 도착하면 한 번 더 그려요(펼쳐 둔 글은 그대로 펼쳐 둬요)
+  function build() {
+    var openIds = [].map.call(list.querySelectorAll('details.news-item[open]'), function (d) { return d.id; });
+    NEWS = order(BASE.concat(posted.map(function (n, i) { n._i = BASE.length + i; return n; })));
+    list.innerHTML = NEWS.length ? NEWS.map(item).join('') : '<p class="empty">아직 소식이 없어요.</p>';
+    // 노트가 있는 앱들(news.js에 적힌 차례대로). 디다코·텔리오 노트를 더하면 저절로 늘어나요
+    APPS = [];
+    NEWS.forEach(function (n) { if (isNote(n) && n.app && APPS.indexOf(n.app) < 0) APPS.push(n.app); });
+    APPS.sort(function (x, y) { return count(y) - count(x); });
+    document.getElementById('newsToc').innerHTML = tocHtml();
+    document.getElementById('newsTocMobileItems').innerHTML = tocHtml();
+    document.querySelector('#newsTocMobile > summary').textContent = '목차 보기 · ' + NEWS.length + '개';
+    appChips.innerHTML = [chip('', '모든 앱')].concat(APPS.map(function (a) { return chip(a, a); })).join('');
+    if (curApp && APPS.indexOf(curApp) < 0) curApp = '';
+    show(curType, curApp);
+    openIds.forEach(function (id) { var d = document.getElementById(id); if (d && d.tagName === 'DETAILS') d.open = true; });
+  }
+  build();
   chips.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show(b.getAttribute('data-type')); });
   appChips.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show('note', b.getAttribute('data-app')); });
 
@@ -233,6 +226,15 @@
   document.getElementById('newsTocMobileItems').addEventListener('click', tocClick);
   window.addEventListener('hashchange', openHash);
   openHash();
+  // 운영자 사이트에서 올린 글: 기억해 둔 것이 있으면 바로, 서버에서 새로 받으면 한 번 더 그려요. 못 받으면 news.js의 글만 보여요
+  B.watch(function (posts) {
+    var sig = JSON.stringify(posts);
+    if (sig === shown) return;
+    shown = sig;
+    var id = location.hash ? decodeURIComponent(location.hash.slice(1)) : '', had = !!(id && document.getElementById(id));
+    posted = posts; build();
+    if (id && !had) openHash();   // 올린 글 주소(#post-3)로 들어왔다면 글이 도착한 뒤에 펼쳐요
+  });
 })();
 </script>
 </body>
