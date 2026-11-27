@@ -65,7 +65,7 @@
 </footer>
 <script src="/site.js?v=20261127"></script>
 <script src="/news.js?v=20261117-2"></script>
-<script src="/blog.js?v=20261127"></script>
+<script src="/blog.js?v=20261127b"></script>
 <script src="/tabs.js?v=20261124b"></script>
 <script>
 (function () {
@@ -162,7 +162,10 @@
   // 목록·목차·단추를 그려요. 올린 글이 도착하면 한 번 더 그려요(펼쳐 둔 글은 그대로 펼쳐 둬요)
   function build() {
     var openIds = [].map.call(list.querySelectorAll('details.news-item[open]'), function (d) { return d.id; });
-    NEWS = order(BASE.concat(posted.map(function (n, i) { n._i = BASE.length + i; return n; })));
+    // news.js 글이 서버로 옮겨져 같은 이름(id)의 글이 서버에 있으면 서버 글만 보여요(관리자 사이트에서 고치거나 지운 것이 그대로 반영돼요)
+    var onServer = {};
+    posted.forEach(function (n) { onServer[n.id] = true; });
+    NEWS = order(BASE.filter(function (n) { return !onServer[n.id]; }).concat(posted.map(function (n, i) { n._i = BASE.length + i; return n; })));
     list.innerHTML = NEWS.length ? NEWS.map(item).join('') : '<p class="empty">아직 소식이 없어요.</p>';
     // 노트가 있는 앱들(news.js에 적힌 차례대로). 디다코·텔리오 노트를 더하면 저절로 늘어나요
     APPS = [];
